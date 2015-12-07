@@ -1,0 +1,49 @@
+<% if (searchEngine == 'elasticsearch') { %><%=baseName.toLowerCase()%>-elasticsearch:
+    container_name: <%=baseName.toLowerCase()%>-elasticsearch
+    image: elasticsearch:1.7.3
+    # volumes:
+    #     - ~/volumes/jhipster/<%=baseName%>/elasticsearch/:/usr/share/elasticsearch/data/
+    ports:
+        - "9200:9200"
+        - "9300:9300"
+<% } if (prodDatabaseType == 'mysql') { %><%=baseName.toLowerCase()%>-mysql:
+    container_name: <%=baseName.toLowerCase()%>-mysql
+    image: mysql:5.7.9
+    # volumes:
+    #     - ~/volumes/jhipster/<%=baseName%>/mysql/:/var/lib/mysql/
+    environment:
+        - MYSQL_USER=root
+        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+        - MYSQL_DATABASE=<%=baseName.toLowerCase()%>
+    ports:
+        - "3306:3306"
+    command: mysqld --lower_case_table_names=1
+<% } if (prodDatabaseType == 'postgresql') { %><%=baseName.toLowerCase()%>-postgresql:
+    container_name: <%=baseName.toLowerCase()%>-postgresql
+    image: postgres:9.4.5
+    # volumes:
+    #     - ~/volumes/jhipster/<%=baseName%>/postgresql/:/var/lib/postgresql/
+    environment:
+        - POSTGRES_USER=<%=baseName%>
+        - POSTGRES_PASSWORD=
+    ports:
+        - "5432:5432"
+<% } if (prodDatabaseType == 'mongodb') { %><%=baseName.toLowerCase()%>-mongodb:
+    container_name: <%=baseName.toLowerCase()%>-mongodb
+    image: mongo:3.0.7
+    # volumes:
+    #     - ~/volumes/jhipster/<%=baseName%>/mongodb/:/data/db/
+    ports:
+        - "27017:27017"
+<% } %><%=baseName.toLowerCase()%>-app:
+    container_name: <%=baseName.toLowerCase()%>-app
+    image: <%=dockerLogin.toLowerCase()%>/<%=baseName.toLowerCase()%><% if (dockerType == 'dockerpush') { %>:<%=dockerTag%><% } %>
+    ports:
+        - "8080:8080"<% if (prodDatabaseType == 'cassandra') { %>
+    external_links:
+        - "<%=baseName.toLowerCase()%>-cassandra:cassandra"<% } else { %>
+    links:<% if (searchEngine == 'elasticsearch') { %>
+        - "<%=baseName.toLowerCase()%>-elasticsearch:elastic"<% } if (prodDatabaseType == 'mysql') { %>
+        - "<%=baseName.toLowerCase()%>-mysql:mysql"<% } if (prodDatabaseType == 'postgresql') { %>
+        - "<%=baseName.toLowerCase()%>-postgresql:postgresql"<% } if (prodDatabaseType == 'mongodb') {%>
+        - "<%=baseName.toLowerCase()%>-mongodb:mongodb"<% } }%>
