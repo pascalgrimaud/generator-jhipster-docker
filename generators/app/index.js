@@ -34,18 +34,17 @@ module.exports = yeoman.generators.Base.extend({
         '                 \\______ o          __/\n' +
         '                   \\    \\        __/\n' +
         '                    \\____\\______/\n'));
+      console.log(chalk.white.bold('              http://jhipster.github.io\n'));
     },
     checkOracle: function() {
       if (jhipsterVar.prodDatabaseType == 'oracle') {
-        console.log(chalk.red.bold('ERROR!')
-          + ' Oracle isn\'t on the boat...\n');
+        console.log(chalk.red.bold('ERROR!') + ' Oracle isn\'t on the boat...\n');
         process.exit(1);
       }
     },
     checkGradle: function() {
       if (jhipsterVar.buildTool == 'gradle') {
-        console.log(chalk.red.bold('ERROR!')
-          + ' Gradle isn\'t supported yet...\n');
+        console.log(chalk.red.bold('ERROR!') + ' Gradle isn\'t supported yet...\n');
         process.exit(1);
       }
     },
@@ -58,9 +57,8 @@ module.exports = yeoman.generators.Base.extend({
       var done = this.async();
       exec('docker --version', function (err) {
         if (err) {
-          console.log(chalk.yellow.bold('WARNING!')
-            + ' You don\'t have docker installed.\n'
-            + 'Read http://docs.docker.com/engine/installation/#installation\n');
+          console.log(chalk.yellow.bold('WARNING!') + ' You don\'t have docker installed.\n'
+            + '         Read http://docs.docker.com/engine/installation/#installation\n');
         }
         done();
       }.bind(this));
@@ -69,9 +67,8 @@ module.exports = yeoman.generators.Base.extend({
       var done = this.async();
       exec('docker-compose --version', function (err) {
         if (err) {
-          console.log(chalk.yellow.bold('WARNING!')
-          +' You don\'t have docker-compose installed.\n'
-          +'Read https://docs.docker.com/compose/install/\n');
+          console.log(chalk.yellow.bold('WARNING!') +' You don\'t have docker-compose installed.\n'
+            +'         Read https://docs.docker.com/compose/install/\n');
         }
         done();
       }.bind(this));
@@ -80,9 +77,8 @@ module.exports = yeoman.generators.Base.extend({
       this.defaultGithubUrl = githubUrl.sync();
       if (this.defaultGithubUrl == null) {
         this.defaultGithubUrl = 'https://github.com/username/'+this.appname+'.git';
-        console.log(chalk.yellow.bold('WARNING!')
-        +' This project doesn\'t have a remote-origin GitHub.\n'
-        +'The option Automated build won\'t work correctly.\n');
+        console.log(chalk.yellow.bold('WARNING!') +' This project doesn\'t have a remote-origin GitHub.\n'
+          +'         The option Automated build won\'t work correctly.\n');
       }
     }
   },
@@ -227,7 +223,7 @@ module.exports = yeoman.generators.Base.extend({
       } else if (jhipsterVar.buildTool == 'gradle') {
         jhipsterFunc.addGradlePlugin('se.transmode.gradle','gradle-docker','1.2');
         jhipsterFunc.applyFromGradleScript('docker');
-        // need function to add task
+        // TODO need function to add task
       }
     }
     done();
@@ -238,14 +234,11 @@ module.exports = yeoman.generators.Base.extend({
       var done = this.async();
       this.dockerImage = this.dockerLogin.toLowerCase()+'/'+this.baseName.toLowerCase();
       this.dockerImageTag = this.dockerImage+':'+this.dockerTag;
-      var dockerCommand;
-      if (this.buildTool == 'maven') {
-        dockerCommand = 'mvn package -DskipTests=true docker:build';
-        dockerCommand = dockerCommand + ' && mvn docker:tag -DforceTags=true -Dimage=tmp/'+this.baseName.toLowerCase()+' -DnewName='+this.dockerImageTag;
-      } else if (this.buildTool == 'gradle') {
+      var dockerCommand = 'mvn package -Pprod -DskipTests=true docker:build';
+      if (this.buildTool == 'gradle') {
         dockerCommand = './gradlew -Pprod build buildDocker -x test';
-        dockerCommand = dockerCommand + ' && docker tag -f tmp/'+this.baseName.toLowerCase()+' '+this.dockerImageTag;
       }
+      dockerCommand = dockerCommand + ' && docker tag -f tmp/'+this.baseName.toLowerCase()+' '+this.dockerImageTag;
       if (this.dockerPushToHub == 'yes') {
         // dockerCommand = dockerCommand + ' && docker push '+this.dockerImageTag;
         dockerCommand = dockerCommand + ' && docker push pascalgrimaud/busybox:'+this.dockerTag; // TODO : change this / easy to upload :)
