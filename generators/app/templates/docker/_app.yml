@@ -36,8 +36,9 @@
     ports:
         - "27017:27017"
 <% } %><%=baseName.toLowerCase()%>-app:
-    container_name: <%=baseName.toLowerCase()%>-app
-    image: <%=dockerLogin.toLowerCase()%>/<%=baseName.toLowerCase()%><% if (dockerType == 'dockerpush') { %>:<%=dockerTag%><% } %>
+    container_name: <%=baseName.toLowerCase()%>-app<% if (dockerType == 'automated') { %>
+    image: <%=dockerLogin.toLowerCase()%>/<%=dockerNameGithub.toLowerCase()%><% } else { %>
+    image: <%=dockerLogin.toLowerCase()%>/<%=baseName.toLowerCase()%><% if (dockerType == 'dockerpush') { %>:<%=dockerTag%><% } } %>
     ports:
         - "8080:8080"<% if (prodDatabaseType == 'cassandra') { %>
     external_links:
