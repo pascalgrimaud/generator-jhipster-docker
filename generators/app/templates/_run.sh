@@ -55,9 +55,7 @@ if [ -d ${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES} ]; then
 else
     echo "SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES init by configuration"
 fi
-<% } %>
-
-echo "(DEBUG) ${SPRING_DATASOURCE_URL}"
+<% } %>echo "(DEBUG) ${SPRING_DATASOURCE_URL}"
 echo "(DEBUG) ${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES}"
 echo "(DEBUG) ${SPRING_DATA_MONGODB_HOST}"
 echo "(DEBUG) ${SPRING_DATA_MONGODB_PORT}"
@@ -74,5 +72,4 @@ java -jar /app.war \
     --spring.datasource.url=${SPRING_DATASOURCE_URL}<%} if (prodDatabaseType == 'mongodb') {%>
     --spring.data.mongodb.host=${SPRING_DATA_MONGODB_HOST} \
     --spring.data.mongodb.port=${SPRING_DATA_MONGODB_PORT}<%} if (prodDatabaseType == 'cassandra') {%>
-    --spring.data.cassandra.contactpoints=${SPRING_DATA_CASSANDRA_CONTACTPOINTS}
-<% } %>
+    --spring.data.cassandra.contactpoints=${SPRING_DATA_CASSANDRA_CONTACTPOINTS}<% } %>
