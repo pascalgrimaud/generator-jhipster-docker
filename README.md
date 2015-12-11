@@ -26,7 +26,7 @@ yo jhipster-docker
 
 Apache-2.0 © [Pascal Grimaud](https://twitter.com/pascalgrimaud)
 
-[npm-image]: https://badge.fury.io/js/generator-jhipster-docker.svg
+[npm-image]: https://img.shields.io/npm/v/generator-jhipster-docker.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-docker
 [travis-image]: https://travis-ci.org/pascalgrimaud/generator-jhipster-docker.svg?branch=master
 [travis-url]: https://travis-ci.org/pascalgrimaud/generator-jhipster-docker
