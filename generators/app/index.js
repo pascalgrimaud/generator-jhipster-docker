@@ -1,4 +1,5 @@
 'use strict';
+var path = require('path');
 var util = require('util');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
@@ -80,7 +81,7 @@ module.exports = yeoman.generators.Base.extend({
         console.log(chalk.yellow.bold('WARNING!') + ' This project doesn\'t have a remote-origin GitHub.\n' +
           '         The option Automated build won\'t work correctly.\n');
       } else {
-        // TODO : transfort git to https, and get the repoName
+        this.defaultGithubUrl = this.defaultGithubUrl.replace(/git@github.com:/g, 'https:\/\/github.com\/');
       }
     }
   },
@@ -160,6 +161,10 @@ module.exports = yeoman.generators.Base.extend({
       // To access props later use this.props.someOption;
       this.dockerType = props.dockerType;
       this.dockerRepoGithub = props.dockerRepoGithub;
+      if (this.dockerRepoGithub) {
+        var segments = this.dockerRepoGithub.split(path.sep);
+        this.dockerNameGithub = segments[4].replace(/.git/g, '');
+      }
       this.dockerLogin = props.dockerLogin;
       this.dockerTag = props.dockerTag;
       this.dockerPushToHub = props.dockerPushToHub;
@@ -276,7 +281,7 @@ module.exports = yeoman.generators.Base.extend({
         console.log('To param your project as Automated build:');
         console.log('- go to https://hub.docker.com/r/' + this.dockerLogin + '/');
         console.log('- menu Create: Create Automated Build');
-        console.log('    - select the repository ' + chalk.cyan(chalk.bold(this.dockerRepoGithub)));
+        console.log('    - select the repository ' + chalk.cyan.bold(this.dockerRepoGithub));
         console.log('    - put a description, then click on create');
         console.log('- go to Build Settings');
         console.log('    - choose your branch or let master by default');
