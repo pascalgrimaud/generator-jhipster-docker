@@ -35,7 +35,7 @@ if [ -d ${SPRING_DATA_MONGODB_PORT} ]; then
 else
     echo "SPRING_DATA_MONGODB_PORT init by configuration"
 fi
-<% } if (prodDatabaseType == 'mongodb') {%>
+<% } if (prodDatabaseType == 'cassandra') {%>
 ################################################################################
 # Cassandra
 ################################################################################

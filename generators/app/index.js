@@ -79,6 +79,8 @@ module.exports = yeoman.generators.Base.extend({
         this.defaultGithubUrl = 'https://github.com/username/' + jhipsterVar.baseName + '.git';
         console.log(chalk.yellow.bold('WARNING!') + ' This project doesn\'t have a remote-origin GitHub.\n' +
           '         The option Automated build won\'t work correctly.\n');
+      } else {
+        // TODO : transfort git to https, and get the repoName
       }
     }
   },
@@ -206,7 +208,7 @@ module.exports = yeoman.generators.Base.extend({
       if (jhipsterVar.buildTool == 'maven') {
         jhipsterFunc.addMavenPlugin('com.spotify', 'docker-maven-plugin', '0.3.7',
           '                <configuration>\n' +
-          '                    <imageName>tmp/' + this.baseName + '</imageName>\n' +
+          '                    <imageName>tmp/' + this.baseName.toLowerCase() + '</imageName>\n' +
           '                    <dockerDirectory>docker/push</dockerDirectory>\n' +
           '                    <resources>\n' +
           '                        <resource>\n' +
@@ -231,13 +233,13 @@ module.exports = yeoman.generators.Base.extend({
       this.dockerImage = this.dockerLogin.toLowerCase() + '/' + this.baseName.toLowerCase();
       this.dockerImageTag = this.dockerImage + ':' + this.dockerTag;
       var dockerCommand = 'mvn package -Pprod -DskipTests=true docker:build';
-      if (this.buildTool == 'gradle') {
+      if (jhipsterVar.buildTool == 'gradle') {
         dockerCommand = './gradlew -Pprod build buildDocker -x test';
       }
       dockerCommand += ' && docker tag -f tmp/' + this.baseName.toLowerCase() + ' ' + this.dockerImageTag;
       if (this.dockerPushToHub == 'yes') {
-        // dockerCommand = dockerCommand + ' && docker push ' + this.dockerImageTag;
-        dockerCommand += ' && docker push pascalgrimaud/busybox:' + this.dockerTag; // TODO : change this / easy to upload :)
+        dockerCommand += ' && docker push ' + this.dockerImageTag;
+        // dockerCommand += ' && docker push pascalgrimaud/busybox:' + this.dockerTag; // TODO : change this / easy to upload :)
       }
 
       console.log('\nBuilding the image: ' + chalk.cyan.bold(this.dockerImageTag) + '\nThis may take several minutes...\n');
@@ -259,31 +261,38 @@ module.exports = yeoman.generators.Base.extend({
   end: function() {
     switch (this.dockerType) {
       case 'dockercompose': {
-        console.log('\n' + chalk.bold.green('USAGE:'));
+        console.log('\n' + chalk.bold.green('##### USAGE #####'));
         console.log('Start services with profile');
-        console.log('- DEV:   docker-compose up -d');
+        if (jhipsterVar.devDatabaseType != 'h2Disk' && jhipsterVar.devDatabaseType != 'h2Memory') {
+          console.log('- DEV:   docker-compose up -d');
+        }
         console.log('- PROD:  docker-compose -f docker-compose-prod.yml up -d');
         console.log('Start sonar instance');
-        console.log('- SONAR: docker-compose -f docker/sonar.yml -d\n');
+        console.log('- SONAR: docker-compose -f docker/sonar.yml up -d\n');
         break;
       }
       case 'automated': {
-        console.log('\n' + chalk.bold.green('USAGE:'));
+        console.log('\n' + chalk.bold.green('##### USAGE #####'));
         console.log('To param your project as Automated build:');
         console.log('- go to https://hub.docker.com/r/' + this.dockerLogin + '/');
         console.log('- menu Create: Create Automated Build');
-        console.log('- select the repository ' + chalk.cyan(chalk.bold(this.dockerRepoGithub)));
-        console.log('- put a description, then click on create');
-        console.log('- go build settings');
-        console.log('- [TODO description]'); // TODO : put description here
-        console.log('- git commit and push these changes!\n');
+        console.log('    - select the repository ' + chalk.cyan(chalk.bold(this.dockerRepoGithub)));
+        console.log('    - put a description, then click on create');
+        console.log('- go to Build Settings');
+        console.log('    - choose your branch or let master by default');
+        console.log('    - put this Dockerfile location: ' + chalk.cyan.bold('/docker/hub/'));
+        console.log('    - click on Save Changes');
+        console.log('- return to this project: git commit and push these changes!\n');
+        console.log('- go to Build details: it should be a new line with ' + chalk.cyan.bold('Building'));
+        console.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('docker/app-hub.yml\n'));
         break;
       }
       case 'dockerpush': {
         if (this.abort) break;
-        console.log('\n' + chalk.bold.green('USAGE:'));
+        console.log('\n' + chalk.bold.green('##### USAGE #####'));
         if (this.dockerPushToHub == 'yes') {
           console.log('Your image should now be live at:\n- ' + chalk.cyan.bold('https://hub.docker.com/r/' + this.dockerImage + '/tags/\n'));
+          console.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('docker/app.yml\n'));
         }
         console.log('You can test your local image ' + chalk.cyan.bold(this.dockerImageTag));
         if (this.prodDatabaseType == 'cassandra') {

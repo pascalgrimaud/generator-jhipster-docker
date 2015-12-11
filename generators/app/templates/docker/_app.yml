@@ -1,13 +1,13 @@
-<% if (searchEngine == 'elasticsearch') { %><%=baseName.toLowerCase()%>-elasticsearch:
-    container_name: <%=baseName.toLowerCase()%>-elasticsearch
+<% if (searchEngine == 'elasticsearch') { %><%=baseName.toLowerCase()%>-app-elasticsearch:
+    container_name: <%=baseName.toLowerCase()%>-app-elasticsearch
     image: elasticsearch:1.7.3
     # volumes:
     #     - ~/volumes/jhipster/<%=baseName%>/elasticsearch/:/usr/share/elasticsearch/data/
     ports:
         - "9200:9200"
         - "9300:9300"
-<% } if (prodDatabaseType == 'mysql') { %><%=baseName.toLowerCase()%>-mysql:
-    container_name: <%=baseName.toLowerCase()%>-mysql
+<% } if (prodDatabaseType == 'mysql') { %><%=baseName.toLowerCase()%>-app-mysql:
+    container_name: <%=baseName.toLowerCase()%>-app-mysql
     image: mysql:5.7.9
     # volumes:
     #     - ~/volumes/jhipster/<%=baseName%>/mysql/:/var/lib/mysql/
@@ -18,8 +18,8 @@
     ports:
         - "3306:3306"
     command: mysqld --lower_case_table_names=1
-<% } if (prodDatabaseType == 'postgresql') { %><%=baseName.toLowerCase()%>-postgresql:
-    container_name: <%=baseName.toLowerCase()%>-postgresql
+<% } if (prodDatabaseType == 'postgresql') { %><%=baseName.toLowerCase()%>-app-postgresql:
+    container_name: <%=baseName.toLowerCase()%>-app-postgresql
     image: postgres:9.4.5
     # volumes:
     #     - ~/volumes/jhipster/<%=baseName%>/postgresql/:/var/lib/postgresql/
@@ -28,8 +28,8 @@
         - POSTGRES_PASSWORD=
     ports:
         - "5432:5432"
-<% } if (prodDatabaseType == 'mongodb') { %><%=baseName.toLowerCase()%>-mongodb:
-    container_name: <%=baseName.toLowerCase()%>-mongodb
+<% } if (prodDatabaseType == 'mongodb') { %><%=baseName.toLowerCase()%>-app-mongodb:
+    container_name: <%=baseName.toLowerCase()%>-app-mongodb
     image: mongo:3.0.7
     # volumes:
     #     - ~/volumes/jhipster/<%=baseName%>/mongodb/:/data/db/
@@ -41,9 +41,9 @@
     ports:
         - "8080:8080"<% if (prodDatabaseType == 'cassandra') { %>
     external_links:
-        - "<%=baseName.toLowerCase()%>-cassandra:cassandra"<% } else { %>
+        - "<%=baseName.toLowerCase()%>-app-cassandra:cassandra"<% } else { %>
     links:<% if (searchEngine == 'elasticsearch') { %>
-        - "<%=baseName.toLowerCase()%>-elasticsearch:elastic"<% } if (prodDatabaseType == 'mysql') { %>
-        - "<%=baseName.toLowerCase()%>-mysql:mysql"<% } if (prodDatabaseType == 'postgresql') { %>
-        - "<%=baseName.toLowerCase()%>-postgresql:postgresql"<% } if (prodDatabaseType == 'mongodb') {%>
-        - "<%=baseName.toLowerCase()%>-mongodb:mongodb"<% } }%>
+        - "<%=baseName.toLowerCase()%>-app-elasticsearch:elastic"<% } if (prodDatabaseType == 'mysql') { %>
+        - "<%=baseName.toLowerCase()%>-app-mysql:mysql"<% } if (prodDatabaseType == 'postgresql') { %>
+        - "<%=baseName.toLowerCase()%>-app-postgresql:postgresql"<% } if (prodDatabaseType == 'mongodb') {%>
+        - "<%=baseName.toLowerCase()%>-app-mongodb:mongodb"<% } }%>

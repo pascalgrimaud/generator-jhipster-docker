@@ -1,5 +1,5 @@
-<%= baseName %>-sonar:
-    container_name: <%= baseName %>-sonar
+<%= baseName.toLowerCase() %>-sonar:
+    container_name: <%= baseName.toLowerCase() %>-sonar
     image: sonarqube:4.5.6
     ports:
         - "9000:9000"
