@@ -1,8 +1,8 @@
 <% if (devDatabaseType == 'mysql') { %><%=baseName.toLowerCase()%>-dev-mysql:
     container_name: <%=baseName.toLowerCase()%>-dev-mysql
-    image: mysql:5.7.9
-    # volumes:
-    #     - ~/volumes/jhipster/<%=baseName%>/dev-mysql/:/var/lib/mysql/
+    image: mysql:5.7.9<% if (dockerVolume) { %>
+    volumes:
+        - <%=dockerVolumePath%>/<%=baseName%>/dev-mysql/:/var/lib/mysql/<% } %>
     environment:
         - MYSQL_USER=root
         - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -12,9 +12,9 @@
     command: mysqld --lower_case_table_names=1
 <% } if (devDatabaseType == 'postgresql') { %><%=baseName.toLowerCase()%>-dev-postgresql:
     container_name: <%=baseName.toLowerCase()%>-dev-postgresql
-    image: postgres:9.4.5
-    # volumes:
-    #     - ~/volumes/jhipster/<%=baseName%>/dev-postgresql/:/var/lib/postgresql/
+    image: postgres:9.4.5<% if (dockerVolume) { %>
+    volumes:
+      - <%=dockerVolumePath%>/<%=baseName%>/dev-postgresql/:/var/lib/postgresql/<% } %>
     environment:
         - POSTGRES_USER=<%=baseName%>
         - POSTGRES_PASSWORD=
@@ -22,17 +22,17 @@
         - "5432:5432"
 <% } if (devDatabaseType == 'mongodb') { %><%=baseName.toLowerCase()%>-dev-mongodb:
     container_name: <%=baseName.toLowerCase()%>-dev-mongodb
-    image: mongo:3.0.7
-    # volumes:
-    #     - ~/volumes/jhipster/<%=baseName%>/dev-mongodb/:/data/db/
+    image: mongo:3.0.7<% if (dockerVolume) { %>
+    volumes:
+        - <%=dockerVolumePath%>/<%=baseName%>/dev-mongodb/:/data/db/<% } %>
     ports:
         - "27017:27017"
 <% } if (devDatabaseType == 'cassandra') { %><%=baseName.toLowerCase()%>-dev-cassandra:
     container_name: <%=baseName.toLowerCase()%>-dev-cassandra
     build: .
-    dockerfile: Cassandra.Dockerfile
-    # volumes:
-    #     - ~/volumes/jhipster/<%=baseName%>/dev-cassandra/:/var/lib/cassandra/data
+    dockerfile: Cassandra.Dockerfile<% if (dockerVolume) { %>
+    volumes:
+        - <%=dockerVolumePath%>/<%=baseName%>/dev-cassandra/:/var/lib/cassandra/data<% } %>
     ports:
         - "7000:7000"
         - "7001:7001"

@@ -1,16 +1,16 @@
 <% if (searchEngine == 'elasticsearch') { %><%=baseName.toLowerCase()%>-elasticsearch:
     container_name: <%=baseName.toLowerCase()%>-elasticsearch
-    image: elasticsearch:1.7.3
-    # volumes:
-    #     - ~/volumes/jhipster/<%=baseName%>/elasticsearch/:/usr/share/elasticsearch/data/
+    image: elasticsearch:1.7.3<% if (dockerVolume) { %>
+    volumes:
+        - <%=dockerVolumePath%>/<%=baseName%>/elasticsearch/:/usr/share/elasticsearch/data/<% } %>
     ports:
         - "9200:9200"
         - "9300:9300"
 <% } if (prodDatabaseType == 'mysql') { %><%=baseName.toLowerCase()%>-mysql:
     container_name: <%=baseName.toLowerCase()%>-mysql
-    image: mysql:5.7.9
-    # volumes:
-    #     - ~/volumes/jhipster/<%=baseName%>/mysql/:/var/lib/mysql/
+    image: mysql:5.7.9<% if (dockerVolume) { %>
+    volumes:
+        - <%=dockerVolumePath%>/<%=baseName%>/mysql/:/var/lib/mysql/<% } %>
     environment:
         - MYSQL_USER=root
         - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -20,9 +20,9 @@
     command: mysqld --lower_case_table_names=1
 <% } if (prodDatabaseType == 'postgresql') { %><%=baseName.toLowerCase()%>-postgresql:
     container_name: <%=baseName.toLowerCase()%>-postgresql
-    image: postgres:9.4.5
-    # volumes:
-    #     - ~/volumes/jhipster/<%=baseName%>/postgresql/:/var/lib/postgresql/
+    image: postgres:9.4.5<% if (dockerVolume) { %>
+    volumes:
+        - <%=dockerVolumePath%>/<%=baseName%>/postgresql/:/var/lib/postgresql/<% } %>
     environment:
         - POSTGRES_USER=<%=baseName%>
         - POSTGRES_PASSWORD=
@@ -30,9 +30,9 @@
         - "5432:5432"
 <% } if (prodDatabaseType == 'mongodb') { %><%=baseName.toLowerCase()%>-mongodb:
     container_name: <%=baseName.toLowerCase()%>-mongodb
-    image: mongo:3.0.7
-    # volumes:
-    #     - ~/volumes/jhipster/<%=baseName%>/mongodb/:/data/db/
+    image: mongo:3.0.7<% if (dockerVolume) { %>
+    volumes:
+       - <%=dockerVolumePath%>/<%=baseName%>/mongodb/:/data/db/<% } %>
     ports:
         - "27017:27017"
 <% } if (prodDatabaseType == 'cassandra') { %><%=baseName.toLowerCase()%>-opscenter:
@@ -44,9 +44,9 @@
 <%=baseName.toLowerCase()%>-cassandra:
     container_name: <%=baseName.toLowerCase()%>-cassandra
     build: .
-    dockerfile: Cassandra.Dockerfile
-    # volumes:
-    #     - ~/volumes/jhipster/<%=baseName%>/cassandra/:/var/lib/cassandra/data
+    dockerfile: Cassandra.Dockerfile<% if (dockerVolume) { %>
+    volumes:
+       - <%=dockerVolumePath%>/<%=baseName%>/cassandra/:/var/lib/cassandra/data<% } %>
     links:
         - <%=baseName.toLowerCase()%>-opscenter:opscenter
     ports:

@@ -143,16 +143,27 @@ module.exports = yeoman.generators.Base.extend({
         default: 'latest'
       },{
         when: function (response) {
+          return response.dockerType != 'automated';
+        },
+        type: 'confirm',
+        name: 'dockerVolume',
+        message: 'Do you want to use volume?',
+        default: false
+      },{
+        when: function (response) {
+          return response.dockerType != 'automated' && response.dockerVolume;
+        },
+        name: 'dockerVolumePath',
+        message: 'Choose your path for volume?',
+        default: '~/volumes/jhipster'
+      },{
+        when: function (response) {
           return response.dockerType == 'dockerpush';
         },
-        type: 'list',
+        type: 'confirm',
         name: 'dockerPushToHub',
         message: 'Docker Hub: do you want to push to docker-hub?',
-        choices: [
-          {value: 'no', name: 'No'},
-          {value: 'yes', name: 'Yes'}
-        ],
-        default: 0
+        default: false
       }
     ];
 
@@ -164,6 +175,12 @@ module.exports = yeoman.generators.Base.extend({
       if (this.dockerRepoGithub) {
         var segments = this.dockerRepoGithub.split(path.sep);
         this.dockerNameGithub = segments[4].replace(/.git/g, '');
+      }
+      this.dockerVolume = props.dockerVolume;
+      if (this.dockerVolume) {
+        this.dockerVolumePath = props.dockerVolumePath;
+      } else {
+        this.dockerVolumePath = '~/volumes/jhipster';
       }
       this.dockerLogin = props.dockerLogin;
       this.dockerTag = props.dockerTag;
@@ -242,7 +259,7 @@ module.exports = yeoman.generators.Base.extend({
         dockerCommand = './gradlew -Pprod build buildDocker -x test';
       }
       dockerCommand += ' && docker tag -f tmp/' + this.baseName.toLowerCase() + ' ' + this.dockerImageTag;
-      if (this.dockerPushToHub == 'yes') {
+      if (this.dockerPushToHub) {
         dockerCommand += ' && docker push ' + this.dockerImageTag;
         // dockerCommand += ' && docker push pascalgrimaud/busybox:' + this.dockerTag; // TODO : change this / easy to upload :)
       }
@@ -295,7 +312,7 @@ module.exports = yeoman.generators.Base.extend({
       case 'dockerpush': {
         if (this.abort) break;
         console.log('\n' + chalk.bold.green('##### USAGE #####'));
-        if (this.dockerPushToHub == 'yes') {
+        if (this.dockerPushToHub) {
           console.log('Your image should now be live at:\n- ' + chalk.cyan.bold('https://hub.docker.com/r/' + this.dockerImage + '/tags/\n'));
           console.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('docker/app.yml\n'));
         }
