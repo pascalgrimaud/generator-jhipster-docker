@@ -1,0 +1,18 @@
+apply plugin: 'docker'
+
+task buildDocker(type: Docker, dependsOn: build) {
+  push = false
+  applicationName = '<%=baseName.toLowerCase()%>'
+  tagVersion = 'tmp'
+  dockerfile = file('docker/push/Dockerfile')
+  doFirst {
+    copy {
+      from(file('docker/push/run.sh'))
+      into stageDir
+    }
+    copy {
+      from war
+      into stageDir
+    }
+  }
+}
