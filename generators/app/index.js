@@ -43,12 +43,6 @@ module.exports = yeoman.generators.Base.extend({
         process.exit(1);
       }
     },
-    checkGradle: function() {
-      if (jhipsterVar.buildTool == 'gradle') {
-        console.log(chalk.red.bold('ERROR!') + ' Gradle isn\'t supported yet...\n');
-        process.exit(1);
-      }
-    },
     checkCassandra: function() {
       if (jhipsterVar.prodDatabaseType == 'cassandra') {
         console.log(chalk.yellow.bold('WARNING!') + ' Cassandra isn\'t fully supported yet...\n');
@@ -194,6 +188,7 @@ module.exports = yeoman.generators.Base.extend({
     var done = this.async();
 
     this.baseName = jhipsterVar.baseName;
+    this.packageName = jhipsterVar.packageName;
     this.devDatabaseType = jhipsterVar.devDatabaseType;
     this.prodDatabaseType = jhipsterVar.prodDatabaseType;
     this.searchEngine = jhipsterVar.searchEngine;
@@ -230,7 +225,7 @@ module.exports = yeoman.generators.Base.extend({
       if (jhipsterVar.buildTool == 'maven') {
         jhipsterFunc.addMavenPlugin('com.spotify', 'docker-maven-plugin', '0.3.7',
           '                <configuration>\n' +
-          '                    <imageName>tmp/' + this.baseName.toLowerCase() + '</imageName>\n' +
+          '                    <imageName>' + this.packageName.toLowerCase() + '/' + this.baseName.toLowerCase() + ':tmp</imageName>\n' +
           '                    <dockerDirectory>docker/push</dockerDirectory>\n' +
           '                    <resources>\n' +
           '                        <resource>\n' +
@@ -243,7 +238,7 @@ module.exports = yeoman.generators.Base.extend({
       } else if (jhipsterVar.buildTool == 'gradle') {
         jhipsterFunc.addGradlePlugin('se.transmode.gradle','gradle-docker','1.2');
         jhipsterFunc.applyFromGradleScript('docker');
-        // TODO need function to add task
+        this.template('_docker.gradle', 'docker.gradle', this, {});
       }
     }
     done();
@@ -256,12 +251,11 @@ module.exports = yeoman.generators.Base.extend({
       this.dockerImageTag = this.dockerImage + ':' + this.dockerTag;
       var dockerCommand = 'mvn package -Pprod -DskipTests=true docker:build';
       if (jhipsterVar.buildTool == 'gradle') {
-        dockerCommand = './gradlew -Pprod build buildDocker -x test';
+        dockerCommand = './gradlew -Pprod build -x test buildDocker';
       }
-      dockerCommand += ' && docker tag -f tmp/' + this.baseName.toLowerCase() + ' ' + this.dockerImageTag;
+      dockerCommand += ' && docker tag -f ' + this.packageName + '/' + this.baseName.toLowerCase() + ':tmp ' + this.dockerImageTag;
       if (this.dockerPushToHub) {
         dockerCommand += ' && docker push ' + this.dockerImageTag;
-        // dockerCommand += ' && docker push pascalgrimaud/busybox:' + this.dockerTag; // TODO : change this / easy to upload :)
       }
 
       console.log('\nBuilding the image: ' + chalk.cyan.bold(this.dockerImageTag) + '\nThis may take several minutes...\n');
