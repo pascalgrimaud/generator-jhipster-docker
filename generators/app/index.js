@@ -16,13 +16,16 @@ var jhipsterFunc = {};
 module.exports = yeoman.generators.Base.extend({
 
   initializing: {
-    templates: function() {
+    templates: function(args) {
       this.composeWith('jhipster:modules', {
         options: {
           jhipsterVar: jhipsterVar,
           jhipsterFunc: jhipsterFunc
         }
       });
+      if (args == 'default' || args == 'compose' || args == 'dockercompose') {
+        this.dockerDefault = 'dockercompose';
+      }
     },
     displayLogo: function() {
       console.log(chalk.cyan.bold(
@@ -161,27 +164,34 @@ module.exports = yeoman.generators.Base.extend({
       }
     ];
 
-    this.prompt(prompts, function (props) {
-      this.props = props;
-      // To access props later use this.props.someOption;
-      this.dockerType = props.dockerType;
-      this.dockerRepoGithub = props.dockerRepoGithub;
-      if (this.dockerRepoGithub) {
-        var segments = this.dockerRepoGithub.split(path.sep);
-        this.dockerNameGithub = segments[4].replace(/.git/g, '');
-      }
-      this.dockerVolume = props.dockerVolume;
-      if (this.dockerVolume) {
-        this.dockerVolumePath = props.dockerVolumePath;
-      } else {
-        this.dockerVolumePath = '~/volumes/jhipster';
-      }
-      this.dockerLogin = props.dockerLogin;
-      this.dockerTag = props.dockerTag;
-      this.dockerPushToHub = props.dockerPushToHub;
-
+    if (this.dockerDefault == 'dockercompose') {
+      this.dockerType = 'dockercompose';
+      this.dockerVolume = false;
+      this.dockerVolumePath = '~/volumes/jhipster';
       done();
-    }.bind(this));
+    } else {
+      this.prompt(prompts, function (props) {
+        this.props = props;
+        // To access props later use this.props.someOption;
+        this.dockerType = props.dockerType;
+        this.dockerRepoGithub = props.dockerRepoGithub;
+        if (this.dockerRepoGithub) {
+          var segments = this.dockerRepoGithub.split(path.sep);
+          this.dockerNameGithub = segments[4].replace(/.git/g, '');
+        }
+        this.dockerVolume = props.dockerVolume;
+        if (this.dockerVolume) {
+          this.dockerVolumePath = props.dockerVolumePath;
+        } else {
+          this.dockerVolumePath = '~/volumes/jhipster';
+        }
+        this.dockerLogin = props.dockerLogin;
+        this.dockerTag = props.dockerTag;
+        this.dockerPushToHub = props.dockerPushToHub;
+
+        done();
+      }.bind(this));
+    }
   },
 
   writing: function () {
