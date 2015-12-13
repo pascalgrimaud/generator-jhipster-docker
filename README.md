@@ -15,7 +15,8 @@
 
 ## Prerequisites
 
-This is a [JHipster](http://jhipster.github.io/) module, that is meant to be use in a JHipster application.
+As this is a [JHipster](http://jhipster.github.io/) module, we expect you have JHipster and its related tools already installed:
+- [Installing JHipster](https://jhipster.github.io/installation.html)
 
 You have to install Docker and Docker Compose:
 
@@ -34,7 +35,7 @@ All these images come from the official [Docker Hub](https://hub.docker.com/):
 
 ## Installation
 
-As this is a [JHipster](http://jhipster.github.io/) module, we expect you have JHipster and its related tools already installed.
+To install `generator-jhipster-docker`:
 
 ```bash
 npm install -g generator-jhipster-docker
@@ -46,9 +47,15 @@ Then run the module on a JHipster generated application:
 yo jhipster-docker
 ```
 
+To update `generator-jhipster-docker`:
+```bash
+npm update -g generator-jhipster-docker
+```
 
 
 ## Usage
+
+This is a [JHipster](http://jhipster.github.io/) module, that is meant to be use in a JHipster application.
 
 ### 1 - Generate docker-compose services
 
@@ -131,11 +138,48 @@ Be carefull! All data will be deleted:
 
 
 
-### 2 - Automated build at https://hub.docker.com
+### 2 - Automated build at the [Docker Hub](https://hub.docker.com)
+
+#### 2.1 - generate the files
+
+- Launch : `yo jhipster-docker`
+- Select the second option : `Generate files for Automated build`
+- Answer all questions
+
+#### 2.2 - param your Docker Hub project
+
+- go to https://hub.docker.com/r/username/
+- menu Create: Create Automated Build
+    - select the repository
+    - put a description, then click on create
+<div align="center">
+  <a href="http://jhipster.github.io">
+    <img src="https://github.com/pascalgrimaud/generator-jhipster-docker/raw/master/images/automated-step1.png">
+  </a>
+  <br/>
+  <a href="https://www.docker.com/">
+    <img src="https://github.com/pascalgrimaud/generator-jhipster-docker/raw/master/images/automated-step2.png">
+  </a>
+</div>
+- go to Build Settings
+    - choose your branch or let master by default
+    - put this Dockerfile location: /docker/hub/
+    - click on Save Changes
+<div align="center">
+  <a href="https://www.docker.com/">
+    <img src="https://github.com/pascalgrimaud/generator-jhipster-docker/raw/master/images/automated-step3.png">
+  </a>
+</div>
+- return to this project: git commit and push these changes!
+
+- go to Build details: it should be a new line with Building
+- go to Repo info and copy/paste in Full description the docker/app-hub.yml 
 
 
 
-### 3 - Local build and push image to https://hub.docker.com/
+### 3 - Local build and push image to [Docker Hub](https://hub.docker.com/)
+
+This section will be completed later...
 
 
 
