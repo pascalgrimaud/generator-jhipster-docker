@@ -35,19 +35,13 @@ All these images come from the official [Docker Hub](https://hub.docker.com/):
 
 ## Installation
 
-To install `generator-jhipster-docker`:
+To install this module:
 
 ```bash
 npm install -g generator-jhipster-docker
 ```
 
-Then run the module on a JHipster generated application:
-
-```bash
-yo jhipster-docker
-```
-
-To update `generator-jhipster-docker`:
+To update this module:
 ```bash
 npm update -g generator-jhipster-docker
 ```
@@ -56,6 +50,12 @@ npm update -g generator-jhipster-docker
 ## Usage
 
 This is a [JHipster](http://jhipster.github.io/) module, that is meant to be use in a JHipster application.
+
+To run the module on a JHipster generated application:
+
+```bash
+yo jhipster-docker
+```
 
 ### 1 - Generate docker-compose services
 
@@ -179,7 +179,10 @@ Be carefull! All data will be deleted:
 
 ### 3 - Local build and push image to [Docker Hub](https://hub.docker.com/)
 
-This section will be completed later...
+This option is used to build a Docker image for running the JHipster application.
+You can read this documentation: [spring-boot-docker](https://spring.io/guides/gs/spring-boot-docker/)
+
+If you want, you can push your Docker image to Docker Hub.
 
 
 
