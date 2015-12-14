@@ -1,6 +1,6 @@
 {
     "name": "generator-jhipster-docker",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "Docker JHipster module, Docker support in your JHipster application",
     "homepage": "https://github.com/pascalgrimaud/generator-jhipster-docker",
     "author": {
