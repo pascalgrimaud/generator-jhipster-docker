@@ -1,4 +1,4 @@
-FROM cassandra:2.2.3
+FROM cassandra:<%=dockerVersionDB%>
 MAINTAINER Pascal Grimaud <pascalgrimaud@gmail.com>
 
 # install datastax-agent

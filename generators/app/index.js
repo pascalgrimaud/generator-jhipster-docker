@@ -112,6 +112,72 @@ module.exports = yeoman.generators.Base.extend({
         default: 'dockercompose'
       },{
         when: function (response) {
+          return jhipsterVar.prodDatabaseType == 'mysql';
+        },
+        type: 'list',
+        name: 'dockerVersionDB',
+        message: 'Choose the version of MySQL:',
+        choices: [
+          {name: '5.5', value: '5.5'},
+          {name: '5.6', value: '5.6'},
+          {name: '5.7', value: '5.7'},
+        ],
+        default: '5.7'
+      },{
+        when: function (response) {
+          return jhipsterVar.prodDatabaseType == 'postgresql';
+        },
+        type: 'list',
+        name: 'dockerVersionDB',
+        message: 'Choose the version of PostgreSQL:',
+        choices: [
+          {name: '9.2', value: '9.2'},
+          {name: '9.3', value: '9.3'},
+          {name: '9.4', value: '9.4'},
+          {name: '9.5', value: '9.5'},
+        ],
+        default: '9.4'
+      },{
+        when: function (response) {
+          return jhipsterVar.prodDatabaseType == 'mongodb';
+        },
+        type: 'list',
+        name: 'dockerVersionDB',
+        message: 'Choose the version of MongoDB:',
+        choices: [
+          {name: '3.0', value: '3.0'},
+          {name: '3.1', value: '3.1'},
+          {name: '3.2', value: '3.2'},
+        ],
+        default: '3.0'
+      },{
+        when: function (response) {
+          return jhipsterVar.prodDatabaseType == 'cassandra';
+        },
+        type: 'list',
+        name: 'dockerVersionDB',
+        message: 'Choose the version of Cassandra:',
+        choices: [
+          {name: '2.1', value: '2.1'},
+          {name: '2.2', value: '2.2'},
+          {name: '3.0', value: '3.0'},
+        ],
+        default: '2.2'
+      },{
+        when: function (response) {
+          return jhipsterVar.searchEngine == 'elasticsearch';
+        },
+        type: 'list',
+        name: 'dockerVersionSE',
+        message: 'Choose the version of ElasticSearch:',
+        choices: [
+          {name: '1.7', value: '1.7'},
+          {name: '2.0 (not work)', value: '2.0'},
+          {name: '2.1 (not work)', value: '2.1'},
+        ],
+        default: '1.7'
+      },{
+        when: function (response) {
           return response.dockerType == 'automated';
         },
         validate: function (input) {
@@ -168,12 +234,33 @@ module.exports = yeoman.generators.Base.extend({
       this.dockerType = 'dockercompose';
       this.dockerVolume = false;
       this.dockerVolumePath = '~/volumes/jhipster';
+      switch (jhipsterVar.prodDatabaseType) {
+        case 'mysql': {
+          this.dockerVersionDB = '5.7';
+          break;
+        }
+        case 'postgresql': {
+          this.dockerVersionDB = '9.4';
+          break;
+        }
+        case 'mongodb': {
+          this.dockerVersionDB = '3.0';
+          break;
+        }
+        case 'cassandra': {
+          this.dockerVersionDB = '2.2';
+          break;
+        }
+      }
+      this.dockerVersionSE = '1.7';
       done();
     } else {
       this.prompt(prompts, function (props) {
         this.props = props;
         // To access props later use this.props.someOption;
         this.dockerType = props.dockerType;
+        this.dockerVersionDB = props.dockerVersionDB;
+        this.dockerVersionSE = props.dockerVersionSE;
         this.dockerRepoGithub = props.dockerRepoGithub;
         if (this.dockerRepoGithub) {
           var segments = this.dockerRepoGithub.split(path.sep);

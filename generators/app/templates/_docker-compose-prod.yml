@@ -1,6 +1,6 @@
 <% if (searchEngine == 'elasticsearch') { %><%=baseName.toLowerCase()%>-elasticsearch:
     container_name: <%=baseName.toLowerCase()%>-elasticsearch
-    image: elasticsearch:1.7.3<% if (dockerVolume) { %>
+    image: elasticsearch:<%=dockerVersionSE%><% if (dockerVolume) { %>
     volumes:
         - <%=dockerVolumePath%>/<%=baseName%>/elasticsearch/:/usr/share/elasticsearch/data/<% } %>
     ports:
@@ -8,7 +8,7 @@
         - "9300:9300"
 <% } if (prodDatabaseType == 'mysql') { %><%=baseName.toLowerCase()%>-mysql:
     container_name: <%=baseName.toLowerCase()%>-mysql
-    image: mysql:5.7.9<% if (dockerVolume) { %>
+    image: mysql:<%=dockerVersionDB%><% if (dockerVolume) { %>
     volumes:
         - <%=dockerVolumePath%>/<%=baseName%>/mysql/:/var/lib/mysql/<% } %>
     environment:
@@ -20,7 +20,7 @@
     command: mysqld --lower_case_table_names=1
 <% } if (prodDatabaseType == 'postgresql') { %><%=baseName.toLowerCase()%>-postgresql:
     container_name: <%=baseName.toLowerCase()%>-postgresql
-    image: postgres:9.4.5<% if (dockerVolume) { %>
+    image: postgres:<%=dockerVersionDB%><% if (dockerVolume) { %>
     volumes:
         - <%=dockerVolumePath%>/<%=baseName%>/postgresql/:/var/lib/postgresql/<% } %>
     environment:
@@ -30,7 +30,7 @@
         - "5432:5432"
 <% } if (prodDatabaseType == 'mongodb') { %><%=baseName.toLowerCase()%>-mongodb:
     container_name: <%=baseName.toLowerCase()%>-mongodb
-    image: mongo:3.0.7<% if (dockerVolume) { %>
+    image: mongo:<%=dockerVersionDB%><% if (dockerVolume) { %>
     volumes:
        - <%=dockerVolumePath%>/<%=baseName%>/mongodb/:/data/db/<% } %>
     ports:

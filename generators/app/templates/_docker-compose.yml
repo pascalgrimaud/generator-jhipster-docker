@@ -1,6 +1,6 @@
 <% if (devDatabaseType == 'mysql') { %><%=baseName.toLowerCase()%>-dev-mysql:
     container_name: <%=baseName.toLowerCase()%>-dev-mysql
-    image: mysql:5.7.9<% if (dockerVolume) { %>
+    image: mysql:<%=dockerVersionSE%><% if (dockerVolume) { %>
     volumes:
         - <%=dockerVolumePath%>/<%=baseName%>/dev-mysql/:/var/lib/mysql/<% } %>
     environment:
@@ -12,7 +12,7 @@
     command: mysqld --lower_case_table_names=1
 <% } if (devDatabaseType == 'postgresql') { %><%=baseName.toLowerCase()%>-dev-postgresql:
     container_name: <%=baseName.toLowerCase()%>-dev-postgresql
-    image: postgres:9.4.5<% if (dockerVolume) { %>
+    image: postgres:<%=dockerVersionDB%><% if (dockerVolume) { %>
     volumes:
       - <%=dockerVolumePath%>/<%=baseName%>/dev-postgresql/:/var/lib/postgresql/<% } %>
     environment:
@@ -22,7 +22,7 @@
         - "5432:5432"
 <% } if (devDatabaseType == 'mongodb') { %><%=baseName.toLowerCase()%>-dev-mongodb:
     container_name: <%=baseName.toLowerCase()%>-dev-mongodb
-    image: mongo:3.0.7<% if (dockerVolume) { %>
+    image: mongo:<%=dockerVersionDB%><% if (dockerVolume) { %>
     volumes:
         - <%=dockerVolumePath%>/<%=baseName%>/dev-mongodb/:/data/db/<% } %>
     ports:
