@@ -16,7 +16,7 @@ var jhipsterFunc = {};
 module.exports = yeoman.generators.Base.extend({
 
   initializing: {
-    templates: function(args) {
+    templates: function (args) {
       this.composeWith('jhipster:modules', {
         options: {
           jhipsterVar: jhipsterVar,
@@ -27,7 +27,7 @@ module.exports = yeoman.generators.Base.extend({
         this.dockerDefault = 'dockercompose';
       }
     },
-    displayLogo: function() {
+    displayLogo: function () {
       console.log(chalk.cyan.bold(
         '\n' +
         '                              ##        .\n' +
@@ -40,18 +40,18 @@ module.exports = yeoman.generators.Base.extend({
         '                    \\____\\______/\n'));
       console.log(chalk.white.bold('              http://jhipster.github.io\n'));
     },
-    checkOracle: function() {
+    checkOracle: function () {
       if (jhipsterVar.prodDatabaseType == 'oracle') {
         console.log(chalk.red.bold('ERROR!') + ' Oracle isn\'t on the boat...\n');
         process.exit(1);
       }
     },
-    checkCassandra: function() {
+    checkCassandra: function () {
       if (jhipsterVar.prodDatabaseType == 'cassandra') {
         console.log(chalk.yellow.bold('WARNING!') + ' Cassandra isn\'t fully supported yet...\n');
       }
     },
-    checkDocker: function() {
+    checkDocker: function () {
       var done = this.async();
       exec('docker --version', function (err) {
         if (err) {
@@ -61,7 +61,7 @@ module.exports = yeoman.generators.Base.extend({
         done();
       }.bind(this));
     },
-    checkDockerCompose: function() {
+    checkDockerCompose: function () {
       var done = this.async();
       exec('docker-compose --version', function (err) {
         if (err) {
@@ -71,7 +71,7 @@ module.exports = yeoman.generators.Base.extend({
         done();
       }.bind(this));
     },
-    checkGithubUrl: function() {
+    checkGithubUrl: function () {
       this.defaultGithubUrl = githubUrl.sync();
       if (this.defaultGithubUrl == null) {
         this.defaultGithubUrl = 'https://github.com/username/' + jhipsterVar.baseName + '.git';
@@ -83,7 +83,7 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
 
-  prompting: function() {
+  prompting: function () {
     var done = this.async();
     var prompts = [
       {
@@ -371,7 +371,7 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
 
-  end: function() {
+  end: function () {
     switch (this.dockerType) {
       case 'dockercompose': {
         console.log('\n' + chalk.bold.green('##### USAGE #####'));
