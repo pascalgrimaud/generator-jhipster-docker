@@ -2,17 +2,20 @@ FROM jdubois/jhipster-docker
 MAINTAINER Pascal Grimaud <pascalgrimaud@gmail.com>
 
 # parameters
-ENV JHIPSTER_GITHUB <%=dockerRepoGithub%>
+ENV JHIPSTER_GITHUB <%= dockerRepoGithub %>
 
 # clone project
 USER jhipster
 RUN cd /home/jhipster && \
     git clone ${JHIPSTER_GITHUB} /home/jhipster/github/ && \
-    cd /home/jhipster/github/ && \<%if (buildTool == 'maven') {%>
+    cd /home/jhipster/github/ && \
+    <%_ if (buildTool == 'maven') { _%>
     mvn -Pprod package -DskipTests=true && \
-    mv /home/jhipster/github/target/*.war /home/jhipster/app.war && \<%} else if (buildTool == 'gradle') {%>
+    mv /home/jhipster/github/target/*.war /home/jhipster/app.war && \
+    <%_ } else if (buildTool == 'gradle') { _%>
     ./gradlew -Pprod build -x test && \
-    mv /home/jhipster/github/build/libs/*.war /home/jhipster/app.war && \<%}%>
+    mv /home/jhipster/github/build/libs/*.war /home/jhipster/app.war && \
+    <%_ } _%>
     rm -Rf /home/jhipster/github && \
     rm -Rf /home/jhipster/.m2/repository/ && \
     rm -Rf /home/jhipster/.npm/

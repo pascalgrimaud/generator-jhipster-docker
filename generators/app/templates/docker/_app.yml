@@ -1,50 +1,74 @@
-<% if (searchEngine == 'elasticsearch') { %><%=baseName.toLowerCase()%>-app-elasticsearch:
-    container_name: <%=baseName.toLowerCase()%>-app-elasticsearch
-    image: elasticsearch:1.7.3<% if (dockerVolume) { %>
+<%_ if (searchEngine == 'elasticsearch') { _%>
+<%= baseName.toLowerCase() %>-app-elasticsearch:
+    container_name: <%= baseName.toLowerCase() %>-app-elasticsearch
+    image: elasticsearch:<%= dockerVersionSE %>
+    <%_ if (dockerVolume) { _%>
     volumes:
-        - <%=dockerVolumePath%>/<%=baseName%>/elasticsearch/:/usr/share/elasticsearch/data/<% } %>
+        - <%= dockerVolumePath %>/<%= baseName %>/elasticsearch/:/usr/share/elasticsearch/data/
+        <%_ } _%>
     ports:
         - "9200:9200"
         - "9300:9300"
-<% } if (prodDatabaseType == 'mysql') { %><%=baseName.toLowerCase()%>-app-mysql:
-    container_name: <%=baseName.toLowerCase()%>-app-mysql
-    image: mysql:5.7.9<% if (dockerVolume) { %>
+<%_ } if (prodDatabaseType == 'mysql') { _%>
+<%= baseName.toLowerCase() %>-app-mysql:
+    container_name: <%= baseName.toLowerCase() %>-app-mysql
+    image: mysql:<%= dockerVersionDB %>
+    <%_ if (dockerVolume) { _%>
     volumes:
-        - <%=dockerVolumePath%>/<%=baseName%>/mysql/:/var/lib/mysql/<% } %>
+        - <%= dockerVolumePath %>/<%= baseName %>/mysql/:/var/lib/mysql/
+    <%_ } _%>
     environment:
         - MYSQL_USER=root
         - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-        - MYSQL_DATABASE=<%=baseName.toLowerCase()%>
+        - MYSQL_DATABASE=<%= baseName.toLowerCase() %>
     ports:
         - "3306:3306"
     command: mysqld --lower_case_table_names=1
-<% } if (prodDatabaseType == 'postgresql') { %><%=baseName.toLowerCase()%>-app-postgresql:
-    container_name: <%=baseName.toLowerCase()%>-app-postgresql
-    image: postgres:9.4.5<% if (dockerVolume) { %>
+<%_ } if (prodDatabaseType == 'postgresql') { _%>
+<%= baseName.toLowerCase() %>-app-postgresql:
+    container_name: <%= baseName.toLowerCase() %>-app-postgresql
+    image: postgres:<%= dockerVersionDB %>
+    <%_ if (dockerVolume) { _%>
     volumes:
-        - <%=dockerVolumePath%>/<%=baseName%>/postgresql/:/var/lib/postgresql/<% } %>
+        - <%= dockerVolumePath %>/<%= baseName %>/postgresql/:/var/lib/postgresql/
+    <%_ } _%>
     environment:
-        - POSTGRES_USER=<%=baseName%>
+        - POSTGRES_USER=<%= baseName %>
         - POSTGRES_PASSWORD=
     ports:
         - "5432:5432"
-<% } if (prodDatabaseType == 'mongodb') { %><%=baseName.toLowerCase()%>-app-mongodb:
-    container_name: <%=baseName.toLowerCase()%>-app-mongodb
-    image: mongo:3.0.7<% if (dockerVolume) { %>
+<%_ } if (prodDatabaseType == 'mongodb') { _%>
+<%= baseName.toLowerCase() %>-app-mongodb:
+    container_name: <%= baseName.toLowerCase() %>-app-mongodb
+    image: mongo:<%= dockerVersionDB %>
+    <%_ if (dockerVolume) { _%>
     volumes:
-        - <%=dockerVolumePath%>/<%=baseName%>/mongodb/:/data/db/<% } %>
+        - <%= dockerVolumePath %>/<%= baseName %>/mongodb/:/data/db/
+    <%_ } _%>
     ports:
         - "27017:27017"
-<% } %><%=baseName.toLowerCase()%>-app:
-    container_name: <%=baseName.toLowerCase()%>-app<% if (dockerType == 'automated') { %>
-    image: <%=dockerLogin.toLowerCase()%>/<%=dockerNameGithub.toLowerCase()%><% } else { %>
-    image: <%=dockerLogin.toLowerCase()%>/<%=baseName.toLowerCase()%><% if (dockerType == 'dockerpush') { %>:<%=dockerTag%><% } } %>
+<%_ } _%>
+<%= baseName.toLowerCase() %>-app:
+    container_name: <%= baseName.toLowerCase() %>-app
+    <%_ if (dockerType == 'automated') { _%>
+    image: <%=dockerLogin.toLowerCase()%>/<%=dockerNameGithub.toLowerCase()%>
+    <%_ } else { _%>
+    image: <%=dockerLogin.toLowerCase()%>/<%= baseName.toLowerCase() %><% if (dockerType == 'dockerpush') { %>:<%= dockerTag %><% } %>
+    <%_ } _%>
     ports:
-        - "8080:8080"<% if (prodDatabaseType == 'cassandra') { %>
+        - "8080:8080"
+    <%_ if (prodDatabaseType == 'cassandra') { _%>
     external_links:
-        - "<%=baseName.toLowerCase()%>-app-cassandra:cassandra"<% } else { %>
-    links:<% if (searchEngine == 'elasticsearch') { %>
-        - "<%=baseName.toLowerCase()%>-app-elasticsearch:elastic"<% } if (prodDatabaseType == 'mysql') { %>
-        - "<%=baseName.toLowerCase()%>-app-mysql:mysql"<% } if (prodDatabaseType == 'postgresql') { %>
-        - "<%=baseName.toLowerCase()%>-app-postgresql:postgresql"<% } if (prodDatabaseType == 'mongodb') {%>
-        - "<%=baseName.toLowerCase()%>-app-mongodb:mongodb"<% } }%>
+        - "<%= baseName.toLowerCase() %>-app-cassandra:cassandra"
+    <%_ } else { _%>
+    links:
+        <%_ if (searchEngine == 'elasticsearch') { _%>
+        - "<%= baseName.toLowerCase() %>-app-elasticsearch:elastic"
+        <%_ } if (prodDatabaseType == 'mysql') { _%>
+        - "<%= baseName.toLowerCase() %>-app-mysql:mysql"
+        <%_ } if (prodDatabaseType == 'postgresql') { _%>
+        - "<%= baseName.toLowerCase() %>-app-postgresql:postgresql"
+        <%_ } if (prodDatabaseType == 'mongodb') { _%>
+        - "<%= baseName.toLowerCase() %>-app-mongodb:mongodb"
+        <%_ } _%>
+    <%_ } _%>
