@@ -71,11 +71,11 @@ java -jar /app.war \
     --spring.profiles.active=prod \
 <%_ if (searchEngine == 'elasticsearch') { _%>
     --spring.data.elasticsearch.cluster-nodes=${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES} \
-<%} if (prodDatabaseType == 'mysql' || prodDatabaseType == 'postgresql') { _%>
+<%_ } if (prodDatabaseType == 'mysql' || prodDatabaseType == 'postgresql') { _%>
     --spring.datasource.url=${SPRING_DATASOURCE_URL}
-<%} if (prodDatabaseType == 'mongodb') { _%>
+<%_ } if (prodDatabaseType == 'mongodb') { _%>
     --spring.data.mongodb.host=${SPRING_DATA_MONGODB_HOST} \
     --spring.data.mongodb.port=${SPRING_DATA_MONGODB_PORT}
-<%} if (prodDatabaseType == 'cassandra') { _%>
+<%_ } if (prodDatabaseType == 'cassandra') { _%>
     --spring.data.cassandra.contactpoints=${SPRING_DATA_CASSANDRA_CONTACTPOINTS}
 <%_ } _%>
