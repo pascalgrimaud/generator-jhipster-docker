@@ -1,5 +1,4 @@
 FROM jdubois/jhipster-docker
-MAINTAINER Pascal Grimaud <pascalgrimaud@gmail.com>
 
 # parameters
 ENV JHIPSTER_GITHUB <%= dockerRepoGithub %>

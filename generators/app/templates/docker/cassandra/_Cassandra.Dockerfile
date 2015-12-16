@@ -1,5 +1,4 @@
 FROM cassandra:<%=dockerVersionDB%>
-MAINTAINER Pascal Grimaud <pascalgrimaud@gmail.com>
 
 # install datastax-agent
 RUN apt-get update && apt-get install -y curl sysstat
