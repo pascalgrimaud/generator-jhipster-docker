@@ -1,6 +1,6 @@
 {
     "name": "generator-jhipster-docker",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "Docker JHipster module, Docker support in your JHipster application",
     "homepage": "https://github.com/pascalgrimaud/generator-jhipster-docker",
     "author": {
@@ -22,7 +22,7 @@
         "yeoman-generator": "0.21.1",
         "chalk": "1.0.0",
         "remote-origin-url": "^0.4.0",
-        "generator-jhipster": ">=2.25.0"
+        "generator-jhipster": ">=2.26.0"
     },
     "repository": "pascalgrimaud/generator-jhipster-docker",
     "license": "Apache-2.0"
