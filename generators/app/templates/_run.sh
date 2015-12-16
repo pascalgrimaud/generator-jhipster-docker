@@ -1,5 +1,5 @@
 #!/bin/sh
-<% if (prodDatabaseType == 'mysql') {%>
+<%_ if (prodDatabaseType == 'mysql') { _%>
 ################################################################################
 # MySQL
 ################################################################################
@@ -9,7 +9,7 @@ if [ -d ${SPRING_DATASOURCE_URL} ]; then
 else
     echo "SPRING_DATASOURCE_URL init by configuration"
 fi
-<% } if (prodDatabaseType == 'postgresql') {%>
+<%_ } if (prodDatabaseType == 'postgresql') { _%>
 ################################################################################
 # PostgreSQL
 ################################################################################
@@ -19,7 +19,7 @@ if [ -d ${SPRING_DATASOURCE_URL} ]; then
 else
     echo "SPRING_DATASOURCE_URL init by configuration"
 fi
-<% } if (prodDatabaseType == 'mongodb') {%>
+<%_ } if (prodDatabaseType == 'mongodb') { _%>
 ################################################################################
 # MongoDB
 ################################################################################
@@ -35,7 +35,7 @@ if [ -d ${SPRING_DATA_MONGODB_PORT} ]; then
 else
     echo "SPRING_DATA_MONGODB_PORT init by configuration"
 fi
-<% } if (prodDatabaseType == 'cassandra') {%>
+<%_ } if (prodDatabaseType == 'cassandra') { _%>
 ################################################################################
 # Cassandra
 ################################################################################
@@ -45,7 +45,7 @@ if [ -d ${SPRING_DATA_CASSANDRA_CONTACTPOINTS} ]; then
 else
     echo "SPRING_DATA_CASSANDRA_CONTACTPOINTS init by configuration"
 fi
-<% } if (searchEngine == 'elasticsearch') {%>
+<%_ } if (searchEngine == 'elasticsearch') { _%>
 ################################################################################
 # ElasticSearch
 ################################################################################
@@ -55,10 +55,11 @@ if [ -d ${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES} ]; then
 else
     echo "SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES init by configuration"
 fi
-<% } %>echo "(DEBUG) ${SPRING_DATASOURCE_URL}"
-echo "(DEBUG) ${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES}"
-echo "(DEBUG) ${SPRING_DATA_MONGODB_HOST}"
-echo "(DEBUG) ${SPRING_DATA_MONGODB_PORT}"
+<%_ } _%>
+echo "(DEBUG) SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}"
+echo "(DEBUG) SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES}"
+echo "(DEBUG) SPRING_DATA_MONGODB_HOST=${SPRING_DATA_MONGODB_HOST}"
+echo "(DEBUG) SPRING_DATA_MONGODB_PORT=${SPRING_DATA_MONGODB_PORT}"
 ################################################################################
 # Start application
 ################################################################################
@@ -67,9 +68,14 @@ if [ -d ${JHIPSTER_SLEEP} ]; then
 fi
 echo "The application will start in ${JHIPSTER_SLEEP}sec..." && sleep ${JHIPSTER_SLEEP}
 java -jar /app.war \
-    --spring.profiles.active=prod \<% if (searchEngine == 'elasticsearch') {%>
-    --spring.data.elasticsearch.cluster-nodes=${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES} \<%} if (prodDatabaseType == 'mysql' || prodDatabaseType == 'postgresql') {%>
-    --spring.datasource.url=${SPRING_DATASOURCE_URL}<%} if (prodDatabaseType == 'mongodb') {%>
+    --spring.profiles.active=prod \
+<%_ if (searchEngine == 'elasticsearch') { _%>
+    --spring.data.elasticsearch.cluster-nodes=${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES} \
+<%_ } if (prodDatabaseType == 'mysql' || prodDatabaseType == 'postgresql') { _%>
+    --spring.datasource.url=${SPRING_DATASOURCE_URL}
+<%_ } if (prodDatabaseType == 'mongodb') { _%>
     --spring.data.mongodb.host=${SPRING_DATA_MONGODB_HOST} \
-    --spring.data.mongodb.port=${SPRING_DATA_MONGODB_PORT}<%} if (prodDatabaseType == 'cassandra') {%>
-    --spring.data.cassandra.contactpoints=${SPRING_DATA_CASSANDRA_CONTACTPOINTS}<% } %>
+    --spring.data.mongodb.port=${SPRING_DATA_MONGODB_PORT}
+<%_ } if (prodDatabaseType == 'cassandra') { _%>
+    --spring.data.cassandra.contactpoints=${SPRING_DATA_CASSANDRA_CONTACTPOINTS}
+<%_ } _%>
