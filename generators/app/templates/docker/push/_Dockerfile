@@ -8,6 +8,5 @@ ADD run.sh /run.sh
 RUN chmod +x /run.sh
 
 EXPOSE 8080
-# read -> https://spring.io/guides/gs/spring-boot-docker/
 VOLUME /tmp
 CMD ["/run.sh"]
