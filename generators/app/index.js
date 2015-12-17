@@ -176,6 +176,18 @@ module.exports = yeoman.generators.Base.extend({
         default: '1.7'
       },{
         when: function (response) {
+          return response.dockerType == 'dockercompose';
+        },
+        type: 'list',
+        name: 'dockerVersionSonar',
+        message: 'Choose the version of SonarQube:',
+        choices: [
+          {name: '4.5.6 (lts)', value: '4.5.6'},
+          {name: 'latest', value: 'latest'}
+        ],
+        default: '4.5.6'
+      },{
+        when: function (response) {
           return response.dockerType == 'automated';
         },
         validate: function (input) {
@@ -251,6 +263,7 @@ module.exports = yeoman.generators.Base.extend({
         }
       }
       this.dockerVersionSE = '1.7';
+      this.dockerVersionSonar = '4.5.6';
       done();
     } else {
       this.prompt(prompts, function (props) {
@@ -259,6 +272,7 @@ module.exports = yeoman.generators.Base.extend({
         this.dockerType = props.dockerType;
         this.dockerVersionDB = props.dockerVersionDB;
         this.dockerVersionSE = props.dockerVersionSE;
+        this.dockerVersionSonar = props.dockerVersionSonar;
         this.dockerRepoGithub = props.dockerRepoGithub;
         if (this.dockerRepoGithub) {
           var segments = this.dockerRepoGithub.split(path.sep);
