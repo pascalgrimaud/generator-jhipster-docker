@@ -6,6 +6,7 @@ var chalk = require('chalk');
 var jhipster = require('generator-jhipster');
 var exec = require('child_process').exec;
 var githubUrl = require('remote-origin-url');
+var packagejs = require(__dirname + '/../../package.json');
 
 // Stores JHipster variables
 var jhipsterVar = {moduleName: 'docker'};
@@ -39,6 +40,7 @@ module.exports = yeoman.generators.Base.extend({
         '                   \\    \\        __/\n' +
         '                    \\____\\______/\n'));
       console.log(chalk.white.bold('              http://jhipster.github.io\n'));
+      console.log(chalk.white('Welcome to the Docker JHipster Module ') + chalk.yellow('v' + packagejs.version + '\n'));
     },
     checkOracle: function () {
       if (jhipsterVar.prodDatabaseType == 'oracle') {
