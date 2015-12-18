@@ -46,7 +46,7 @@
     <%_ } _%>
     ports:
         - "27017:27017"
-<%_ } if (devDatabaseType == 'cassandra') { _%>
+<%_ } if (prodDatabaseType == 'cassandra') { _%>
 <%= baseName.toLowerCase() %>-cassandra:
     container_name: <%= baseName.toLowerCase() %>-cassandra
     build: .
