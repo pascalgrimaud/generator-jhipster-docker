@@ -48,11 +48,6 @@ module.exports = yeoman.generators.Base.extend({
         process.exit(1);
       }
     },
-    checkCassandra: function () {
-      if (jhipsterVar.prodDatabaseType == 'cassandra') {
-        console.log(chalk.yellow.bold('WARNING!') + ' Cassandra isn\'t fully supported yet...\n');
-      }
-    },
     checkDocker: function () {
       var done = this.async();
       exec('docker --version', function (err) {
@@ -160,9 +155,9 @@ module.exports = yeoman.generators.Base.extend({
         name: 'dockerVersionDB',
         message: 'Choose the version of Cassandra:',
         choices: [
+          {name: '2.0', value: '2.0'},
           {name: '2.1', value: '2.1'},
-          {name: '2.2', value: '2.2'},
-          {name: '3.0', value: '3.0'}
+          {name: '2.2', value: '2.2'}
         ],
         default: '2.2'
       },{
@@ -314,9 +309,15 @@ module.exports = yeoman.generators.Base.extend({
         this.template('_docker-compose-prod.yml', 'docker-compose-prod.yml', this, {});
       }
       if (this.devDatabaseType == "cassandra") {
-        this.template('docker/cassandra/_Cassandra.Dockerfile', 'Cassandra.Dockerfile', this, {});
-        this.template('docker/cassandra/_cassandra.sh', 'docker/cassandra/cassandra.sh', this, {});
+        this.template('docker/cassandra/_Cassandra-Dev.Dockerfile', 'Cassandra-Dev.Dockerfile', this, {});
+        this.template('docker/cassandra/_Cassandra-Prod.Dockerfile', 'Cassandra-Prod.Dockerfile', this, {});
+        this.template('docker/cassandra/_Cassandra-Node.Dockerfile', 'Cassandra-Node.Dockerfile', this, {});
+        this.template('_docker-compose-node.yml', 'docker-compose-node.yml', this, {});
+
+        this.template('docker/cassandra/_Cassandra-Node.Dockerfile', 'Cassandra-Node.Dockerfile', this, {});
         this.template('docker/cassandra/_Opscenter.Dockerfile', 'docker/cassandra/Opscenter.Dockerfile', this, {});
+        this.template('docker/cassandra/_cassandra.sh', 'docker/cassandra/cassandra.sh', this, {});
+
       }
       this.template('docker/_sonar.yml', 'docker/sonar.yml', this, {});
     }
@@ -391,11 +392,20 @@ module.exports = yeoman.generators.Base.extend({
         console.log('\n' + chalk.bold.green('##### USAGE #####'));
         console.log('Start services with profile');
         if (jhipsterVar.devDatabaseType != 'h2Disk' && jhipsterVar.devDatabaseType != 'h2Memory') {
-          console.log('- DEV:   docker-compose up -d');
+          console.log('- DEV: ' + chalk.cyan('docker-compose up -d'));
         }
-        console.log('- PROD:  docker-compose -f docker-compose-prod.yml up -d');
-        console.log('Start sonar instance');
-        console.log('- SONAR: docker-compose -f docker/sonar.yml up -d\n');
+        console.log('- PROD: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d\n'));
+        console.log('Start Sonar instance');
+        console.log('- SONAR: ' + chalk.cyan('docker-compose -f docker/sonar.yml up -d\n'));
+        if (this.prodDatabaseType == 'cassandra') {
+          console.log('Start Cluster Cassandra');
+          console.log('1) build: ' + chalk.cyan('docker-compose -f docker-compose-node.yml build'));
+          console.log('2) launch: ' + chalk.cyan('docker-compose -f docker-compose-node.yml up -d'));
+          console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init'));
+          console.log('4) launch X nodes (with X>=3): ' + chalk.cyan('docker-compose -f docker-compose-node.yml scale ' + this.baseName.toLowerCase() + '-cassandra-node=X'));
+          console.log('5) access to OpsCenter: ' + chalk.cyan('http://localhost:8888'));
+          console.log('6) add in your ' + chalk.cyan('application-prod.yml') + ' every IP of containers at ' + chalk.cyan('spring.data.cassandra.contactPoints\n'));
+        }
         break;
       }
       case 'automated': {

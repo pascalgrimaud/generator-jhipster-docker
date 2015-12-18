@@ -1,4 +1,4 @@
-FROM cassandra:<%=dockerVersionDB%>
+FROM cassandra:<%= dockerVersionDB %>
 
 # install datastax-agent
 RUN apt-get update && apt-get install -y curl sysstat
@@ -11,11 +11,11 @@ ADD docker/cassandra/cassandra.sh /cassandra.sh
 RUN chmod a+x /cassandra.sh
 
 # add script cql
-ADD src/main/resources/config/cql/create-keyspace.cql /create-keyspace.cql
+ADD src/main/resources/config/cql/create-keyspace-prod.cql /create-keyspace-prod.cql
 ADD src/main/resources/config/cql/create-tables.cql /create-tables.cql
 
 # concat 2 scripts to 1
-RUN cat create-keyspace.cql > create-keyspace-tables.cql
+RUN cat create-keyspace-prod.cql > create-keyspace-tables.cql
 RUN echo "USE <%=baseName%>;" >> create-keyspace-tables.cql
 RUN cat create-tables.cql >> create-keyspace-tables.cql
 

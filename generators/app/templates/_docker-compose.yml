@@ -40,7 +40,7 @@
 <%= baseName.toLowerCase() %>-dev-cassandra:
     container_name: <%= baseName.toLowerCase() %>-dev-cassandra
     build: .
-    dockerfile: Cassandra.Dockerfile
+    dockerfile: Cassandra-Dev.Dockerfile
     <%_ if (dockerVolume) { _%>
     volumes:
         - <%= dockerVolumePath %>/<%= baseName %>/dev-cassandra/:/var/lib/cassandra/data

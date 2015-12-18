@@ -46,35 +46,19 @@
     <%_ } _%>
     ports:
         - "27017:27017"
-<%_ } if (prodDatabaseType == 'cassandra') { _%>
-<%= baseName.toLowerCase() %>-opscenter:
-    container_name: <%= baseName.toLowerCase() %>-opscenter
-    build: ./docker/cassandra
-    dockerfile: Opscenter.Dockerfile
-    ports:
-        - "8888:8888"
+<%_ } if (devDatabaseType == 'cassandra') { _%>
 <%= baseName.toLowerCase() %>-cassandra:
     container_name: <%= baseName.toLowerCase() %>-cassandra
     build: .
-    dockerfile: Cassandra.Dockerfile
+    dockerfile: Cassandra-Prod.Dockerfile
     <%_ if (dockerVolume) { _%>
     volumes:
-       - <%= dockerVolumePath %>/<%= baseName %>/cassandra/:/var/lib/cassandra/data
+        - <%= dockerVolumePath %>/<%= baseName %>/cassandra/:/var/lib/cassandra/data
     <%_ } _%>
-    links:
-        - <%= baseName.toLowerCase() %>-opscenter:opscenter
     ports:
         - "7000:7000"
         - "7001:7001"
         - "7199:7199"
         - "9042:9042"
         - "9160:9160"
-<%= baseName.toLowerCase() %>-cassandra-node:
-    build: .
-    dockerfile: Cassandra.Dockerfile
-    links:
-        - <%= baseName.toLowerCase() %>-cassandra:seed
-        - <%= baseName.toLowerCase() %>-opscenter:opscenter
-    environment:
-        - CASSANDRA_SEEDS=seed
 <%_ } _%>
