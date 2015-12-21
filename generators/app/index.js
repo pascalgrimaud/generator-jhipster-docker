@@ -230,9 +230,13 @@ module.exports = yeoman.generators.Base.extend({
         when: function (response) {
           return response.dockerType == 'dockerpush';
         },
-        type: 'confirm',
+        type: 'list',
         name: 'dockerPushToHub',
         message: 'Docker Hub: do you want to push to docker-hub?',
+        choices: [
+          {name: 'No', value: false},
+          {name: 'Yes' + chalk.bold(' - Warning! Don\'t put your credentials in your properties files (application-prod.yml)'), value: true}
+        ],
         default: false
       }
     ];
