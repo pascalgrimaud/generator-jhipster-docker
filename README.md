@@ -59,6 +59,14 @@ To run the module on a JHipster generated application:
 yo jhipster-docker
 ```
 
+You can use this command to generate docker-compose services with default options:
+
+```bash
+yo jhipster-docker default --force
+```
+
+
+
 ### 1 - Generate docker-compose services
 
 #### 1.1 - Description
