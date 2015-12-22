@@ -1,13 +1,13 @@
 FROM cassandra:<%= dockerVersionDB %>
 
-# add script cql
-ADD src/main/resources/config/cql/create-keyspace.cql /create-keyspace.cql
-ADD src/main/resources/config/cql/create-tables.cql /create-tables.cql
+# add scripts cql
+ADD src/main/resources/config/cql/ /cql/
 
 # concat 2 scripts to 1
-RUN cat create-keyspace.cql > create-keyspace-tables.cql
+RUN cat /cql/create-keyspace.cql > create-keyspace-tables.cql
 RUN echo "USE <%=baseName%>;" >> create-keyspace-tables.cql
-RUN cat create-tables.cql >> create-keyspace-tables.cql
+RUN cat /cql/create-tables.cql >> create-keyspace-tables.cql
+RUN cat /cql/*_added_entity_*.cql >> create-keyspace-tables.cql
 
 # init, for easier docker exec
 RUN echo "#!/bin/bash" > /usr/local/bin/init

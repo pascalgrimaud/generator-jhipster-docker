@@ -394,15 +394,29 @@ module.exports = yeoman.generators.Base.extend({
     switch (this.dockerType) {
       case 'dockercompose': {
         console.log('\n' + chalk.bold.green('##### USAGE #####'));
-        console.log('Start services with profile');
-        if (jhipsterVar.devDatabaseType != 'h2Disk' && jhipsterVar.devDatabaseType != 'h2Memory') {
-          console.log('- DEV: ' + chalk.cyan('docker-compose up -d'));
+        if (this.prodDatabaseType != 'cassandra') {
+          console.log('Start services with profile');
+          if (jhipsterVar.devDatabaseType != 'h2Disk' && jhipsterVar.devDatabaseType != 'h2Memory') {
+            console.log('- DEV: ' + chalk.cyan('docker-compose up -d'));
+          }
+          console.log('- PROD: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d\n'));
+        } else {
+          console.log('Start Cassandra in Development Profile');
+          console.log('1) build: ' + chalk.cyan('docker-compose build'));
+          console.log('2) launch: ' + chalk.cyan('docker-compose up -d'));
+          console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-dev-cassandra init\n'));
+
+          console.log('Start Cassandra in Production Profile');
+          console.log('1) build: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml build'));
+          console.log('2) launch: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d'));
+          console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init\n'));
         }
-        console.log('- PROD: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d\n'));
+
         console.log('Start Sonar instance');
         console.log('- SONAR: ' + chalk.cyan('docker-compose -f docker/sonar.yml up -d\n'));
+
         if (this.prodDatabaseType == 'cassandra') {
-          console.log('Start Cluster Cassandra');
+          console.log('Start Cluster Cassandra in Production Profile');
           console.log('1) build: ' + chalk.cyan('docker-compose -f docker-compose-node.yml build'));
           console.log('2) launch: ' + chalk.cyan('docker-compose -f docker-compose-node.yml up -d'));
           console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init'));
