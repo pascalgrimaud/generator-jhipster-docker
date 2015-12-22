@@ -91,13 +91,13 @@ So you can use docker-compose to start your database in development or productio
 docker-compose up -d
 ```
 
-##### In production profile
-
-It will start Elasticsearch too if you selected it as search engine:
+##### In production profile:
 
 ```bash
 docker-compose -f docker-compose-prod.yml up -d
 ```
+
+It will start Elasticsearch too if you selected it as search engine.
 
 
 #### 1.3 - Working with Cassandra
@@ -283,6 +283,7 @@ You can read this documentation for more details:
 
 If you want, you can push your Docker image to Docker Hub.
 
+:warning: Don't put your credentials in config files, if you decided to push your application to [Docker Hub](https://hub.docker.com/) :warning:
 
 
 ## License
