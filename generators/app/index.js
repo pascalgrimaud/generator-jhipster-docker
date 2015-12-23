@@ -30,16 +30,21 @@ module.exports = yeoman.generators.Base.extend({
     },
     displayLogo: function () {
       console.log(chalk.cyan.bold(
-        '\n' +
-        '                              ##        .\n' +
-        '                        ## ## ##       ==\n' +
-        '                     ## ## ## ##      ===\n' +
-        '                 /""""""""""""""""\\___/ ===\n' +
-        '            ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~\n' +
-        '                 \\______ o          __/\n' +
-        '                   \\    \\        __/\n' +
-        '                    \\____\\______/\n'));
-      console.log(chalk.white.bold('              http://jhipster.github.io\n'));
+        '        _ _   _ _           _              ____             _             \n' +
+        '       | | | | (_)_ __  ___| |_ ___ _ __  |  _ \\  ___   ___| | _____ _ __ \n' +
+        '    _  | | |_| | | \'_ \\/ __| __/ _ \\ \'__| | | | |/ _ \\ / __| |/ / _ \\ \'__|\n' +
+        '   | |_| |  _  | | |_) \\__ \\ ||  __/ |    | |_| | (_) | (__|   <  __/ |   \n' +
+        '    \\___/|_| |_|_| .__/|___/\\__\\___|_|    |____/ \\___/ \\___|_|\\_\\___|_|   \n' +
+        '                 |_|                                                      \n' +
+        '                                      ##        .\n' +
+        '                                ## ## ##       ==\n' +
+        '                             ## ## ## ##      ===\n' +
+        '                         /""""""""""""""""\\___/ ===\n' +
+        '                    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~\n' +
+        '                         \\______ o          __/\n' +
+        '                           \\    \\        __/\n' +
+        '                            \\____\\______/\n'));
+      console.log(chalk.white.bold('                        http://jhipster.github.io\n'));
       console.log(chalk.white('Welcome to the ' + chalk.bold('JHipster Docker') + ' Generator! ' + chalk.yellow('v' + packagejs.version + '\n')));
     },
     checkOracle: function () {
