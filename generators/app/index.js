@@ -120,11 +120,11 @@ module.exports = yeoman.generators.Base.extend({
         name: 'dockerVersionDB',
         message: 'Choose the version of MySQL:',
         choices: [
-          {name: '5.5', value: '5.5'},
-          {name: '5.6', value: '5.6'},
-          {name: '5.7', value: '5.7'}
+          {name: '5.5.47', value: '5.5.47'},
+          {name: '5.6.28', value: '5.6.28'},
+          {name: '5.7.10', value: '5.7.10'}
         ],
-        default: '5.7'
+        default: '5.7.10'
       },{
         when: function (response) {
           return jhipsterVar.prodDatabaseType == 'postgresql';
@@ -133,12 +133,11 @@ module.exports = yeoman.generators.Base.extend({
         name: 'dockerVersionDB',
         message: 'Choose the version of PostgreSQL:',
         choices: [
-          {name: '9.2', value: '9.2'},
-          {name: '9.3', value: '9.3'},
-          {name: '9.4', value: '9.4'},
-          {name: '9.5', value: '9.5'}
+          {name: '9.2.14', value: '9.2.14'},
+          {name: '9.3.10', value: '9.3.10'},
+          {name: '9.4.5', value: '9.4.5'},
         ],
-        default: '9.4'
+        default: '9.4.5'
       },{
         when: function (response) {
           return jhipsterVar.prodDatabaseType == 'mongodb';
@@ -147,11 +146,11 @@ module.exports = yeoman.generators.Base.extend({
         name: 'dockerVersionDB',
         message: 'Choose the version of MongoDB:',
         choices: [
-          {name: '3.0', value: '3.0'},
-          {name: '3.1', value: '3.1'},
-          {name: '3.2', value: '3.2'}
+          {name: '3.0.8', value: '3.0.8'},
+          {name: '3.1.9', value: '3.1.9'},
+          {name: '3.2.0', value: '3.2.0'}
         ],
-        default: '3.0'
+        default: '3.0.8'
       },{
         when: function (response) {
           return jhipsterVar.prodDatabaseType == 'cassandra';
@@ -160,11 +159,10 @@ module.exports = yeoman.generators.Base.extend({
         name: 'dockerVersionDB',
         message: 'Choose the version of Cassandra:',
         choices: [
-          {name: '2.0', value: '2.0'},
-          {name: '2.1', value: '2.1'},
-          {name: '2.2', value: '2.2'}
+          {name: '2.1.12', value: '2.1.12'},
+          {name: '2.2.4', value: '2.2.4'}
         ],
-        default: '2.2'
+        default: '2.2.4'
       },{
         when: function (response) {
           return jhipsterVar.searchEngine == 'elasticsearch';
@@ -173,9 +171,9 @@ module.exports = yeoman.generators.Base.extend({
         name: 'dockerVersionSE',
         message: 'Choose the version of ElasticSearch:',
         choices: [
-          {name: '1.7', value: '1.7'}
+          {name: '1.7.4', value: '1.7.4'}
         ],
-        default: '1.7'
+        default: '1.7.4'
       },{
         when: function (response) {
           return response.dockerType == 'dockercompose';
@@ -252,23 +250,23 @@ module.exports = yeoman.generators.Base.extend({
       this.dockerVolumePath = '~/volumes/jhipster';
       switch (jhipsterVar.prodDatabaseType) {
         case 'mysql': {
-          this.dockerVersionDB = '5.7';
+          this.dockerVersionDB = '5.7.10';
           break;
         }
         case 'postgresql': {
-          this.dockerVersionDB = '9.4';
+          this.dockerVersionDB = '9.4.5';
           break;
         }
         case 'mongodb': {
-          this.dockerVersionDB = '3.0';
+          this.dockerVersionDB = '3.0.8';
           break;
         }
         case 'cassandra': {
-          this.dockerVersionDB = '2.2';
+          this.dockerVersionDB = '2.2.4';
           break;
         }
       }
-      this.dockerVersionSE = '1.7';
+      this.dockerVersionSE = '1.7.4';
       this.dockerVersionSonar = '4.5.6';
       done();
     } else {
