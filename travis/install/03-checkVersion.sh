@@ -13,3 +13,4 @@ yo --version
 grunt --version
 gulp -v
 docker version
+docker-compose version
