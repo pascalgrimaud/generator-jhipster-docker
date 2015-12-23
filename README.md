@@ -1,6 +1,6 @@
 # generator-jhipster-docker
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> Docker JHipster module, Docker support in your JHipster application
+> JHipster module, Docker support in your JHipster application
 
 <div align="center">
   <a href="http://jhipster.github.io">

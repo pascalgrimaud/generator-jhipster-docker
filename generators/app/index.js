@@ -40,7 +40,7 @@ module.exports = yeoman.generators.Base.extend({
         '                   \\    \\        __/\n' +
         '                    \\____\\______/\n'));
       console.log(chalk.white.bold('              http://jhipster.github.io\n'));
-      console.log(chalk.white('Welcome to the Docker JHipster Module ') + chalk.yellow('v' + packagejs.version + '\n'));
+      console.log(chalk.white('Welcome to the ' + chalk.bold('JHipster Docker') + ' Generator! ' + chalk.yellow('v' + packagejs.version + '\n')));
     },
     checkOracle: function () {
       if (jhipsterVar.prodDatabaseType == 'oracle') {
