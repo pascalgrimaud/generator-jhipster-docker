@@ -51,7 +51,7 @@ npm update -g generator-jhipster-docker
 
 ## Usage
 
-This is a [JHipster](http://jhipster.github.io/) module, that is meant to be use in a JHipster application.
+This is a [JHipster](http://jhipster.github.io/) module, that is meant to be used in a JHipster application.
 
 To run the module on a JHipster generated application:
 
@@ -224,7 +224,7 @@ When you stop a container, the data are not deleted, unless you delete the conta
 
 ##### Delete a container
 
-Be carefull! All data will be deleted (unless you used volumes):
+:warning: **Warning!** All data will be deleted (unless you used volumes):
 
 ```bash
 docker rm "container id"
