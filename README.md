@@ -122,7 +122,8 @@ Initialize the database by creating the Keyspace and the Tables:
 docker exec -it "container id" init
 ```
 
-##### In production profile:
+
+##### In production profile (with Clusters):
 
 Build the image:
 
@@ -142,6 +143,16 @@ Initialize the database by creating the Keyspace and the Tables:
 docker exec -it "container id" init
 ```
 
+Add X other nodes:
+
+```bash
+docker-compose -f docker-compose-prod.yml scale <name_of_your_app>-cassandra-node=X
+```
+
+Manage nodes with OpsCenter: [http://localhost:8888](http://localhost:8888)
+
+Before starting your application in production profile, add in your `application-prod.yml` every IP of containers to the key `spring.data.cassandra.contactPoints`
+
 
 ##### Starting Cassandra the next times
 
@@ -156,37 +167,6 @@ In production profile:
 ```bash
 docker-compose -f docker-compose-prod.yml up -d
 ```
-
-##### Starting Cassandra with Clusters
-
-Build the image:
-
-```bash
-docker-compose -f docker-compose-node.yml build
-```
-
-Start the container (it will show the container id):
-
-```bash
-docker-compose -f docker-compose-node.yml up -d
-```
-
-Initialize the database by creating the Keyspace and the Tables:
-
-```bash
-docker exec -it "container id" init
-```
-
-Add X other nodes:
-
-```bash
-docker-compose -f docker-compose-node.yml scale <name_of_your_app>-cassandra-node=X
-```
-
-Manage nodes with OpsCenter: [http://localhost:8888](http://localhost:8888)
-
-Before starting your application in production profile, add in your `application-prod.yml` every IP of containers to the key `spring.data.cassandra.contactPoints`
-
 
 
 #### 1.4 - Common commands
