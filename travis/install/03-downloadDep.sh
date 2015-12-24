@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ev
 #-------------------------------------------------------------------------------
-# Use official jhipster-travis-build that contain .m2 and node_modules
+# Use jhipster-travis-build that contain .m2 and node_modules
 #-------------------------------------------------------------------------------
 if [ $JHIPSTER_MVN_DEP == 1 ]; then
   cd $TRAVIS_BUILD_DIR/

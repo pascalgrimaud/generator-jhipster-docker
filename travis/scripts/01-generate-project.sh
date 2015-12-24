@@ -13,4 +13,6 @@ fi
 npm link generator-jhipster
 yo jhipster --force --no-insight
 yo jhipster-docker default --force --no-insight
-ls -al $HOME/$JHIPSTER $HOME/$JHIPSTER/node_modules/generator-jhipster/ $HOME/$JHIPSTER/node_modules/generator-jhipster/entity/
+ls -al $HOME/$JHIPSTER
+ls -al $HOME/$JHIPSTER/node_modules/generator-jhipster/
+ls -al $HOME/$JHIPSTER/node_modules/generator-jhipster/entity/
