@@ -122,9 +122,10 @@ module.exports = yeoman.generators.Base.extend({
         choices: [
           {name: '5.5.47', value: '5.5.47'},
           {name: '5.6.28', value: '5.6.28'},
+          {name: '5.7.9 (default)', value: '5.7.9'},
           {name: '5.7.10', value: '5.7.10'}
         ],
-        default: '5.7.10'
+        default: '5.7.9'
       },{
         when: function (response) {
           return jhipsterVar.prodDatabaseType == 'postgresql';
@@ -135,7 +136,7 @@ module.exports = yeoman.generators.Base.extend({
         choices: [
           {name: '9.2.14', value: '9.2.14'},
           {name: '9.3.10', value: '9.3.10'},
-          {name: '9.4.5', value: '9.4.5'},
+          {name: '9.4.5 (default)', value: '9.4.5'},
         ],
         default: '9.4.5'
       },{
@@ -146,11 +147,12 @@ module.exports = yeoman.generators.Base.extend({
         name: 'dockerVersionDB',
         message: 'Choose the version of MongoDB:',
         choices: [
+          {name: '3.0.7 (default)', value: '3.0.7'},
           {name: '3.0.8', value: '3.0.8'},
           {name: '3.1.9', value: '3.1.9'},
           {name: '3.2.0', value: '3.2.0'}
         ],
-        default: '3.0.8'
+        default: '3.0.7'
       },{
         when: function (response) {
           return jhipsterVar.prodDatabaseType == 'cassandra';
@@ -160,9 +162,10 @@ module.exports = yeoman.generators.Base.extend({
         message: 'Choose the version of Cassandra:',
         choices: [
           {name: '2.1.12', value: '2.1.12'},
+          {name: '2.2.3 (default)', value: '2.2.3'},
           {name: '2.2.4', value: '2.2.4'}
         ],
-        default: '2.2.4'
+        default: '2.2.3'
       },{
         when: function (response) {
           return jhipsterVar.searchEngine == 'elasticsearch';
@@ -171,9 +174,10 @@ module.exports = yeoman.generators.Base.extend({
         name: 'dockerVersionSE',
         message: 'Choose the version of ElasticSearch:',
         choices: [
+          {name: '1.7.3 (default)', value: '1.7.3'},
           {name: '1.7.4', value: '1.7.4'}
         ],
-        default: '1.7.4'
+        default: '1.7.3'
       },{
         when: function (response) {
           return response.dockerType == 'dockercompose';
@@ -182,7 +186,7 @@ module.exports = yeoman.generators.Base.extend({
         name: 'dockerVersionSonar',
         message: 'Choose the version of SonarQube:',
         choices: [
-          {name: '4.5.6 (lts)', value: '4.5.6'},
+          {name: '4.5.6 (default)', value: '4.5.6'},
           {name: 'latest', value: 'latest'}
         ],
         default: '4.5.6'
@@ -250,7 +254,7 @@ module.exports = yeoman.generators.Base.extend({
       this.dockerVolumePath = '~/volumes/jhipster';
       switch (jhipsterVar.prodDatabaseType) {
         case 'mysql': {
-          this.dockerVersionDB = '5.7.10';
+          this.dockerVersionDB = '5.7.9';
           break;
         }
         case 'postgresql': {
@@ -258,15 +262,15 @@ module.exports = yeoman.generators.Base.extend({
           break;
         }
         case 'mongodb': {
-          this.dockerVersionDB = '3.0.8';
+          this.dockerVersionDB = '3.0.7';
           break;
         }
         case 'cassandra': {
-          this.dockerVersionDB = '2.2.4';
+          this.dockerVersionDB = '2.2.3';
           break;
         }
       }
-      this.dockerVersionSE = '1.7.4';
+      this.dockerVersionSE = '1.7.3';
       this.dockerVersionSonar = '4.5.6';
       done();
     } else {
@@ -309,6 +313,7 @@ module.exports = yeoman.generators.Base.extend({
 
     // Create docker-compose files
     if (this.dockerType == "dockercompose") {
+      this.template('docker/_sonar.yml', 'docker/sonar.yml', this, {});
       if (this.devDatabaseType != "h2Disk" && this.devDatabaseType != "h2Memory" && this.devDatabaseType != "oracle") {
         this.template('_docker-compose.yml', 'docker-compose.yml', this, {});
       }
@@ -316,17 +321,11 @@ module.exports = yeoman.generators.Base.extend({
         this.template('_docker-compose-prod.yml', 'docker-compose-prod.yml', this, {});
       }
       if (this.devDatabaseType == "cassandra") {
-        this.template('docker/cassandra/_Cassandra-Dev.Dockerfile', 'Cassandra-Dev.Dockerfile', this, {});
-        this.template('docker/cassandra/_Cassandra-Prod.Dockerfile', 'Cassandra-Prod.Dockerfile', this, {});
-        this.template('docker/cassandra/_Cassandra-Node.Dockerfile', 'Cassandra-Node.Dockerfile', this, {});
-        this.template('_docker-compose-node.yml', 'docker-compose-node.yml', this, {});
-
-        this.template('docker/cassandra/_Cassandra-Node.Dockerfile', 'Cassandra-Node.Dockerfile', this, {});
-        this.template('docker/cassandra/_Opscenter.Dockerfile', 'docker/cassandra/Opscenter.Dockerfile', this, {});
-        this.template('docker/cassandra/_cassandra.sh', 'docker/cassandra/cassandra.sh', this, {});
-
+          this.template('_Cassandra-Dev.Dockerfile', 'Cassandra-Dev.Dockerfile', this, {});
+          this.template('_Cassandra-Prod.Dockerfile', 'Cassandra-Prod.Dockerfile', this, {});
+          this.template('docker/cassandra/_cassandra.sh', 'docker/cassandra/cassandra.sh', this, {});
+          this.template('docker/opscenter/_Dockerfile', 'docker/opscenter/Dockerfile', this, {});
       }
-      this.template('docker/_sonar.yml', 'docker/sonar.yml', this, {});
     }
 
     // Create Dockerfile for automated build at docker-hub

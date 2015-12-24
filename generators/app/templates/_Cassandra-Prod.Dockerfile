@@ -10,10 +10,10 @@ RUN echo "stomp_interface: opscenter" >> /opt/datastax-agent/conf/address.yaml
 ADD docker/cassandra/cassandra.sh /cassandra.sh
 RUN chmod a+x /cassandra.sh
 
-# add scripts cql
+# add script cql
 ADD src/main/resources/config/cql/ /cql/
 
-# concat 2 scripts to 1
+# concat all scripts to 1
 RUN cat /cql/create-keyspace-prod.cql > create-keyspace-tables.cql
 RUN echo "USE <%=baseName%>;" >> create-keyspace-tables.cql
 RUN cat /cql/create-tables.cql >> create-keyspace-tables.cql
