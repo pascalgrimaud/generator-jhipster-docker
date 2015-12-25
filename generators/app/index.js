@@ -410,10 +410,10 @@ module.exports = yeoman.generators.Base.extend({
           console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-dev-cassandra init\n'));
 
           console.log('Start Cluster Cassandra in Production Profile');
-          console.log('1) build: ' + chalk.cyan('docker-compose -f docker-compose-node.yml build'));
-          console.log('2) launch: ' + chalk.cyan('docker-compose -f docker-compose-node.yml up -d'));
+          console.log('1) build: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml build'));
+          console.log('2) launch: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d'));
           console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init'));
-          console.log('4) optional - launch X nodes (with X>=3): ' + chalk.cyan('docker-compose -f docker-compose-node.yml scale ' + this.baseName.toLowerCase() + '-cassandra-node=X'));
+          console.log('4) optional - launch X nodes (with X>=3): ' + chalk.cyan('docker-compose -f docker-compose-prod.yml scale ' + this.baseName.toLowerCase() + '-cassandra-node=X'));
           console.log('5) access to OpsCenter: ' + chalk.cyan('http://localhost:8888'));
           console.log('6) add in your ' + chalk.cyan('application-prod.yml') + ' every IP of containers at ' + chalk.cyan('spring.data.cassandra.contactPoints\n'));
         }
