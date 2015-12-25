@@ -29,21 +29,21 @@ module.exports = yeoman.generators.Base.extend({
       }
     },
     displayLogo: function () {
-      console.log(chalk.cyan.bold(
-        '        _ _   _ _           _              ____             _             \n' +
-        '       | | | | (_)_ __  ___| |_ ___ _ __  |  _ \\  ___   ___| | _____ _ __ \n' +
-        '    _  | | |_| | | \'_ \\/ __| __/ _ \\ \'__| | | | |/ _ \\ / __| |/ / _ \\ \'__|\n' +
-        '   | |_| |  _  | | |_) \\__ \\ ||  __/ |    | |_| | (_) | (__|   <  __/ |   \n' +
-        '    \\___/|_| |_|_| .__/|___/\\__\\___|_|    |____/ \\___/ \\___|_|\\_\\___|_|   \n' +
-        '                 |_|                                                      \n' +
-        '                                      ##        .\n' +
-        '                                ## ## ##       ==\n' +
-        '                             ## ## ## ##      ===\n' +
-        '                         /""""""""""""""""\\___/ ===\n' +
-        '                    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~\n' +
-        '                         \\______ o          __/\n' +
-        '                           \\    \\        __/\n' +
-        '                            \\____\\______/\n'));
+      console.log(' \n' +
+        chalk.cyan.bold('        _ _   _ _           _              ____             _             \n') +
+        chalk.cyan.bold('       | | | | (_)_ __  ___| |_ ___ _ __  |  _ \\  ___   ___| | _____ _ __ \n') +
+        chalk.cyan.bold('    _  | | |_| | | \'_ \\/ __| __/ _ \\ \'__| | | | |/ _ \\ / __| |/ / _ \\ \'__|\n') +
+        chalk.cyan.bold('   | |_| |  _  | | |_) \\__ \\ ||  __/ |    | |_| | (_) | (__|   <  __/ |   \n') +
+        chalk.cyan.bold('    \\___/|_| |_|_| .__/|___/\\__\\___|_|    |____/ \\___/ \\___|_|\\_\\___|_|   \n') +
+        chalk.cyan.bold('                 |_|                                                      \n') +
+        chalk.cyan.bold('                                      ##        .\n') +
+        chalk.cyan.bold('                                ## ## ##       ==\n') +
+        chalk.cyan.bold('                             ## ## ## ##      ===\n') +
+        chalk.cyan.bold('                         /""""""""""""""""\\___/ ===\n') +
+        chalk.cyan.bold('                    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~\n') +
+        chalk.cyan.bold('                         \\______ o          __/\n') +
+        chalk.cyan.bold('                           \\    \\        __/\n') +
+        chalk.cyan.bold('                            \\____\\______/\n'));
       console.log(chalk.white.bold('                        http://jhipster.github.io\n'));
       console.log(chalk.white('Welcome to the ' + chalk.bold('JHipster Docker') + ' Generator! ' + chalk.yellow('v' + packagejs.version + '\n')));
     },
@@ -242,7 +242,7 @@ module.exports = yeoman.generators.Base.extend({
         message: 'Docker Hub: do you want to push to docker-hub?',
         choices: [
           {name: 'No', value: false},
-          {name: 'Yes' + chalk.bold(' - Warning! Don\'t put your credentials in your properties files (application-prod.yml)'), value: true}
+          {name: 'Yes - ' + chalk.yellow(chalk.bold('WARNING!') + ' Don\'t put your credentials in your properties files (application-prod.yml)'), value: true}
         ],
         default: false
       }
@@ -397,35 +397,30 @@ module.exports = yeoman.generators.Base.extend({
       case 'dockercompose': {
         console.log('\n' + chalk.bold.green('##### USAGE #####'));
         if (this.prodDatabaseType != 'cassandra') {
-          console.log('Start services with profile');
           if (jhipsterVar.devDatabaseType != 'h2Disk' && jhipsterVar.devDatabaseType != 'h2Memory') {
-            console.log('- DEV: ' + chalk.cyan('docker-compose up -d'));
+            console.log('Start services in Development Profile');
+            console.log('- launch: ' + chalk.cyan('docker-compose up -d\n'));
           }
-          console.log('- PROD: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d\n'));
+          console.log('Start services in Production Profile');
+          console.log('- launch: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d\n'));
         } else {
           console.log('Start Cassandra in Development Profile');
           console.log('1) build: ' + chalk.cyan('docker-compose build'));
           console.log('2) launch: ' + chalk.cyan('docker-compose up -d'));
           console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-dev-cassandra init\n'));
 
-          console.log('Start Cassandra in Production Profile');
-          console.log('1) build: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml build'));
-          console.log('2) launch: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d'));
-          console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init\n'));
-        }
-
-        console.log('Start Sonar instance');
-        console.log('- SONAR: ' + chalk.cyan('docker-compose -f docker/sonar.yml up -d\n'));
-
-        if (this.prodDatabaseType == 'cassandra') {
           console.log('Start Cluster Cassandra in Production Profile');
           console.log('1) build: ' + chalk.cyan('docker-compose -f docker-compose-node.yml build'));
           console.log('2) launch: ' + chalk.cyan('docker-compose -f docker-compose-node.yml up -d'));
           console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init'));
-          console.log('4) launch X nodes (with X>=3): ' + chalk.cyan('docker-compose -f docker-compose-node.yml scale ' + this.baseName.toLowerCase() + '-cassandra-node=X'));
+          console.log('4) optional - launch X nodes (with X>=3): ' + chalk.cyan('docker-compose -f docker-compose-node.yml scale ' + this.baseName.toLowerCase() + '-cassandra-node=X'));
           console.log('5) access to OpsCenter: ' + chalk.cyan('http://localhost:8888'));
           console.log('6) add in your ' + chalk.cyan('application-prod.yml') + ' every IP of containers at ' + chalk.cyan('spring.data.cassandra.contactPoints\n'));
         }
+
+        console.log('Start Sonar instance');
+        console.log('- launch: ' + chalk.cyan('docker-compose -f docker/sonar.yml up -d\n'));
+
         break;
       }
       case 'automated': {
