@@ -432,7 +432,7 @@ jhipster-app:
 
 #### 3.3.5 - Start in dev profile
 
-You can use this variable environment **JHIPSTER_SPRING** to redefine all options to spring-boot when starting the JHipster application. For example, you can start this application in dev profile, without ElasticSearch and MySQL. The application will use H2 database:
+You can use this variable environment **JHIPSTER_SPRING** to redefine all spring-boot properties when starting the JHipster application. For example, you can start this application in dev profile, without ElasticSearch and MySQL. The application will use H2 database:
 
 ```yaml
 jhipster-app:
