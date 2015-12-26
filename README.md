@@ -30,7 +30,7 @@ You have to install Docker and Docker Compose:
 - [Docker](https://docs.docker.com/installation/#installation)
 - [Docker Compose](https://docs.docker.com/compose/install)
 
-To use *Automated build* or *push image*, you have to create an account at:
+To use *Automated build* or *Containerize your application*, you have to create an account at:
 
 - [https://hub.docker.com/](https://hub.docker.com/)
 
@@ -81,8 +81,6 @@ yo jhipster-docker default --force
 
 ### 1.1 - Description
 
-The main JHipster Generator already generated the docker-compose services described here: [docker_compose](https://http://jhipster.github.io/docker_compose.html). You can use this option to use a specific version of database or to use volumes.
-
 When using the option *Generate docker-compose services*, if your project uses MySQL, PostgreSQL, MongoDB or Cassandra, these files will be generated in your folder project:
 
 - docker-compose.yml
@@ -92,6 +90,8 @@ When using the option *Generate docker-compose services*, if your project uses M
 If your project uses Elasticsearch as search engine, the configuration will be included in the `docker-compose-prod.yml` file.
 
 So you can use docker-compose to start your database in development or production profile.
+
+The main JHipster Generator already generated the docker-compose services described here: [docker_compose](https://http://jhipster.github.io/docker_compose.html). You can use this option to use a specific version of database or to use volumes.
 
 ### 1.2 - Working with databases
 
@@ -103,7 +103,7 @@ So you can use docker-compose to start your database in development or productio
 docker-compose up -d
 ```
 
-**In production profile** (it will start Elasticsearch too if you selected it as search engine):
+**In production profile** (it will start ElasticSearch too if you selected it as search engine):
 
 ```bash
 docker-compose -f docker-compose-prod.yml up -d
@@ -151,7 +151,7 @@ Initialize the database by creating the Keyspace and the Tables:
 docker exec -it "container id" init
 ```
 
-Add X other nodes:
+Add X other nodes (it's optional):
 
 ```bash
 docker-compose -f docker-compose-prod.yml scale <name_of_your_app>-cassandra-node=X
@@ -243,17 +243,21 @@ docker rm "container id"
 
 ## 2 - Automated build at the [Docker Hub](https://hub.docker.com)
 
-### 2.1 - Generate the files
+### 2.1 - Description
+
+When using the option *Generate files for Automated build*, [Docker Hub](https://hub.docker.com) will build a Docker image everytime you commit to your repository.
+
+### 2.2 - Generate the files
 
 - Launch : `yo jhipster-docker`
-- Select the second option : `Generate files for Automated build at https://hub.docker.com/`
+- Select the option : `Generate files for Automated build at https://hub.docker.com/`
 - Answer all questions
     - Select the version of your database
     - Select the version of ElasticSearch
     - Put the URL of your Git repository
     - Put your Docker Hub username
 
-### 2.2 - Set your Docker Hub project
+### 2.3 - Set your Docker Hub project
 
 - Go to [https://hub.docker.com/r/username/](https://hub.docker.com/r/username/) (replace username by yours)
 - Menu Create:
@@ -300,13 +304,25 @@ If you want, you can push your Docker image to Docker Hub.
 
 ### 3.2 - Containerize your application
 
+- Launch : `yo jhipster-docker`
+- Select the option : `Containerize your application and push image to https://hub.docker.com/`
+- Answer all questions
+    - Select the version of your database
+    - Select the version of ElasticSearch
+    - Put your Docker Hub username
+    - Put your the tag
+    - Use volume or not
+    - Choose if you want to push your image to [Docker Hub](https://hub.docker.com/)
+
+:hourglass_flowing_sand: **Be patient!** This may take several minutes, depending on the speed of your connection.
+
 ### 3.3 - Examples
 
 #### 3.3.1 - Default
 
-#### 3.3.2 - Start in dev profile
+#### 3.3.2 - Use external properties
 
-#### 3.3.3 - Use external properties
+#### 3.3.3 - Start in dev profile
 
 # License
 

@@ -109,7 +109,7 @@ module.exports = yeoman.generators.Base.extend({
         choices: [
           {name: 'Generate docker-compose services', value: 'dockercompose'},
           {name: 'Generate files for Automated build at https://hub.docker.com/', value: 'automated'},
-          {name: 'Local build and push image to https://hub.docker.com/', value: 'dockerpush'}
+          {name: 'Containerize your application and push image to https://hub.docker.com/', value: 'dockerpush'}
         ],
         default: 'dockercompose'
       },{
