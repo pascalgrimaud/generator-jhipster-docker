@@ -30,7 +30,7 @@ You have to install Docker and Docker Compose:
 - [Docker](https://docs.docker.com/installation/#installation)
 - [Docker Compose](https://docs.docker.com/compose/install)
 
-To use *Automated build* or *Containerize your application*, you have to create an account at:
+To use *Automated build* or *Pushing your application to Docker Hub*, you have to create an account at:
 
 - [https://hub.docker.com/](https://hub.docker.com/)
 
@@ -290,7 +290,7 @@ When using the option *Generate files for Automated build*, [Docker Hub](https:/
 - Go to Build details: it should be a new line with Building
 - Go to Repo info and copy/paste in Full description the `docker/app-hub.yml`
 
-## 3 - Local build and push image to [Docker Hub](https://hub.docker.com/)
+## 3 - Containerize your application and push image to [Docker Hub](https://hub.docker.com/)
 
 ### 3.1 - Description
 
