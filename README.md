@@ -318,11 +318,132 @@ If you want, you can push your Docker image to Docker Hub.
 
 ### 3.3 - Examples
 
-#### 3.3.1 - Default
+#### 3.3.1 - Generate a JHipster application
+
+Use this `.yo-rc.json` to generate your JHipster application. All options are default, except ElasticSearch :
+
+```yaml
+{
+  "generator-jhipster": {
+    "baseName": "jhipster",
+    "packageName": "com.mycompany.myapp",
+    "packageFolder": "com/mycompany/myapp",
+    "authenticationType": "session",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "elasticsearch",
+    "useSass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "enableTranslation": true,
+    "enableSocialSignIn": false,
+    "rememberMeKey": "24d8cfa8a79d120b76c5b6076a766fa4eaee525f",
+    "testFrameworks": [
+      "gatling"
+    ]
+  }
+}
+```
+
+#### 3.3.2 - Containerize your JHipster application
+
+- Launch : `yo jhipster-docker`
+- Select the option : `Containerize your application and push image to https://hub.docker.com/`
+- Answer all questions
+    - Select the version of your database : use default
+    - Select the version of ElasticSearch : use default
+    - Put your Docker Hub username : put `example`
+    - Put your the tag : use default (latest)
+    - Use volume or not : use default (No)
+    - Choose if you want to push your image to [Docker Hub](https://hub.docker.com/) : use default (No)
+
+#### 3.3.3 - Use docker/app.yml
+
+The `docker/app.yml` is generated:
+
+```yaml
+jhipster-app-elasticsearch:
+  container_name: jhipster-app-elasticsearch
+  image: elasticsearch:1.7.3
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+jhipster-app-mysql:
+  container_name: jhipster-app-mysql
+  image: mysql:5.7.9
+  environment:
+    - MYSQL_USER=root
+    - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    - MYSQL_DATABASE=jhipster
+  ports:
+    - "3306:3306"
+  command: mysqld --lower_case_table_names=1
+jhipster-app:
+  container_name: jhipster-app
+  image: example/jhipster:latest
+  ports:
+    - "8080:8080"
+  links:
+    - "jhipster-app-elasticsearch:elastic"
+    - "jhipster-app-mysql:mysql"
+```
+
+You can use this file to start ElasticSearch, MySQL. Then, your JHipster application will start after 20sec:
+```bash
+docker-compose -f docker/app.yml up
+```
 
 #### 3.3.2 - Use external properties
 
+You can add other option to spring-boot, using this variable environment **JHIPSTER_SPRING_ADD**. For example, to redefine the server.port:
+
+```yaml
+jhipster-app-elasticsearch:
+  container_name: jhipster-app-elasticsearch
+  image: elasticsearch:1.7.3
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+jhipster-app-mysql:
+  container_name: jhipster-app-mysql
+  image: mysql:5.7.9
+  environment:
+    - MYSQL_USER=root
+    - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    - MYSQL_DATABASE=jhipster
+  ports:
+    - "3306:3306"
+  command: mysqld --lower_case_table_names=1
+jhipster-app:
+  container_name: jhipster-app
+  image: example/jhipster:latest
+  environment:
+    - JHIPSTER_SPRING_ADD=--server.port=18080
+  ports:
+    - "8080:18080"
+  links:
+    - "jhipster-app-elasticsearch:elastic"
+    - "jhipster-app-mysql:mysql"
+```
+
 #### 3.3.3 - Start in dev profile
+
+You can use this variable environment *JHIPSTER_SPRING* to redefine all options to spring-boot when starting the JHipster application. For example, you can start this application in dev profile, without ElasticSearch and MySQL. The application will use H2 database:
+
+```yaml
+jhipster-app:
+  container_name: jhipster-app
+  image: example/jhipster:latest
+  environment:
+    - JHIPSTER_SLEEP=1
+    - JHIPSTER_SPRING=--spring.profiles.active=dev
+  ports:
+    - "8080:8080"
+```
 
 # License
 
