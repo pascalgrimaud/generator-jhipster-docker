@@ -397,9 +397,9 @@ You can use this file to start ElasticSearch, MySQL. Then, your JHipster applica
 docker-compose -f docker/app.yml up
 ```
 
-#### 3.3.2 - Use external properties
+#### 3.3.4 - Add spring properties
 
-You can add other option to spring-boot, using this variable environment **JHIPSTER_SPRING_ADD**. For example, to redefine the server.port:
+You can add other spring-boot properties, using this variable environment **JHIPSTER_SPRING_ADD**. For example, to redefine the server.port:
 
 ```yaml
 jhipster-app-elasticsearch:
@@ -430,9 +430,9 @@ jhipster-app:
     - "jhipster-app-mysql:mysql"
 ```
 
-#### 3.3.3 - Start in dev profile
+#### 3.3.5 - Start in dev profile
 
-You can use this variable environment *JHIPSTER_SPRING* to redefine all options to spring-boot when starting the JHipster application. For example, you can start this application in dev profile, without ElasticSearch and MySQL. The application will use H2 database:
+You can use this variable environment **JHIPSTER_SPRING** to redefine all options to spring-boot when starting the JHipster application. For example, you can start this application in dev profile, without ElasticSearch and MySQL. The application will use H2 database:
 
 ```yaml
 jhipster-app:
