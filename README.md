@@ -309,11 +309,13 @@ If you want, you can push your Docker image to Docker Hub.
 - Launch : `yo jhipster-docker`
 - Select the option : `Containerize your application and push image to https://hub.docker.com/`
 - Answer all questions
+    - Select the base image
+    - If you selected Tomcat, put the url
     - Select the version of your database
     - Select the version of ElasticSearch
+    - Use volume or not
     - Put your Docker Hub username
     - Put your the tag
-    - Use volume or not
     - Choose if you want to push your image to [Docker Hub](https://hub.docker.com/)
 
 :hourglass_flowing_sand: **Be patient!** This may take several minutes, depending on the speed of your connection.
@@ -356,12 +358,12 @@ Use this `.yo-rc.json` to generate your JHipster application. All options are de
 - Launch : `yo jhipster-docker`
 - Select the option : `Containerize your application and push image to https://hub.docker.com/`
 - Answer all questions
-    - Select the base image : use default
+    - Select the base image : use default (Java)
     - Select the version of your database : use default
     - Select the version of ElasticSearch : use default
+    - Use volume or not : use default (No)
     - Put your Docker Hub username : put `example`
     - Put your the tag : use default (latest)
-    - Use volume or not : use default (No)
     - Choose if you want to push your image to [Docker Hub](https://hub.docker.com/) : use default (No)
 
 #### 3.3.3 - Use docker/app.yml
