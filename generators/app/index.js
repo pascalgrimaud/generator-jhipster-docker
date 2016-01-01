@@ -114,6 +114,29 @@ module.exports = yeoman.generators.Base.extend({
         default: 'dockercompose'
       },{
         when: function (response) {
+          return response.dockerType == 'dockerpush';
+        },
+        type: 'list',
+        name: 'dockerBaseImage',
+        message: 'Choose the base image',
+        choices: [
+          {name: 'java:openjdk-8u66-jre (default)', value: 'java:openjdk-8u66-jre'},
+          {name: 'tomcat:8.0.30-jre8', value: 'tomcat:8.0.30-jre8'}
+        ],
+        default: 'java:openjdk-8u66-jre'
+      },{
+        when: function (response) {
+          return response.dockerType == 'dockerpush' && response.dockerBaseImage == 'tomcat:8.0.30-jre8';
+        },
+        validate: function (input) {
+          if (/^([a-zA-Z0-9_]*)$/.test(input) && input != '') return true;
+          return 'The base domain url is mandatory, cannot contain special characters or a blank space';
+        },
+        name: 'dockerBaseUrl',
+        message: 'Choose the base domain url',
+        default: jhipsterVar.baseName
+      },{
+        when: function (response) {
           return jhipsterVar.prodDatabaseType == 'mysql';
         },
         type: 'list',
@@ -192,6 +215,14 @@ module.exports = yeoman.generators.Base.extend({
         default: '4.5.6'
       },{
         when: function (response) {
+          return response.dockerType != 'automated';
+        },
+        type: 'confirm',
+        name: 'dockerVolume',
+        message: 'Do you want to use volume?',
+        default: false
+      },{
+        when: function (response) {
           return response.dockerType == 'automated';
         },
         validate: function (input) {
@@ -218,14 +249,6 @@ module.exports = yeoman.generators.Base.extend({
         name: 'dockerTag',
         message: 'Docker Hub: what is the tag?',
         default: 'latest'
-      },{
-        when: function (response) {
-          return response.dockerType != 'automated';
-        },
-        type: 'confirm',
-        name: 'dockerVolume',
-        message: 'Do you want to use volume?',
-        default: false
       },{
         when: function (response) {
           return response.dockerType != 'automated' && response.dockerVolume;
@@ -282,6 +305,8 @@ module.exports = yeoman.generators.Base.extend({
         this.dockerVersionSE = props.dockerVersionSE;
         this.dockerVersionSonar = props.dockerVersionSonar;
         this.dockerRepoGithub = props.dockerRepoGithub;
+        this.dockerBaseImage = props.dockerBaseImage;
+        this.dockerBaseUrl = props.dockerBaseUrl;
         if (this.dockerRepoGithub) {
           var segments = this.dockerRepoGithub.split(path.sep);
           this.dockerNameGithub = segments[4].replace(/.git/g, '');
@@ -337,8 +362,13 @@ module.exports = yeoman.generators.Base.extend({
 
     // Create Dockerfile for pushing to docker-hub
     if (this.dockerType == "dockerpush") {
-      this.template('docker/push/_Dockerfile', 'docker/push/Dockerfile', this, {});
-      this.template('_run.sh', 'docker/push/run.sh', this, {});
+      if (this.dockerBaseImage == 'java:openjdk-8u66-jre') {
+        this.template('docker/push/_Openjdk.Dockerfile', 'docker/push/Dockerfile', this, {});
+        this.template('_run.sh', 'docker/push/run.sh', this, {});
+      } else if (this.dockerBaseImage == 'tomcat:8.0.30-jre8') {
+        this.template('docker/push/_Tomcat.Dockerfile', 'docker/push/Dockerfile', this, {});
+        this.template('_run.sh', 'docker/push/run.sh', this, {});
+      }
       this.template('docker/_app.yml', 'docker/app.yml', this, {});
       if (jhipsterVar.buildTool == 'maven') {
         jhipsterFunc.addMavenPlugin('com.spotify', 'docker-maven-plugin', '0.3.7',
@@ -452,7 +482,12 @@ module.exports = yeoman.generators.Base.extend({
           console.log('- wait at least 30sec to let docker up');
           console.log('- docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init');
         }
-        console.log('- docker-compose -f docker/app.yml up\n');
+        console.log('- docker-compose -f docker/app.yml up');
+        if (this.dockerBaseImage == 'java:openjdk-8u66-jre') {
+          console.log('- Access URL: http://localhost:8080/\n');
+        } else if (this.dockerBaseImage == 'tomcat:8.0.30-jre8') {
+          console.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
+        }
         break;
       }
     }

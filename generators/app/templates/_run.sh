@@ -63,6 +63,27 @@ fi
 if [ -d ${JHIPSTER_SLEEP} ]; then
     JHIPSTER_SLEEP=20
 fi
+<%_ if (dockerBaseImage == 'tomcat:8.0.30-jre8') { _%>
+echo "The Tomcat Server will start in ${JHIPSTER_SLEEP}sec..." && sleep ${JHIPSTER_SLEEP}
+if [ -d ${JHIPSTER_SPRING} ]; then
+  export JAVA_OPTS="-Dspring.profiles.active=prod ${JHIPSTER_SPRING_ADD}"
+  <%_ if (searchEngine == 'elasticsearch') { _%>
+  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.elasticsearch.cluster-nodes=\"${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES}\""
+  <%_ } if (prodDatabaseType == 'mysql' || prodDatabaseType == 'postgresql') { _%>
+  export JAVA_OPTS="${JAVA_OPTS} -Dspring.datasource.url=\"${SPRING_DATASOURCE_URL}\""
+  <%_ } if (prodDatabaseType == 'mongodb') { _%>
+  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.mongodb.host=\"${SPRING_DATA_MONGODB_HOST}\""
+  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.mongodb.port=\"${SPRING_DATA_MONGODB_PORT}\""
+  <%_ } if (prodDatabaseType == 'cassandra') { _%>
+  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.cassandra.contactpoints=\"${SPRING_DATA_CASSANDRA_CONTACTPOINTS}\""
+  <%_ } _%>
+else
+  export JAVA_OPTS="${JHIPSTER_SPRING}"
+fi
+echo "JAVA_OPTS=${JAVA_OPTS}"
+# start Apache Tomcat
+exec /usr/local/tomcat/bin/catalina.sh run
+<%_ } else { _%>
 echo "The application will start in ${JHIPSTER_SLEEP}sec..." && sleep ${JHIPSTER_SLEEP}
 if [ -d ${JHIPSTER_SPRING} ]; then
   java -jar /app.war \
@@ -81,3 +102,4 @@ else
   echo "java -jar /app.war ${JHIPSTER_SPRING}"
   java -jar /app.war ${JHIPSTER_SPRING}
 fi
+<%_ } _%>

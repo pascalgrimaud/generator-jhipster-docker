@@ -42,6 +42,8 @@ All these images come from the official [Docker Hub](https://hub.docker.com/):
 - [Cassandra](https://hub.docker.com/_/cassandra/)
 - [Elasticsearch](https://hub.docker.com/_/elasticsearch/)
 - [SonarQube](https://hub.docker.com/_/sonarqube/)
+- [Java](https://hub.docker.com/_/java/)
+- [Tomcat](https://hub.docker.com/_/tomcat/)
 
 # Installation
 
@@ -354,6 +356,7 @@ Use this `.yo-rc.json` to generate your JHipster application. All options are de
 - Launch : `yo jhipster-docker`
 - Select the option : `Containerize your application and push image to https://hub.docker.com/`
 - Answer all questions
+    - Select the base image : use default
     - Select the version of your database : use default
     - Select the version of ElasticSearch : use default
     - Put your Docker Hub username : put `example`
