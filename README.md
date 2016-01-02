@@ -44,6 +44,7 @@ All these images come from the official [Docker Hub](https://hub.docker.com/):
 - [SonarQube](https://hub.docker.com/_/sonarqube/)
 - [Java](https://hub.docker.com/_/java/)
 - [Tomcat](https://hub.docker.com/_/tomcat/)
+- [JBoss Wildfly](https://hub.docker.com/r/jboss/wildfly/)
 
 # Installation
 
