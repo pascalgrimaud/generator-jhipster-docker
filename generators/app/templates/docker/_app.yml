@@ -57,6 +57,9 @@
   <%_ } _%>
   ports:
     - "8080:8080"
+  <%_ if (dockerBaseImage == 'jboss/wildfly:9.0.1.Final') { _%>
+    - "9990:9990"
+  <%_ } _%>
   <%_ if (prodDatabaseType == 'cassandra') { _%>
   external_links:
     - "<%= baseName.toLowerCase() %>-app-cassandra:cassandra"

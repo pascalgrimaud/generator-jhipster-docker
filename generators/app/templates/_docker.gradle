@@ -7,12 +7,14 @@ task buildDocker(type: Docker, dependsOn: build) {
   dockerfile = file('docker/push/Dockerfile')
   doFirst {
     copy {
-      from(file('docker/push/run.sh'))
+      from "docker/push/"
       into stageDir
+      include "*.*"
     }
     copy {
-      from war
+      from "build/libs"
       into stageDir
+      include "*.war*"
     }
   }
 }

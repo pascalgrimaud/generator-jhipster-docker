@@ -121,12 +121,13 @@ module.exports = yeoman.generators.Base.extend({
         message: 'Choose the base image',
         choices: [
           {name: 'java:openjdk-8u66-jre (default)', value: 'java:openjdk-8u66-jre'},
-          {name: 'tomcat:8.0.30-jre8', value: 'tomcat:8.0.30-jre8'}
+          {name: 'tomcat:8.0.30-jre8', value: 'tomcat:8.0.30-jre8'},
+          {name: 'jboss/wildfly:9.0.1.Final', value: 'jboss/wildfly:9.0.1.Final'},
         ],
         default: 'java:openjdk-8u66-jre'
       },{
         when: function (response) {
-          return response.dockerType == 'dockerpush' && response.dockerBaseImage == 'tomcat:8.0.30-jre8';
+          return response.dockerType == 'dockerpush' && response.dockerBaseImage != 'java:openjdk-8u66-jre';
         },
         validate: function (input) {
           if (/^([a-zA-Z0-9_]*)$/.test(input) && input != '') return true;
@@ -368,7 +369,11 @@ module.exports = yeoman.generators.Base.extend({
       } else if (this.dockerBaseImage == 'tomcat:8.0.30-jre8') {
         this.template('docker/push/_Tomcat.Dockerfile', 'docker/push/Dockerfile', this, {});
         this.template('_run.sh', 'docker/push/run.sh', this, {});
+      } else if (this.dockerBaseImage == 'jboss/wildfly:9.0.1.Final') {
+        this.template('docker/push/_Wildfly.Dockerfile', 'docker/push/Dockerfile', this, {});
+        this.template('_run.sh', 'docker/push/run.sh', this, {});
       }
+
       this.template('docker/_app.yml', 'docker/app.yml', this, {});
       if (jhipsterVar.buildTool == 'maven') {
         jhipsterFunc.addMavenPlugin('com.spotify', 'docker-maven-plugin', '0.3.7',
@@ -379,7 +384,7 @@ module.exports = yeoman.generators.Base.extend({
           '                        <resource>\n' +
           '                            <targetPath>/</targetPath>\n' +
           '                            <directory>${project.build.directory}</directory>\n' +
-          '                            <include>${project.build.finalName}.war</include>\n' +
+          '                            <include>${project.build.finalName}.war*</include>\n' +
           '                        </resource>\n' +
           '                    </resources>\n' +
           '                </configuration>');
@@ -399,7 +404,7 @@ module.exports = yeoman.generators.Base.extend({
       this.dockerImageTag = this.dockerImage + ':' + this.dockerTag;
       var dockerCommand = 'mvn package -Pprod -DskipTests=true docker:build';
       if (jhipsterVar.buildTool == 'gradle') {
-        dockerCommand = './gradlew -Pprod build -x test buildDocker';
+        dockerCommand = './gradlew -Pprod bootRepackage -x test buildDocker';
       }
       dockerCommand += ' && docker tag -f ' + this.packageName + '/' + this.baseName.toLowerCase() + ':tmp ' + this.dockerImageTag;
       if (this.dockerPushToHub) {
@@ -486,6 +491,10 @@ module.exports = yeoman.generators.Base.extend({
         if (this.dockerBaseImage == 'java:openjdk-8u66-jre') {
           console.log('- Access URL: http://localhost:8080/\n');
         } else if (this.dockerBaseImage == 'tomcat:8.0.30-jre8') {
+          console.log('- Admin Tomcat URL (with admin/JH!pst3r): http://localhost:8080/');
+          console.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
+        } else if (this.dockerBaseImage == 'jboss/wildfly:9.0.1.Final') {
+          console.log('- Admin Wildfly URL (with tomcat/JH!pst3r): http://localhost:9990/');
           console.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
         }
         break;

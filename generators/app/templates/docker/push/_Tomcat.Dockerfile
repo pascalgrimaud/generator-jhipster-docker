@@ -1,7 +1,7 @@
 FROM tomcat:8.0.30-jre8
 VOLUME /tmp
 
-ADD *.war /usr/local/tomcat/webapps/<%= dockerBaseUrl %>.war
+ADD *.war.original /usr/local/tomcat/webapps/<%= dockerBaseUrl %>.war
 
 RUN bash -c 'touch /usr/local/tomcat/webapps/<%= dockerBaseUrl %>.war'
 ADD run.sh /run.sh

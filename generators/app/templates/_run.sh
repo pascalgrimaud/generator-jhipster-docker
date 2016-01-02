@@ -57,13 +57,13 @@ else
   echo "SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES init by configuration: ${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES}"
 fi
 <%_ } _%>
-################################################################################
-# Start application
-################################################################################
 if [ -d ${JHIPSTER_SLEEP} ]; then
     JHIPSTER_SLEEP=20
 fi
 <%_ if (dockerBaseImage == 'tomcat:8.0.30-jre8') { _%>
+################################################################################
+# Start application with Tomcat
+################################################################################
 echo "The Tomcat Server will start in ${JHIPSTER_SLEEP}sec..." && sleep ${JHIPSTER_SLEEP}
 if [ -d ${JHIPSTER_SPRING} ]; then
   export JAVA_OPTS="-Dspring.profiles.active=prod ${JHIPSTER_SPRING_ADD}"
@@ -83,7 +83,59 @@ fi
 echo "JAVA_OPTS=${JAVA_OPTS}"
 # start Apache Tomcat
 exec /usr/local/tomcat/bin/catalina.sh run
+
+<%_ } else if (dockerBaseImage == 'jboss/wildfly:9.0.1.Final') { _%>
+################################################################################
+# Start application with JBoss Wildfly
+################################################################################
+echo "Starting container : JBoss Wildfly 9.0.1.Final"
+# change the password
+if [ ! -f /.password ]; then
+	echo "Initializing the admin user password..."
+
+	# change password
+  /opt/jboss/wildfly/bin/add-user.sh admin JH!pst3r
+	touch /.password
+	echo "Initializing the admin user password : ok"
+fi
+# display info
+echo ""
+echo "######################################################################"
+echo "You can now configure to this JBoss Wildfly server using:"
+echo ""
+echo "    Username : admin"
+if [ ! -d ${PASS} ]; then
+	echo "    Password : ${PASS}"
+else
+	echo "    Password : ****************"
+fi
+echo ""
+echo "######################################################################"
+echo ""
+echo "The Wildfly Server will start in ${JHIPSTER_SLEEP}sec..." && sleep ${JHIPSTER_SLEEP}
+if [ -d ${JHIPSTER_SPRING} ]; then
+  export JAVA_OPTS="-Dspring.profiles.active=prod ${JHIPSTER_SPRING_ADD}"
+  <%_ if (searchEngine == 'elasticsearch') { _%>
+  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.elasticsearch.cluster-nodes=\"${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES}\""
+  <%_ } if (prodDatabaseType == 'mysql' || prodDatabaseType == 'postgresql') { _%>
+  export JAVA_OPTS="${JAVA_OPTS} -Dspring.datasource.url=\"${SPRING_DATASOURCE_URL}\""
+  <%_ } if (prodDatabaseType == 'mongodb') { _%>
+  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.mongodb.host=\"${SPRING_DATA_MONGODB_HOST}\""
+  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.mongodb.port=\"${SPRING_DATA_MONGODB_PORT}\""
+  <%_ } if (prodDatabaseType == 'cassandra') { _%>
+  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.cassandra.contactpoints=\"${SPRING_DATA_CASSANDRA_CONTACTPOINTS}\""
+  <%_ } _%>
+else
+  export JAVA_OPTS="${JHIPSTER_SPRING}"
+fi
+echo "JAVA_OPTS=${JAVA_OPTS}"
+# start JBoss Wilfdly
+exec /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
+
 <%_ } else { _%>
+################################################################################
+# Start application
+################################################################################
 echo "The application will start in ${JHIPSTER_SLEEP}sec..." && sleep ${JHIPSTER_SLEEP}
 if [ -d ${JHIPSTER_SPRING} ]; then
   java -jar /app.war \
