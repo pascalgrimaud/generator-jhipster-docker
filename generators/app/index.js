@@ -29,7 +29,7 @@ module.exports = yeoman.generators.Base.extend({
       }
     },
     displayLogo: function () {
-      console.log(' \n' +
+      this.log(' \n' +
         chalk.cyan.bold('        _ _   _ _           _              ____             _             \n') +
         chalk.cyan.bold('       | | | | (_)_ __  ___| |_ ___ _ __  |  _ \\  ___   ___| | _____ _ __ \n') +
         chalk.cyan.bold('    _  | | |_| | | \'_ \\/ __| __/ _ \\ \'__| | | | |/ _ \\ / __| |/ / _ \\ \'__|\n') +
@@ -44,12 +44,12 @@ module.exports = yeoman.generators.Base.extend({
         chalk.cyan.bold('                         \\______ o          __/\n') +
         chalk.cyan.bold('                           \\    \\        __/\n') +
         chalk.cyan.bold('                            \\____\\______/\n'));
-      console.log(chalk.white.bold('                        http://jhipster.github.io\n'));
-      console.log(chalk.white('Welcome to the ' + chalk.bold('JHipster Docker') + ' Generator! ' + chalk.yellow('v' + packagejs.version + '\n')));
+      this.log(chalk.white.bold('                        http://jhipster.github.io\n'));
+      this.log(chalk.white('Welcome to the ' + chalk.bold('JHipster Docker') + ' Generator! ' + chalk.yellow('v' + packagejs.version + '\n')));
     },
     checkOracle: function () {
       if (jhipsterVar.prodDatabaseType == 'oracle') {
-        console.log(chalk.red.bold('ERROR!') + ' Oracle isn\'t on the boat...\n');
+        this.log(chalk.red.bold('ERROR!') + ' Oracle isn\'t on the boat...\n');
         process.exit(1);
       }
     },
@@ -57,7 +57,7 @@ module.exports = yeoman.generators.Base.extend({
       var done = this.async();
       exec('docker --version', function (err) {
         if (err) {
-          console.log(chalk.yellow.bold('WARNING!') + ' You don\'t have docker installed.\n' +
+          this.log(chalk.yellow.bold('WARNING!') + ' You don\'t have docker installed.\n' +
             '         Read http://docs.docker.com/engine/installation/#installation\n');
         }
         done();
@@ -67,7 +67,7 @@ module.exports = yeoman.generators.Base.extend({
       var done = this.async();
       exec('docker-compose --version', function (err) {
         if (err) {
-          console.log(chalk.yellow.bold('WARNING!') + ' You don\'t have docker-compose installed.\n' +
+          this.log(chalk.yellow.bold('WARNING!') + ' You don\'t have docker-compose installed.\n' +
             '         Read https://docs.docker.com/compose/install/\n');
         }
         done();
@@ -77,7 +77,7 @@ module.exports = yeoman.generators.Base.extend({
       this.defaultGithubUrl = githubUrl.sync();
       if (this.defaultGithubUrl == null) {
         this.defaultGithubUrl = 'https://github.com/username/' + jhipsterVar.baseName + '.git';
-        console.log(chalk.yellow.bold('WARNING!') + ' This project doesn\'t have a remote-origin GitHub.\n' +
+        this.log(chalk.yellow.bold('WARNING!') + ' This project doesn\'t have a remote-origin GitHub.\n' +
           '         The option Automated build won\'t work correctly.\n');
       } else {
         this.defaultGithubUrl = this.defaultGithubUrl.replace(/git@github.com:/g, 'https:\/\/github.com\/');
@@ -306,7 +306,7 @@ module.exports = yeoman.generators.Base.extend({
         this.dockerVersionSE = props.dockerVersionSE;
         this.dockerVersionSonar = props.dockerVersionSonar;
         this.dockerRepoGithub = props.dockerRepoGithub;
-        this.dockerBaseImage = props.dockerBaseImage;
+
         this.dockerBaseUrl = props.dockerBaseUrl;
         if (this.dockerRepoGithub) {
           var segments = this.dockerRepoGithub.split(path.sep);
@@ -321,6 +321,22 @@ module.exports = yeoman.generators.Base.extend({
         this.dockerLogin = props.dockerLogin;
         this.dockerTag = props.dockerTag;
         this.dockerPushToHub = props.dockerPushToHub;
+
+        this.dockerBaseImage = props.dockerBaseImage;
+        switch (this.dockerBaseImage) {
+          case 'java:openjdk-8u66-jre': {
+            this.dockerTypeImage = 'java';
+            break;
+          }
+          case 'tomcat:8.0.30-jre8': {
+            this.dockerTypeImage = 'tomcat';
+            break;
+          }
+          case 'jboss/wildfly:9.0.1.Final': {
+            this.dockerTypeImage = 'wildfly';
+            break;
+          }
+        }
 
         done();
       }.bind(this));
@@ -411,12 +427,12 @@ module.exports = yeoman.generators.Base.extend({
         dockerCommand += ' && docker push ' + this.dockerImageTag;
       }
 
-      console.log('\nBuilding the image: ' + chalk.cyan.bold(this.dockerImageTag) + '\nThis may take several minutes...\n');
+      this.log('\nBuilding the image: ' + chalk.cyan.bold(this.dockerImageTag) + '\nThis may take several minutes...\n');
       var child = exec(dockerCommand, function (err, stdout) {
         if (err) {
           this.abort = true;
-          console.log(chalk.red.bold('ERROR!'));
-          console.log(err);
+          this.log(chalk.red.bold('ERROR!'));
+          this.log(err);
         }
         done();
       }.bind(this));
@@ -430,72 +446,72 @@ module.exports = yeoman.generators.Base.extend({
   end: function () {
     switch (this.dockerType) {
       case 'dockercompose': {
-        console.log('\n' + chalk.bold.green('##### USAGE #####'));
+        this.log('\n' + chalk.bold.green('##### USAGE #####'));
         if (this.prodDatabaseType != 'cassandra') {
           if (jhipsterVar.devDatabaseType != 'h2Disk' && jhipsterVar.devDatabaseType != 'h2Memory') {
-            console.log('Start services in Development Profile');
-            console.log('- launch: ' + chalk.cyan('docker-compose up -d\n'));
+            this.log('Start services in Development Profile');
+            this.log('- launch: ' + chalk.cyan('docker-compose up -d\n'));
           }
-          console.log('Start services in Production Profile');
-          console.log('- launch: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d\n'));
+          this.log('Start services in Production Profile');
+          this.log('- launch: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d\n'));
         } else {
-          console.log('Start Cassandra in Development Profile');
-          console.log('1) build: ' + chalk.cyan('docker-compose build'));
-          console.log('2) launch: ' + chalk.cyan('docker-compose up -d'));
-          console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-dev-cassandra init\n'));
+          this.log('Start Cassandra in Development Profile');
+          this.log('1) build: ' + chalk.cyan('docker-compose build'));
+          this.log('2) launch: ' + chalk.cyan('docker-compose up -d'));
+          this.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-dev-cassandra init\n'));
 
-          console.log('Start Cluster Cassandra in Production Profile');
-          console.log('1) build: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml build'));
-          console.log('2) launch: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d'));
-          console.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init'));
-          console.log('4) optional - launch X nodes (with X>=3): ' + chalk.cyan('docker-compose -f docker-compose-prod.yml scale ' + this.baseName.toLowerCase() + '-cassandra-node=X'));
-          console.log('5) access to OpsCenter: ' + chalk.cyan('http://localhost:8888'));
-          console.log('6) add in your ' + chalk.cyan('application-prod.yml') + ' every IP of containers at ' + chalk.cyan('spring.data.cassandra.contactPoints\n'));
+          this.log('Start Cluster Cassandra in Production Profile');
+          this.log('1) build: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml build'));
+          this.log('2) launch: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d'));
+          this.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init'));
+          this.log('4) optional - launch X nodes (with X>=3): ' + chalk.cyan('docker-compose -f docker-compose-prod.yml scale ' + this.baseName.toLowerCase() + '-cassandra-node=X'));
+          this.log('5) access to OpsCenter: ' + chalk.cyan('http://localhost:8888'));
+          this.log('6) add in your ' + chalk.cyan('application-prod.yml') + ' every IP of containers at ' + chalk.cyan('spring.data.cassandra.contactPoints\n'));
         }
 
-        console.log('Start Sonar instance');
-        console.log('- launch: ' + chalk.cyan('docker-compose -f docker/sonar.yml up -d\n'));
+        this.log('Start Sonar instance');
+        this.log('- launch: ' + chalk.cyan('docker-compose -f docker/sonar.yml up -d\n'));
 
         break;
       }
       case 'automated': {
-        console.log('\n' + chalk.bold.green('##### USAGE #####'));
-        console.log('To param your project as Automated build:');
-        console.log('- go to https://hub.docker.com/r/' + this.dockerLogin + '/');
-        console.log('- menu Create: Create Automated Build');
-        console.log('    - select the repository ' + chalk.cyan.bold(this.dockerRepoGithub));
-        console.log('    - put a description, then click on create');
-        console.log('- go to Build Settings');
-        console.log('    - choose your branch or let master by default');
-        console.log('    - put this Dockerfile location: ' + chalk.cyan.bold('/docker/hub/'));
-        console.log('    - click on Save Changes');
-        console.log('- return to this project: git commit and push these changes!\n');
-        console.log('- go to Build details: it should be a new line with ' + chalk.cyan.bold('Building'));
-        console.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('docker/app-hub.yml\n'));
+        this.log('\n' + chalk.bold.green('##### USAGE #####'));
+        this.log('To param your project as Automated build:');
+        this.log('- go to https://hub.docker.com/r/' + this.dockerLogin + '/');
+        this.log('- menu Create: Create Automated Build');
+        this.log('    - select the repository ' + chalk.cyan.bold(this.dockerRepoGithub));
+        this.log('    - put a description, then click on create');
+        this.log('- go to Build Settings');
+        this.log('    - choose your branch or let master by default');
+        this.log('    - put this Dockerfile location: ' + chalk.cyan.bold('/docker/hub/'));
+        this.log('    - click on Save Changes');
+        this.log('- return to this project: git commit and push these changes!\n');
+        this.log('- go to Build details: it should be a new line with ' + chalk.cyan.bold('Building'));
+        this.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('docker/app-hub.yml\n'));
         break;
       }
       case 'dockerpush': {
         if (this.abort) break;
-        console.log('\n' + chalk.bold.green('##### USAGE #####'));
+        this.log('\n' + chalk.bold.green('##### USAGE #####'));
         if (this.dockerPushToHub) {
-          console.log('Your image should now be live at:\n- ' + chalk.cyan.bold('https://hub.docker.com/r/' + this.dockerImage + '/tags/\n'));
-          console.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('docker/app.yml\n'));
+          this.log('Your image should now be live at:\n- ' + chalk.cyan.bold('https://hub.docker.com/r/' + this.dockerImage + '/tags/\n'));
+          this.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('docker/app.yml\n'));
         }
-        console.log('You can test your local image ' + chalk.cyan.bold(this.dockerImageTag));
+        this.log('You can test your local image ' + chalk.cyan.bold(this.dockerImageTag));
         if (this.prodDatabaseType == 'cassandra') {
-          console.log('- docker-compose -f docker-compose-prod.yml up -d');
-          console.log('- wait at least 30sec to let docker up');
-          console.log('- docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init');
+          this.log('- docker-compose -f docker-compose-prod.yml up -d');
+          this.log('- wait at least 30sec to let docker up');
+          this.log('- docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init');
         }
-        console.log('- docker-compose -f docker/app.yml up');
+        this.log('- docker-compose -f docker/app.yml up');
         if (this.dockerBaseImage == 'java:openjdk-8u66-jre') {
-          console.log('- Access URL: http://localhost:8080/\n');
+          this.log('- Access URL: http://localhost:8080/\n');
         } else if (this.dockerBaseImage == 'tomcat:8.0.30-jre8') {
-          console.log('- Admin Tomcat URL (with admin/JH!pst3r): http://localhost:8080/');
-          console.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
+          this.log('- Admin Tomcat URL (with tomcat/JH!pst3r): http://localhost:8080/');
+          this.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
         } else if (this.dockerBaseImage == 'jboss/wildfly:9.0.1.Final') {
-          console.log('- Admin Wildfly URL (with tomcat/JH!pst3r): http://localhost:9990/');
-          console.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
+          this.log('- Admin WildFly URL (with admin/JH!pst3r): http://localhost:9990/');
+          this.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
         }
         break;
       }

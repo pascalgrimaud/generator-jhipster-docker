@@ -58,13 +58,13 @@ else
 fi
 <%_ } _%>
 if [ -d ${JHIPSTER_SLEEP} ]; then
-    JHIPSTER_SLEEP=20
+  JHIPSTER_SLEEP=20
 fi
-<%_ if (dockerBaseImage == 'tomcat:8.0.30-jre8') { _%>
+<%_ if (dockerTypeImage == 'tomcat' || dockerTypeImage == 'wildfly') { _%>
 ################################################################################
-# Start application with Tomcat
+# Start Application Server
 ################################################################################
-echo "The Tomcat Server will start in ${JHIPSTER_SLEEP}sec..." && sleep ${JHIPSTER_SLEEP}
+echo "The Application Server will start in ${JHIPSTER_SLEEP}sec..." && sleep ${JHIPSTER_SLEEP}
 if [ -d ${JHIPSTER_SPRING} ]; then
   export JAVA_OPTS="-Dspring.profiles.active=prod ${JHIPSTER_SPRING_ADD}"
   <%_ if (searchEngine == 'elasticsearch') { _%>
@@ -80,58 +80,78 @@ if [ -d ${JHIPSTER_SPRING} ]; then
 else
   export JAVA_OPTS="${JHIPSTER_SPRING}"
 fi
-echo "JAVA_OPTS=${JAVA_OPTS}"
-# start Apache Tomcat
-exec /usr/local/tomcat/bin/catalina.sh run
 
-<%_ } else if (dockerBaseImage == 'jboss/wildfly:9.0.1.Final') { _%>
-################################################################################
-# Start application with JBoss Wildfly
-################################################################################
-echo "Starting container : JBoss Wildfly 9.0.1.Final"
+echo "Starting container : <%= dockerTypeImage %>"
+<%_ if (dockerTypeImage == 'tomcat') { _%>
 # change the password
 if [ ! -f /.password ]; then
-	echo "Initializing the admin user password..."
+  echo "Initializing the admin user password..."
+  # generate password
+  PASS=${TOMCAT_PASS:-JH!pst3r}
+  sed -i -e 's/<\/tomcat-users>//' ${CATALINA_HOME}/conf/tomcat-users.xml
+  echo '<role rolename="admin-gui"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+  echo '<role rolename="admin-script"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+  echo '<role rolename="manager-gui"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+  echo '<role rolename="manager-script"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+  echo '<role rolename="manager-jmx"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+  echo '<role rolename="manager-status"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+  echo '<user username="tomcat" password="'${PASS}'" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+  echo '</tomcat-users>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
 
-	# change password
-  /opt/jboss/wildfly/bin/add-user.sh admin JH!pst3r
-	touch /.password
-	echo "Initializing the admin user password : ok"
+  touch /.password
+  echo "Initializing the admin user password : ok"
 fi
 # display info
 echo ""
 echo "######################################################################"
-echo "You can now configure to this JBoss Wildfly server using:"
+echo "Base image: <%= dockerBaseImage %>"
+echo "You can now configure this server by using:"
 echo ""
-echo "    Username : admin"
+echo "    URL :      http://localhost:8080 (by default)"
+echo "    Username : tomcat"
 if [ ! -d ${PASS} ]; then
-	echo "    Password : ${PASS}"
+  echo "    Password : ${PASS}"
 else
-	echo "    Password : ****************"
+  echo "    Password : ****************"
 fi
+echo "    JAVA_OPTS=${JAVA_OPTS}"
 echo ""
 echo "######################################################################"
 echo ""
-echo "The Wildfly Server will start in ${JHIPSTER_SLEEP}sec..." && sleep ${JHIPSTER_SLEEP}
-if [ -d ${JHIPSTER_SPRING} ]; then
-  export JAVA_OPTS="-Dspring.profiles.active=prod ${JHIPSTER_SPRING_ADD}"
-  <%_ if (searchEngine == 'elasticsearch') { _%>
-  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.elasticsearch.cluster-nodes=\"${SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES}\""
-  <%_ } if (prodDatabaseType == 'mysql' || prodDatabaseType == 'postgresql') { _%>
-  export JAVA_OPTS="${JAVA_OPTS} -Dspring.datasource.url=\"${SPRING_DATASOURCE_URL}\""
-  <%_ } if (prodDatabaseType == 'mongodb') { _%>
-  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.mongodb.host=\"${SPRING_DATA_MONGODB_HOST}\""
-  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.mongodb.port=\"${SPRING_DATA_MONGODB_PORT}\""
-  <%_ } if (prodDatabaseType == 'cassandra') { _%>
-  export JAVA_OPTS="${JAVA_OPTS} -Dspring.data.cassandra.contactpoints=\"${SPRING_DATA_CASSANDRA_CONTACTPOINTS}\""
-  <%_ } _%>
-else
-  export JAVA_OPTS="${JHIPSTER_SPRING}"
+# start Apache Tomcat
+exec /usr/local/tomcat/bin/catalina.sh run
+<%_ } _%>
+
+<%_ if (dockerTypeImage == 'wildfly') { _%>
+# change the password
+if [ ! -f /.password ]; then
+  echo "Initializing the admin user password..."
+  # change password
+  PASS=${JBOSS_PASS:-JH!pst3r}
+  /opt/jboss/wildfly/bin/add-user.sh admin ${PASS}
+  touch /.password
+  echo "Initializing the admin user password : ok"
 fi
-echo "JAVA_OPTS=${JAVA_OPTS}"
+# display info
+echo ""
+echo "######################################################################"
+echo "Base image: <%= dockerBaseImage %>"
+echo "You can now configure this server by using:"
+echo ""
+echo "    URL :      http://localhost:9990 (by default)"
+echo "    Username : admin"
+if [ ! -d ${PASS} ]; then
+  echo "    Password : ${PASS}"
+else
+  echo "    Password : ****************"
+fi
+echo "    JAVA_OPTS=${JAVA_OPTS}"
+echo ""
+echo "######################################################################"
+echo ""
 # start JBoss Wilfdly
 exec /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
-
+<%_ } _%>
 <%_ } else { _%>
 ################################################################################
 # Start application
