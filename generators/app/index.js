@@ -322,19 +322,24 @@ module.exports = yeoman.generators.Base.extend({
         this.dockerTag = props.dockerTag;
         this.dockerPushToHub = props.dockerPushToHub;
 
-        this.dockerBaseImage = props.dockerBaseImage;
-        switch (this.dockerBaseImage) {
-          case 'java:openjdk-8u66-jre': {
-            this.dockerTypeImage = 'java';
-            break;
-          }
-          case 'tomcat:8.0.30-jre8': {
-            this.dockerTypeImage = 'tomcat';
-            break;
-          }
-          case 'jboss/wildfly:9.0.1.Final': {
-            this.dockerTypeImage = 'wildfly';
-            break;
+        if (this.dockerType == "automated") {
+          this.dockerBaseImage = 'java:openjdk-8u66-jre';
+          this.dockerTypeImage = 'java';
+        } else if (this.dockerType == 'dockerpush') {
+          this.dockerBaseImage = props.dockerBaseImage;
+          switch (this.dockerBaseImage) {
+            case 'java:openjdk-8u66-jre': {
+              this.dockerTypeImage = 'java';
+              break;
+            }
+            case 'tomcat:8.0.30-jre8': {
+              this.dockerTypeImage = 'tomcat';
+              break;
+            }
+            case 'jboss/wildfly:9.0.1.Final': {
+              this.dockerTypeImage = 'wildfly';
+              break;
+            }
           }
         }
 
