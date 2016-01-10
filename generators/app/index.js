@@ -405,7 +405,7 @@ module.exports = yeoman.generators.Base.extend({
         jhipsterFunc.addMavenPlugin('com.spotify', 'docker-maven-plugin', '0.3.7',
           '                <configuration>\n' +
           '                    <imageName>' + this.packageName.toLowerCase() + '/' + this.baseName.toLowerCase() + ':tmp</imageName>\n' +
-          '                    <dockerDirectory>docker/push</dockerDirectory>\n' +
+          '                    <dockerDirectory>src/main/docker/push</dockerDirectory>\n' +
           '                    <resources>\n' +
           '                        <resource>\n' +
           '                            <targetPath>/</targetPath>\n' +
@@ -460,27 +460,29 @@ module.exports = yeoman.generators.Base.extend({
         if (this.prodDatabaseType != 'cassandra') {
           if (jhipsterVar.devDatabaseType != 'h2Disk' && jhipsterVar.devDatabaseType != 'h2Memory') {
             this.log('Start services in Development Profile');
-            this.log('- launch: ' + chalk.cyan('docker-compose up -d\n'));
+            this.log('- launch: ' + chalk.cyan('docker-compose -f src/main/docker/dev.yml up -d\n'));
           }
           this.log('Start services in Production Profile');
-          this.log('- launch: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d\n'));
+          this.log('- launch: ' + chalk.cyan('docker-compose -f src/main/docker/prod.yml up -d\n'));
         } else {
           this.log('Start Cassandra in Development Profile');
-          this.log('1) build: ' + chalk.cyan('docker-compose build'));
-          this.log('2) launch: ' + chalk.cyan('docker-compose up -d'));
-          this.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-dev-cassandra init\n'));
+          this.log('1) build: ' + chalk.cyan('docker-compose -f src/main/docker/dev.yml build'));
+          this.log('2) launch: ' + chalk.cyan('docker-compose -f src/main/docker/dev.yml up -d'));
+          this.log('3) copy cql: ' + chalk.cyan('docker cp src/main/resources/config/cql/ ' + this.baseName.toLowerCase() + '-dev-cassandra:/'));
+          this.log('4) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-dev-cassandra init\n'));
 
           this.log('Start Cluster Cassandra in Production Profile');
-          this.log('1) build: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml build'));
-          this.log('2) launch: ' + chalk.cyan('docker-compose -f docker-compose-prod.yml up -d'));
-          this.log('3) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init'));
-          this.log('4) optional - launch X nodes (with X>=3): ' + chalk.cyan('docker-compose -f docker-compose-prod.yml scale ' + this.baseName.toLowerCase() + '-cassandra-node=X'));
+          this.log('1) build: ' + chalk.cyan('docker-compose -f src/main/docker/prod.yml build'));
+          this.log('2) launch: ' + chalk.cyan('docker-compose -f src/main/docker/prod.yml up -d'));
+          this.log('3) copy cql: ' + chalk.cyan('docker cp src/main/resources/config/cql/ ' + this.baseName.toLowerCase() + '-cassandra:/'));
+          this.log('4) init database with cql: ' + chalk.cyan('docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init'));
+          this.log('4) optional - launch X nodes (with X>=3): ' + chalk.cyan('docker-compose -f src/main/docker/prod.yml scale ' + this.baseName.toLowerCase() + '-cassandra-node=X'));
           this.log('5) access to OpsCenter: ' + chalk.cyan('http://localhost:8888'));
           this.log('6) add in your ' + chalk.cyan('application-prod.yml') + ' every IP of containers at ' + chalk.cyan('spring.data.cassandra.contactPoints\n'));
         }
 
         this.log('Start Sonar instance');
-        this.log('- launch: ' + chalk.cyan('docker-compose -f docker/sonar.yml up -d\n'));
+        this.log('- launch: ' + chalk.cyan('docker-compose -f src/main/docker/sonar.yml up -d\n'));
 
         break;
       }
@@ -493,11 +495,11 @@ module.exports = yeoman.generators.Base.extend({
         this.log('    - put a description, then click on create');
         this.log('- go to Build Settings');
         this.log('    - choose your branch or let master by default');
-        this.log('    - put this Dockerfile location: ' + chalk.cyan.bold('/docker/hub/'));
+        this.log('    - put this Dockerfile location: ' + chalk.cyan.bold('src/main/docker/hub/'));
         this.log('    - click on Save Changes');
         this.log('- return to this project: git commit and push these changes!\n');
         this.log('- go to Build details: it should be a new line with ' + chalk.cyan.bold('Building'));
-        this.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('docker/app-hub.yml\n'));
+        this.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('src/main/docker/app-hub.yml\n'));
         break;
       }
       case 'dockerpush': {
@@ -505,7 +507,7 @@ module.exports = yeoman.generators.Base.extend({
         this.log('\n' + chalk.bold.green('##### USAGE #####'));
         if (this.dockerPushToHub) {
           this.log('Your image should now be live at:\n- ' + chalk.cyan.bold('https://hub.docker.com/r/' + this.dockerImage + '/tags/\n'));
-          this.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('docker/app.yml\n'));
+          this.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('src/main/docker/app.yml\n'));
         }
         this.log('You can test your local image ' + chalk.cyan.bold(this.dockerImageTag));
         if (this.prodDatabaseType == 'cassandra') {
@@ -513,7 +515,7 @@ module.exports = yeoman.generators.Base.extend({
           this.log('- wait at least 30sec to let docker up');
           this.log('- docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init');
         }
-        this.log('- docker-compose -f docker/app.yml up');
+        this.log('- docker-compose -f src/main/docker/app.yml up');
         if (this.dockerBaseImage == 'java:openjdk-8u66-jre') {
           this.log('- Access URL: http://localhost:8080/\n');
         } else if (this.dockerBaseImage == 'tomcat:8.0.30-jre8') {
