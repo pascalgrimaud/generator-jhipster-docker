@@ -358,44 +358,49 @@ module.exports = yeoman.generators.Base.extend({
     this.searchEngine = jhipsterVar.searchEngine;
     this.buildTool = jhipsterVar.buildTool;
 
+    var dockerDir = 'src/main/docker/';
+
     // Create docker-compose files
     if (this.dockerType == "dockercompose") {
-      this.template('docker/_sonar.yml', 'docker/sonar.yml', this, {});
+      this.template(dockerDir + '_sonar.yml', dockerDir + 'sonar.yml', this, {});
       if (this.devDatabaseType != "h2Disk" && this.devDatabaseType != "h2Memory" && this.devDatabaseType != "oracle") {
-        this.template('_docker-compose.yml', 'docker-compose.yml', this, {});
+        this.template(dockerDir + '_dev.yml', dockerDir + 'dev.yml', this, {});
       }
       if (this.prodDatabaseType != "oracle" || searchEngine == "elasticsearch") {
-        this.template('_docker-compose-prod.yml', 'docker-compose-prod.yml', this, {});
+        this.template(dockerDir + '_prod.yml', dockerDir + 'prod.yml', this, {});
       }
       if (this.devDatabaseType == "cassandra") {
-          this.template('_Cassandra-Dev.Dockerfile', 'Cassandra-Dev.Dockerfile', this, {});
-          this.template('_Cassandra-Prod.Dockerfile', 'Cassandra-Prod.Dockerfile', this, {});
-          this.template('docker/cassandra/_cassandra.sh', 'docker/cassandra/cassandra.sh', this, {});
-          this.template('docker/opscenter/_Dockerfile', 'docker/opscenter/Dockerfile', this, {});
+        this.template(dockerDir + 'cassandra/_Cassandra-Dev.Dockerfile', dockerDir + 'cassandra/Cassandra-Dev.Dockerfile', this, {});
+        this.template(dockerDir + 'cassandra/_Cassandra-Prod.Dockerfile', dockerDir + 'cassandra/Cassandra-Prod.Dockerfile', this, {});
+        this.template(dockerDir + 'cassandra/scripts/_init-dev.sh', dockerDir + 'cassandra/scripts/init-dev.sh', this, {});
+        this.template(dockerDir + 'cassandra/scripts/_init-prod.sh', dockerDir + 'cassandra/scripts/init-prod.sh', this, {});
+        this.template(dockerDir + 'cassandra/scripts/_entities.sh', dockerDir + 'cassandra/scripts/entities.sh', this, {});
+        this.template(dockerDir + 'cassandra/scripts/_cassandra.sh', dockerDir + 'cassandra/scripts/cassandra.sh', this, {});
+        this.template(dockerDir + 'opscenter/_Dockerfile', dockerDir + 'opscenter/Dockerfile', this, {});
       }
     }
 
     // Create Dockerfile for automated build at docker-hub
     if (this.dockerType == "automated") {
-      this.template('docker/hub/_Dockerfile', 'docker/hub/Dockerfile', this, {});
-      this.template('_run.sh', 'docker/hub/run.sh', this, {});
-      this.template('docker/_app.yml', 'docker/app-hub.yml', this, {});
+      this.template(dockerDir + 'hub/_Dockerfile', dockerDir + 'hub/Dockerfile', this, {});
+      this.template(dockerDir + '_run.sh', dockerDir + 'hub/run.sh', this, {});
+      this.template(dockerDir + '_app.yml', dockerDir + 'app-hub.yml', this, {});
     }
 
     // Create Dockerfile for pushing to docker-hub
     if (this.dockerType == "dockerpush") {
       if (this.dockerBaseImage == 'java:openjdk-8u66-jre') {
-        this.template('docker/push/_Openjdk.Dockerfile', 'docker/push/Dockerfile', this, {});
-        this.template('_run.sh', 'docker/push/run.sh', this, {});
+        this.template(dockerDir + 'push/_Openjdk.Dockerfile', dockerDir + 'push/Dockerfile', this, {});
+        this.template(dockerDir + '_run.sh', dockerDir + 'push/run.sh', this, {});
       } else if (this.dockerBaseImage == 'tomcat:8.0.30-jre8') {
-        this.template('docker/push/_Tomcat.Dockerfile', 'docker/push/Dockerfile', this, {});
-        this.template('_run.sh', 'docker/push/run.sh', this, {});
+        this.template(dockerDir + 'push/_Tomcat.Dockerfile', dockerDir + 'push/Dockerfile', this, {});
+        this.template(dockerDir + '_run.sh', dockerDir + 'push/run.sh', this, {});
       } else if (this.dockerBaseImage == 'jboss/wildfly:9.0.1.Final') {
-        this.template('docker/push/_Wildfly.Dockerfile', 'docker/push/Dockerfile', this, {});
-        this.template('_run.sh', 'docker/push/run.sh', this, {});
+        this.template(dockerDir + 'push/_Wildfly.Dockerfile', dockerDir + 'push/Dockerfile', this, {});
+        this.template(dockerDir + '_run.sh', dockerDir + 'push/run.sh', this, {});
       }
 
-      this.template('docker/_app.yml', 'docker/app.yml', this, {});
+      this.template(dockerDir + '_app.yml', dockerDir + 'app.yml', this, {});
       if (jhipsterVar.buildTool == 'maven') {
         jhipsterFunc.addMavenPlugin('com.spotify', 'docker-maven-plugin', '0.3.7',
           '                <configuration>\n' +
