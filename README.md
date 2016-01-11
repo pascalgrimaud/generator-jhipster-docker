@@ -140,6 +140,18 @@ Initialize the database by creating the Keyspace and the Tables:
 docker exec -it "container id" init
 ```
 
+- After using entity sub generator, update the cql scripts inside the container:
+
+```bash
+docker cp src/main/resources/config/cql/ "container id":/
+```
+
+- Create the tables:
+
+```bash
+docker exec -it "container id" entities
+```
+
 **In production profile** (with Clusters):
 
 Build the image:
@@ -175,6 +187,18 @@ docker-compose -f src/main/docker/prod.yml scale <name_of_your_app>-cassandra-no
 Manage nodes with OpsCenter: [http://localhost:8888](http://localhost:8888)
 
 Before starting your application in production profile, add in your `application-prod.yml` every IP of containers to the key `spring.data.cassandra.contactPoints`
+
+After using entity sub generator, update the cql scripts inside the container:
+
+```bash
+docker cp src/main/resources/config/cql/ "container id":/
+```
+
+Create the tables:
+
+```bash
+docker exec -it "container id" entities
+```
 
 #### 1.2.3 - Starting Cassandra the next times
 
@@ -323,7 +347,7 @@ If you want, you can push your Docker image to Docker Hub.
 - Select the option : `Containerize your application and push image to https://hub.docker.com/`
 - Answer all questions
     - Select the base image
-    - If you selected Tomcat, put the url
+    - If you selected Tomcat or WildFly, put the url
     - Select the version of your database
     - Select the version of ElasticSearch
     - Use volume or not
