@@ -7,7 +7,14 @@ npm install -g yo
 npm install -g bower
 npm install -g grunt-cli
 npm install -g gulp
-npm install -g generator-jhipster
+#-------------------------------------------------------------------------------
+# Install the latest version of generator-jhipster
+#-------------------------------------------------------------------------------
+cd $HOME/
+git clone https://github.com/jhipster/generator-jhipster.git
+cd generator-jhipster/
+npm install
+npm link
 #-------------------------------------------------------------------------------
 # Install the latest version of generator-jhipster-docker
 #-------------------------------------------------------------------------------
