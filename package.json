@@ -21,10 +21,19 @@
     "main": "generators/app/index.js",
     "repository": "https://github.com/pascalgrimaud/generator-jhipster-docker",
     "dependencies": {
-        "yeoman-generator": "0.21.1",
-        "chalk": "1.0.0",
+        "chalk": "1.1.1",
+        "generator-jhipster": ">=2.26.0",
         "remote-origin-url": "^0.4.0",
-        "generator-jhipster": ">=2.26.0"
+        "yeoman-generator": "0.22.2"
+    },
+    "devDependencies": {
+        "fs-extra": "0.26.4",
+        "mocha": "2.3.4",
+        "yeoman-assert": "2.1.1",
+        "yeoman-test": "1.0.0"
+    },
+    "scripts": {
+        "test": "mocha test/*"
     },
     "license": "Apache-2.0"
 }

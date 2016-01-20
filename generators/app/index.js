@@ -14,16 +14,18 @@ var jhipsterVar = {moduleName: 'docker'};
 // Stores JHipster functions
 var jhipsterFunc = {};
 
-module.exports = yeoman.generators.Base.extend({
-
+module.exports = yeoman.Base.extend({
   initializing: {
     templates: function (args) {
-      this.composeWith('jhipster:modules', {
-        options: {
-          jhipsterVar: jhipsterVar,
-          jhipsterFunc: jhipsterFunc
-        }
-      });
+      this.composeWith('jhipster:modules',
+        {
+          options: {
+            jhipsterVar: jhipsterVar,
+            jhipsterFunc: jhipsterFunc
+          }
+        },
+        this.options.testmode ? {local: require.resolve('generator-jhipster/modules')} : null
+      );
       if (args == 'default' || args == 'compose' || args == 'dockercompose') {
         this.dockerDefault = 'dockercompose';
       }
