@@ -51,8 +51,7 @@ module.exports = yeoman.Base.extend({
     },
     checkOracle: function () {
       if (jhipsterVar.prodDatabaseType === 'oracle') {
-        this.log(chalk.red.bold('ERROR!') + ' Oracle isn\'t on the boat...\n');
-        process.exit(1);
+        this.env.error(chalk.red.bold('ERROR!') + ' Oracle isn\'t on the boat...\n');
       }
     },
     checkDocker: function () {
