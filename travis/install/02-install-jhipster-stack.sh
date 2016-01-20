@@ -13,11 +13,11 @@ npm install -g gulp
 cd $HOME/
 git clone https://github.com/jhipster/generator-jhipster.git
 cd generator-jhipster/
-npm install
-npm link
+npm install . -g
 #-------------------------------------------------------------------------------
 # Install the latest version of generator-jhipster-docker
 #-------------------------------------------------------------------------------
 cd $TRAVIS_BUILD_DIR/
 npm install
 npm link
+npm test
