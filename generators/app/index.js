@@ -26,7 +26,7 @@ module.exports = yeoman.Base.extend({
         },
         this.options.testmode ? {local: require.resolve('generator-jhipster/modules')} : null
       );
-      if (args == 'default' || args == 'compose' || args == 'dockercompose') {
+      if (args === 'default' || args === 'compose' || args === 'dockercompose') {
         this.dockerDefault = 'dockercompose';
       }
     },
@@ -39,10 +39,10 @@ module.exports = yeoman.Base.extend({
         chalk.cyan.bold('    \\___/|_| |_|_| .__/|___/\\__\\___|_|    |____/ \\___/ \\___|_|\\_\\___|_|   \n') +
         chalk.cyan.bold('                 |_|                                                      \n') +
         chalk.cyan.bold('                                      ##        .\n') +
-        chalk.cyan.bold('                                ## ## ##       ==\n') +
-        chalk.cyan.bold('                             ## ## ## ##      ===\n') +
-        chalk.cyan.bold('                         /""""""""""""""""\\___/ ===\n') +
-        chalk.cyan.bold('                    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~\n') +
+        chalk.cyan.bold('                                ## ## ##       ===\n') +
+        chalk.cyan.bold('                             ## ## ## ##      ====\n') +
+        chalk.cyan.bold('                         /""""""""""""""""\\___/ ====\n') +
+        chalk.cyan.bold('                    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ====- ~~~\n') +
         chalk.cyan.bold('                         \\______ o          __/\n') +
         chalk.cyan.bold('                           \\    \\        __/\n') +
         chalk.cyan.bold('                            \\____\\______/\n'));
@@ -50,7 +50,7 @@ module.exports = yeoman.Base.extend({
       this.log(chalk.white('Welcome to the ' + chalk.bold('JHipster Docker') + ' Generator! ' + chalk.yellow('v' + packagejs.version + '\n')));
     },
     checkOracle: function () {
-      if (jhipsterVar.prodDatabaseType == 'oracle') {
+      if (jhipsterVar.prodDatabaseType === 'oracle') {
         this.log(chalk.red.bold('ERROR!') + ' Oracle isn\'t on the boat...\n');
         process.exit(1);
       }
@@ -77,7 +77,7 @@ module.exports = yeoman.Base.extend({
     },
     checkGithubUrl: function () {
       this.defaultGithubUrl = githubUrl.sync();
-      if (this.defaultGithubUrl == null) {
+      if (this.defaultGithubUrl === null) {
         this.defaultGithubUrl = 'https://github.com/username/' + jhipsterVar.baseName + '.git';
         this.log(chalk.yellow.bold('WARNING!') + ' This project doesn\'t have a remote-origin GitHub.\n' +
           '         The option Automated build won\'t work correctly.\n');
@@ -92,7 +92,7 @@ module.exports = yeoman.Base.extend({
     var prompts = [
       {
         when: function (response) {
-          return jhipsterVar.prodDatabaseType == 'cassandra';
+          return jhipsterVar.prodDatabaseType === 'cassandra';
         },
         type: 'list',
         name: 'dockerType',
@@ -103,7 +103,7 @@ module.exports = yeoman.Base.extend({
         default: 'dockercompose'
       },{
         when: function (response) {
-          return jhipsterVar.prodDatabaseType != 'cassandra';
+          return jhipsterVar.prodDatabaseType !== 'cassandra';
         },
         type: 'list',
         name: 'dockerType',
@@ -116,7 +116,7 @@ module.exports = yeoman.Base.extend({
         default: 'dockercompose'
       },{
         when: function (response) {
-          return response.dockerType == 'dockerpush';
+          return response.dockerType === 'dockerpush';
         },
         type: 'list',
         name: 'dockerBaseImage',
@@ -129,10 +129,10 @@ module.exports = yeoman.Base.extend({
         default: 'java:openjdk-8u66-jre'
       },{
         when: function (response) {
-          return response.dockerType == 'dockerpush' && response.dockerBaseImage != 'java:openjdk-8u66-jre';
+          return response.dockerType === 'dockerpush' && response.dockerBaseImage !== 'java:openjdk-8u66-jre';
         },
         validate: function (input) {
-          if (/^([a-zA-Z0-9_]*)$/.test(input) && input != '') return true;
+          if (/^([a-zA-Z0-9_]*)$/.test(input) && input !== '') return true;
           return 'The base domain url is mandatory, cannot contain special characters or a blank space';
         },
         name: 'dockerBaseUrl',
@@ -140,7 +140,7 @@ module.exports = yeoman.Base.extend({
         default: jhipsterVar.baseName
       },{
         when: function (response) {
-          return jhipsterVar.prodDatabaseType == 'mysql';
+          return jhipsterVar.prodDatabaseType === 'mysql';
         },
         type: 'list',
         name: 'dockerVersionDB',
@@ -154,7 +154,7 @@ module.exports = yeoman.Base.extend({
         default: '5.7.9'
       },{
         when: function (response) {
-          return jhipsterVar.prodDatabaseType == 'postgresql';
+          return jhipsterVar.prodDatabaseType === 'postgresql';
         },
         type: 'list',
         name: 'dockerVersionDB',
@@ -167,7 +167,7 @@ module.exports = yeoman.Base.extend({
         default: '9.4.5'
       },{
         when: function (response) {
-          return jhipsterVar.prodDatabaseType == 'mongodb';
+          return jhipsterVar.prodDatabaseType === 'mongodb';
         },
         type: 'list',
         name: 'dockerVersionDB',
@@ -181,7 +181,7 @@ module.exports = yeoman.Base.extend({
         default: '3.0.7'
       },{
         when: function (response) {
-          return jhipsterVar.prodDatabaseType == 'cassandra';
+          return jhipsterVar.prodDatabaseType === 'cassandra';
         },
         type: 'list',
         name: 'dockerVersionDB',
@@ -194,7 +194,7 @@ module.exports = yeoman.Base.extend({
         default: '2.2.3'
       },{
         when: function (response) {
-          return jhipsterVar.searchEngine == 'elasticsearch';
+          return jhipsterVar.searchEngine === 'elasticsearch';
         },
         type: 'list',
         name: 'dockerVersionSE',
@@ -206,7 +206,7 @@ module.exports = yeoman.Base.extend({
         default: '1.7.3'
       },{
         when: function (response) {
-          return response.dockerType == 'dockercompose';
+          return response.dockerType === 'dockercompose';
         },
         type: 'list',
         name: 'dockerVersionSonar',
@@ -218,7 +218,7 @@ module.exports = yeoman.Base.extend({
         default: '4.5.6'
       },{
         when: function (response) {
-          return response.dockerType != 'automated';
+          return response.dockerType !== 'automated';
         },
         type: 'confirm',
         name: 'dockerVolume',
@@ -226,10 +226,10 @@ module.exports = yeoman.Base.extend({
         default: false
       },{
         when: function (response) {
-          return response.dockerType == 'automated';
+          return response.dockerType === 'automated';
         },
         validate: function (input) {
-          if (input != '') return true;
+          if (input !== '') return true;
           return 'The GitHub repository is mandatory';
         },
         name: 'dockerRepoGithub',
@@ -237,31 +237,31 @@ module.exports = yeoman.Base.extend({
         default: this.defaultGithubUrl
       },{
         when: function (response) {
-          return response.dockerType == 'automated' || response.dockerType == 'dockerpush';
+          return response.dockerType === 'automated' || response.dockerType === 'dockerpush';
         },
         validate: function (input) {
-          if (/^([a-zA-Z0-9_]*)$/.test(input) && input != '') return true;
+          if (/^([a-zA-Z0-9_]*)$/.test(input) && input !== '') return true;
           return 'Your username is mandatory, cannot contain special characters or a blank space';
         },
         name: 'dockerLogin',
         message: 'Docker Hub: what is your username?'
       },{
         when: function (response) {
-          return response.dockerType == 'dockerpush';
+          return response.dockerType === 'dockerpush';
         },
         name: 'dockerTag',
         message: 'Docker Hub: what is the tag?',
         default: 'latest'
       },{
         when: function (response) {
-          return response.dockerType != 'automated' && response.dockerVolume;
+          return response.dockerType !== 'automated' && response.dockerVolume;
         },
         name: 'dockerVolumePath',
         message: 'Choose your path for volume?',
         default: '~/volumes/jhipster'
       },{
         when: function (response) {
-          return response.dockerType == 'dockerpush';
+          return response.dockerType === 'dockerpush';
         },
         type: 'list',
         name: 'dockerPushToHub',
@@ -274,7 +274,7 @@ module.exports = yeoman.Base.extend({
       }
     ];
 
-    if (this.dockerDefault == 'dockercompose') {
+    if (this.dockerDefault === 'dockercompose') {
       this.dockerType = 'dockercompose';
       this.dockerVolume = false;
       this.dockerVolumePath = '~/volumes/jhipster';
@@ -324,10 +324,10 @@ module.exports = yeoman.Base.extend({
         this.dockerTag = props.dockerTag;
         this.dockerPushToHub = props.dockerPushToHub;
 
-        if (this.dockerType == "automated") {
+        if (this.dockerType === "automated") {
           this.dockerBaseImage = 'java:openjdk-8u66-jre';
           this.dockerTypeImage = 'java';
-        } else if (this.dockerType == 'dockerpush') {
+        } else if (this.dockerType === 'dockerpush') {
           this.dockerBaseImage = props.dockerBaseImage;
           switch (this.dockerBaseImage) {
             case 'java:openjdk-8u66-jre': {
@@ -363,15 +363,15 @@ module.exports = yeoman.Base.extend({
     var dockerDir = 'src/main/docker/';
 
     // Create docker-compose files
-    if (this.dockerType == "dockercompose") {
+    if (this.dockerType === "dockercompose") {
       this.template(dockerDir + '_sonar.yml', dockerDir + 'sonar.yml', this, {});
-      if (this.devDatabaseType != "h2Disk" && this.devDatabaseType != "h2Memory" && this.devDatabaseType != "oracle") {
+      if (this.devDatabaseType !== "h2Disk" && this.devDatabaseType !== "h2Memory" && this.devDatabaseType !== "oracle") {
         this.template(dockerDir + '_dev.yml', dockerDir + 'dev.yml', this, {});
       }
-      if (this.prodDatabaseType != "oracle" || searchEngine == "elasticsearch") {
+      if (this.prodDatabaseType !== "oracle" || searchEngine === "elasticsearch") {
         this.template(dockerDir + '_prod.yml', dockerDir + 'prod.yml', this, {});
       }
-      if (this.devDatabaseType == "cassandra") {
+      if (this.devDatabaseType === "cassandra") {
         this.template(dockerDir + 'cassandra/_Cassandra-Dev.Dockerfile', dockerDir + 'cassandra/Cassandra-Dev.Dockerfile', this, {});
         this.template(dockerDir + 'cassandra/_Cassandra-Prod.Dockerfile', dockerDir + 'cassandra/Cassandra-Prod.Dockerfile', this, {});
         this.template(dockerDir + 'cassandra/scripts/_init-dev.sh', dockerDir + 'cassandra/scripts/init-dev.sh', this, {});
@@ -383,27 +383,27 @@ module.exports = yeoman.Base.extend({
     }
 
     // Create Dockerfile for automated build at docker-hub
-    if (this.dockerType == "automated") {
+    if (this.dockerType === "automated") {
       this.template(dockerDir + 'hub/_Dockerfile', dockerDir + 'hub/Dockerfile', this, {});
       this.template(dockerDir + '_run.sh', dockerDir + 'hub/run.sh', this, {});
       this.template(dockerDir + '_app.yml', dockerDir + 'app-hub.yml', this, {});
     }
 
     // Create Dockerfile for pushing to docker-hub
-    if (this.dockerType == "dockerpush") {
-      if (this.dockerBaseImage == 'java:openjdk-8u66-jre') {
+    if (this.dockerType === "dockerpush") {
+      if (this.dockerBaseImage === 'java:openjdk-8u66-jre') {
         this.template(dockerDir + 'push/_Openjdk.Dockerfile', dockerDir + 'push/Dockerfile', this, {});
         this.template(dockerDir + '_run.sh', dockerDir + 'push/run.sh', this, {});
-      } else if (this.dockerBaseImage == 'tomcat:8.0.30-jre8') {
+      } else if (this.dockerBaseImage === 'tomcat:8.0.30-jre8') {
         this.template(dockerDir + 'push/_Tomcat.Dockerfile', dockerDir + 'push/Dockerfile', this, {});
         this.template(dockerDir + '_run.sh', dockerDir + 'push/run.sh', this, {});
-      } else if (this.dockerBaseImage == 'jboss/wildfly:9.0.1.Final') {
+      } else if (this.dockerBaseImage === 'jboss/wildfly:9.0.1.Final') {
         this.template(dockerDir + 'push/_Wildfly.Dockerfile', dockerDir + 'push/Dockerfile', this, {});
         this.template(dockerDir + '_run.sh', dockerDir + 'push/run.sh', this, {});
       }
 
       this.template(dockerDir + '_app.yml', dockerDir + 'app.yml', this, {});
-      if (jhipsterVar.buildTool == 'maven') {
+      if (jhipsterVar.buildTool === 'maven') {
         jhipsterFunc.addMavenPlugin('com.spotify', 'docker-maven-plugin', '0.3.7',
           '                <configuration>\n' +
           '                    <imageName>' + this.packageName.toLowerCase() + '/' + this.baseName.toLowerCase() + ':tmp</imageName>\n' +
@@ -416,7 +416,7 @@ module.exports = yeoman.Base.extend({
           '                        </resource>\n' +
           '                    </resources>\n' +
           '                </configuration>');
-      } else if (jhipsterVar.buildTool == 'gradle') {
+      } else if (jhipsterVar.buildTool === 'gradle') {
         jhipsterFunc.addGradlePlugin('se.transmode.gradle','gradle-docker','1.2');
         jhipsterFunc.applyFromGradleScript('docker');
         this.template('_docker.gradle', 'docker.gradle', this, {});
@@ -426,12 +426,12 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function () {
-    if (this.dockerType == 'dockerpush') {
+    if (this.dockerType === 'dockerpush') {
       var done = this.async();
       this.dockerImage = this.dockerLogin.toLowerCase() + '/' + this.baseName.toLowerCase();
       this.dockerImageTag = this.dockerImage + ':' + this.dockerTag;
       var dockerCommand = 'mvn package -Pprod -DskipTests=true docker:build';
-      if (jhipsterVar.buildTool == 'gradle') {
+      if (jhipsterVar.buildTool === 'gradle') {
         dockerCommand = './gradlew -Pprod bootRepackage -x test buildDocker';
       }
       dockerCommand += ' && docker tag -f ' + this.packageName + '/' + this.baseName.toLowerCase() + ':tmp ' + this.dockerImageTag;
@@ -459,8 +459,8 @@ module.exports = yeoman.Base.extend({
     switch (this.dockerType) {
       case 'dockercompose': {
         this.log('\n' + chalk.bold.green('##### USAGE #####'));
-        if (this.prodDatabaseType != 'cassandra') {
-          if (jhipsterVar.devDatabaseType != 'h2Disk' && jhipsterVar.devDatabaseType != 'h2Memory') {
+        if (this.prodDatabaseType !== 'cassandra') {
+          if (jhipsterVar.devDatabaseType !== 'h2Disk' && jhipsterVar.devDatabaseType !== 'h2Memory') {
             this.log('Start services in Development Profile');
             this.log('- launch: ' + chalk.cyan('docker-compose -f src/main/docker/dev.yml up -d\n'));
           }
@@ -512,18 +512,18 @@ module.exports = yeoman.Base.extend({
           this.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('src/main/docker/app.yml\n'));
         }
         this.log('You can test your local image ' + chalk.cyan.bold(this.dockerImageTag));
-        if (this.prodDatabaseType == 'cassandra') {
+        if (this.prodDatabaseType === 'cassandra') {
           this.log('- docker-compose -f docker-compose-prod.yml up -d');
           this.log('- wait at least 30sec to let docker up');
           this.log('- docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init');
         }
         this.log('- docker-compose -f src/main/docker/app.yml up');
-        if (this.dockerBaseImage == 'java:openjdk-8u66-jre') {
+        if (this.dockerBaseImage === 'java:openjdk-8u66-jre') {
           this.log('- Access URL: http://localhost:8080/\n');
-        } else if (this.dockerBaseImage == 'tomcat:8.0.30-jre8') {
+        } else if (this.dockerBaseImage === 'tomcat:8.0.30-jre8') {
           this.log('- Admin Tomcat URL (with tomcat/JH!pst3r): http://localhost:8080/');
           this.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
-        } else if (this.dockerBaseImage == 'jboss/wildfly:9.0.1.Final') {
+        } else if (this.dockerBaseImage === 'jboss/wildfly:9.0.1.Final') {
           this.log('- Admin WildFly URL (with admin/JH!pst3r): http://localhost:9990/');
           this.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
         }
