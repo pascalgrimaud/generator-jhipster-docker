@@ -39,10 +39,10 @@ module.exports = yeoman.Base.extend({
         chalk.cyan.bold('    \\___/|_| |_|_| .__/|___/\\__\\___|_|    |____/ \\___/ \\___|_|\\_\\___|_|   \n') +
         chalk.cyan.bold('                 |_|                                                      \n') +
         chalk.cyan.bold('                                      ##        .\n') +
-        chalk.cyan.bold('                                ## ## ##       ===\n') +
-        chalk.cyan.bold('                             ## ## ## ##      ====\n') +
-        chalk.cyan.bold('                         /""""""""""""""""\\___/ ====\n') +
-        chalk.cyan.bold('                    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ====- ~~~\n') +
+        chalk.cyan.bold('                                ## ## ##       ==\n') +
+        chalk.cyan.bold('                             ## ## ## ##      ===\n') +
+        chalk.cyan.bold('                         /""""""""""""""""\\___/ ===\n') +
+        chalk.cyan.bold('                    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~\n') +
         chalk.cyan.bold('                         \\______ o          __/\n') +
         chalk.cyan.bold('                           \\    \\        __/\n') +
         chalk.cyan.bold('                            \\____\\______/\n'));
