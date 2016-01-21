@@ -242,8 +242,9 @@ module.exports = yeoman.Base.extend({
           if (/^([a-zA-Z0-9_]*)$/.test(input) && input !== '') return true;
           return 'Your username is mandatory, cannot contain special characters or a blank space';
         },
-        name: 'dockerLogin',
-        message: 'Docker Hub: what is your username?'
+        name: 'dockerID',
+        message: 'Docker Hub: what is your Docker ID?',
+        store: true,
       },{
         when: function (response) {
           return response.dockerType === 'dockerpush';
@@ -319,7 +320,7 @@ module.exports = yeoman.Base.extend({
         } else {
           this.dockerVolumePath = '~/volumes/jhipster';
         }
-        this.dockerLogin = props.dockerLogin;
+        this.dockerID = props.dockerID;
         this.dockerTag = props.dockerTag;
         this.dockerPushToHub = props.dockerPushToHub;
 
@@ -427,7 +428,7 @@ module.exports = yeoman.Base.extend({
   install: function () {
     if (this.dockerType === 'dockerpush') {
       var done = this.async();
-      this.dockerImage = this.dockerLogin.toLowerCase() + '/' + this.baseName.toLowerCase();
+      this.dockerImage = this.dockerID.toLowerCase() + '/' + this.baseName.toLowerCase();
       this.dockerImageTag = this.dockerImage + ':' + this.dockerTag;
       var dockerCommand = 'mvn package -Pprod -DskipTests=true docker:build';
       if (jhipsterVar.buildTool === 'gradle') {
@@ -490,7 +491,7 @@ module.exports = yeoman.Base.extend({
       case 'automated': {
         this.log('\n' + chalk.bold.green('##### USAGE #####'));
         this.log('To param your project as Automated build:');
-        this.log('- go to https://hub.docker.com/r/' + this.dockerLogin + '/');
+        this.log('- go to https://hub.docker.com/r/' + this.dockerID + '/');
         this.log('- menu Create: Create Automated Build');
         this.log('    - select the repository ' + chalk.cyan.bold(this.dockerRepoGithub));
         this.log('    - put a description, then click on create');

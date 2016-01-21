@@ -51,9 +51,9 @@
 <%= baseName.toLowerCase() %>-app:
   container_name: <%= baseName.toLowerCase() %>-app
   <%_ if (dockerType == 'automated') { _%>
-  image: <%=dockerLogin.toLowerCase()%>/<%=dockerNameGithub.toLowerCase()%>
+  image: <%= dockerID.toLowerCase() %>/<%= dockerNameGithub.toLowerCase() %>
   <%_ } else { _%>
-  image: <%=dockerLogin.toLowerCase()%>/<%= baseName.toLowerCase() %><% if (dockerType == 'dockerpush') { %>:<%= dockerTag %><% } %>
+  image: <%= dockerID.toLowerCase() %>/<%= baseName.toLowerCase() %><% if (dockerType == 'dockerpush') { %>:<%= dockerTag %><% } %>
   <%_ } _%>
   ports:
     - "8080:8080"
