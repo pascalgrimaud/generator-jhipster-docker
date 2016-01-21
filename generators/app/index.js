@@ -76,7 +76,7 @@ module.exports = yeoman.Base.extend({
     },
     checkGithubUrl: function () {
       this.defaultGithubUrl = githubUrl.sync();
-      if (this.defaultGithubUrl === null) {
+      if (!this.defaultGithubUrl) {
         this.defaultGithubUrl = 'https://github.com/username/' + jhipsterVar.baseName + '.git';
         this.log(chalk.yellow.bold('WARNING!') + ' This project doesn\'t have a remote-origin GitHub.\n' +
           '         The option Automated build won\'t work correctly.\n');
