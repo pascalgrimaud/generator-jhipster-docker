@@ -56,7 +56,7 @@
   gulp.task('bump-major', bump('major'));
 
   gulp.task('git-commit', function() {
-    var v = 'update to version ' + version();
+    var v = 'Release v' + version();
     gulp.src(['./generators/**/*','./README.md', './package.json', './gulpfile.js', './.travis.yml', './travis/**/*'])
       .pipe(git.add())
       .pipe(git.commit(v));
