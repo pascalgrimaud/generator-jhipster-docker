@@ -90,7 +90,7 @@
   }
 
   function version() {
-    return JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
+    return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
   }
 
   gulp.task('prepublish', ['nsp']);
