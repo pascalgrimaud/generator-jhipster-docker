@@ -25,6 +25,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
         dockerType: 'dockercompose',
         dockerVersionDB: '5.7.9',
         dockerVersionSonar: '4.5.6',
+        dockerELK: true,
         dockerVolume: false
       })
       .withGenerators(deps)
@@ -36,6 +37,13 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
         'src/main/docker/sonar.yml'
       ]);
       assert.fileContent('src/main/docker/sonar.yml','sonarqube:4.5.6');
+    });
+
+    it('generate elk.yml', function () {
+      assert.file([
+        'src/main/docker/elk.yml',
+        'src/main/docker/logstash/logstash.conf'
+      ]);
     });
 
     it('not generate dev.yml', function () {
@@ -65,6 +73,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
         dockerType: 'dockercompose',
         dockerVersionDB: '5.7.10',
         dockerVersionSonar: 'latest',
+        dockerELK: false,
         dockerVolume: false
       })
       .withGenerators(deps)
@@ -107,6 +116,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
         dockerVersionDB: '5.7.10',
         dockerVersionSE: '1.7.3',
         dockerVersionSonar: 'latest',
+        dockerELK: false,
         dockerVolume: false
       })
       .withGenerators(deps)
@@ -149,6 +159,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
         dockerType: 'dockercompose',
         dockerVersionDB: '9.3.10',
         dockerVersionSonar: '4.5.6',
+        dockerELK: false,
         dockerVolume: false
       })
       .withGenerators(deps)
@@ -189,6 +200,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
         dockerType: 'dockercompose',
         dockerVersionDB: '9.4.5',
         dockerVersionSonar: '4.5.6',
+        dockerELK: false,
         dockerVolume: false
       })
       .withGenerators(deps)
@@ -231,6 +243,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
         dockerVersionDB: '9.4.5',
         dockerVersionSE: '1.7.4',
         dockerVersionSonar: '4.5.6',
+        dockerELK: false,
         dockerVolume: false
       })
       .withGenerators(deps)
@@ -273,6 +286,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
         dockerType: 'dockercompose',
         dockerVersionDB: '3.0.7',
         dockerVersionSonar: '4.5.6',
+        dockerELK: false,
         dockerVolume: false
       })
       .withGenerators(deps)
@@ -314,6 +328,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
         dockerType: 'dockercompose',
         dockerVersionDB: '2.2.3',
         dockerVersionSonar: '4.5.6',
+        dockerELK: false,
         dockerVolume: false
       })
       .withGenerators(deps)

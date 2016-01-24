@@ -1,0 +1,24 @@
+<%= baseName.toLowerCase() %>-elk-elasticsearch:
+  container_name: <%= baseName.toLowerCase() %>-elk-elasticsearch
+  image: elasticsearch:1.7.1
+  ports:
+    - "9200"
+    - "9300"
+<%= baseName.toLowerCase() %>-elk-logstash:
+  container_name: <%= baseName.toLowerCase() %>-elk-logstash
+  image: logstash:1.5.3
+  volumes:
+    - ./logstash/:/config-dir
+    - /tmp/:/log-tmp/
+  command: logstash -f /config-dir/logstash.conf
+  ports:
+    - "5000:5000"
+  links:
+    - <%= baseName.toLowerCase() %>-elk-elasticsearch:elasticsearch
+<%= baseName.toLowerCase() %>-elk-kibana:
+  container_name: <%= baseName.toLowerCase() %>-elk-kibana
+  image: kibana:4.1.1
+  ports:
+    - "5601:5601"
+  links:
+    - <%= baseName.toLowerCase() %>-elk-elasticsearch:elasticsearch

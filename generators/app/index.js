@@ -217,6 +217,14 @@ module.exports = yeoman.Base.extend({
         default: '4.5.6'
       },{
         when: function (response) {
+          return response.dockerType === 'dockercompose';
+        },
+        type: 'confirm',
+        name: 'dockerELK',
+        message: 'Do you want use ELK?',
+        default: false
+      },{
+        when: function (response) {
           return response.dockerType !== 'automated';
         },
         type: 'confirm',
@@ -298,6 +306,7 @@ module.exports = yeoman.Base.extend({
       }
       this.dockerVersionSE = '1.7.3';
       this.dockerVersionSonar = '4.5.6';
+      this.dockerELK = false;
       done();
     } else {
       this.prompt(prompts, function (props) {
@@ -306,6 +315,7 @@ module.exports = yeoman.Base.extend({
         this.dockerType = props.dockerType;
         this.dockerVersionDB = props.dockerVersionDB;
         this.dockerVersionSE = props.dockerVersionSE;
+        this.dockerELK = props.dockerELK;
         this.dockerVersionSonar = props.dockerVersionSonar;
         this.dockerRepoGithub = props.dockerRepoGithub;
 
@@ -379,6 +389,10 @@ module.exports = yeoman.Base.extend({
         this.template(dockerDir + 'cassandra/scripts/_entities.sh', dockerDir + 'cassandra/scripts/entities.sh', this, {});
         this.template(dockerDir + 'cassandra/scripts/_cassandra.sh', dockerDir + 'cassandra/scripts/cassandra.sh', this, {});
         this.template(dockerDir + 'opscenter/_Dockerfile', dockerDir + 'opscenter/Dockerfile', this, {});
+      }
+      if (this.dockerELK) {
+        this.template(dockerDir + '_elk.yml', dockerDir + 'elk.yml', this, {});
+        this.template(dockerDir + 'logstash/_logstash.conf', dockerDir + 'logstash/logstash.conf', this, {});
       }
     }
 
