@@ -75,6 +75,8 @@ All these images come from the official [Docker Hub](https://hub.docker.com/):
 - [MongoDB](https://hub.docker.com/_/mongo/)
 - [Cassandra](https://hub.docker.com/_/cassandra/)
 - [Elasticsearch](https://hub.docker.com/_/elasticsearch/)
+- [Logstash](https://hub.docker.com/_/logstash/)
+- [Kibana](https://hub.docker.com/_/kibana/)
 - [SonarQube](https://hub.docker.com/_/sonarqube/)
 - [Java](https://hub.docker.com/_/java/)
 - [Tomcat](https://hub.docker.com/_/tomcat/)
@@ -272,6 +274,42 @@ Analyze your code with Gradle:
 ```
 
 You can access to sonar: [http://localhost:9000](http://localhost:9000)
+
+### 1.4 - Start ELK (Elasticsearch - Logstash - Kibana) stack
+
+Configure your log by adding these lines in your application-dev.yml or application-prod.yml.
+If you decide to not configure it, the log will be at /tmp/spring.log
+
+```yaml
+logging:
+    file: /path/log/application.log
+```
+
+Then, you can configure the name of your logfile at `src/main/docker/logstash/logstash.conf`
+:warning: You can change only the name file. Don't change the path.
+
+```Groovy
+input {
+  file {
+    type => "java"
+    path => "/log-tmp/application.log"
+    codec => multiline {
+      pattern => "^%{YEAR}-%{MONTHNUM}-%{MONTHDAY} %{TIME}.*"
+      negate => "true"
+      what => "previous"
+    }
+  }
+}
+```
+
+Start a ELK:
+
+```bash
+docker-compose -f src/main/docker/elk.yml up -d
+```
+
+You can access to Kibana: [http://localhost:5601](http://localhost:5601)
+
 
 ### 1.4 - Common commands
 
