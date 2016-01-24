@@ -32,27 +32,27 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       .on('end', done);
     });
 
-    it('generate sonar.yml with SonarQube 4.5.6', function () {
+    it('generates sonar.yml with SonarQube 4.5.6', function () {
       assert.file([
         'src/main/docker/sonar.yml'
       ]);
       assert.fileContent('src/main/docker/sonar.yml','sonarqube:4.5.6');
     });
 
-    it('generate elk.yml', function () {
+    it('generates elk.yml', function () {
       assert.file([
         'src/main/docker/elk.yml',
         'src/main/docker/logstash/logstash.conf'
       ]);
     });
 
-    it('not generate dev.yml', function () {
+    it('doesn\'t generate dev.yml', function () {
       assert.noFile([
         'src/main/docker/dev.yml'
       ]);
     });
 
-    it('generate prod.yml with MySQL 5.7.9', function () {
+    it('generates prod.yml with MySQL 5.7.9', function () {
       assert.file([
             'src/main/docker/prod.yml'
       ]);
@@ -80,21 +80,28 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       .on('end', done);
     });
 
-    it('generate sonar.yml with SonarQube latest', function () {
+    it('generates sonar.yml with SonarQube latest', function () {
       assert.file([
         'src/main/docker/sonar.yml'
       ]);
       assert.fileContent('src/main/docker/sonar.yml','sonarqube:latest');
     });
 
-    it('generate dev.yml with MySQL 5.7.10', function () {
+    it('doesn\'t generate elk.yml', function () {
+      assert.noFile([
+        'src/main/docker/elk.yml',
+        'src/main/docker/logstash/logstash.conf'
+      ]);
+    });
+
+    it('generates dev.yml with MySQL 5.7.10', function () {
       assert.file([
         'src/main/docker/dev.yml'
       ]);
       assert.fileContent('src/main/docker/dev.yml','mysql:5.7.10');
     });
 
-    it('generate prod.yml with MySQL 5.7.10', function () {
+    it('generates prod.yml with MySQL 5.7.10', function () {
       assert.file([
         'src/main/docker/prod.yml'
       ]);
@@ -123,21 +130,28 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       .on('end', done);
     });
 
-    it('generate sonar.yml with SonarQube latest', function () {
+    it('generates sonar.yml with SonarQube latest', function () {
       assert.file([
         'src/main/docker/sonar.yml'
       ]);
       assert.fileContent('src/main/docker/sonar.yml','sonarqube:latest');
     });
 
-    it('generate dev.yml with MySQL 5.7.10', function () {
+    it('doesn\'t generate elk.yml', function () {
+      assert.noFile([
+        'src/main/docker/elk.yml',
+        'src/main/docker/logstash/logstash.conf'
+      ]);
+    });
+
+    it('generates dev.yml with MySQL 5.7.10', function () {
       assert.file([
         'src/main/docker/dev.yml'
       ]);
       assert.fileContent('src/main/docker/dev.yml','mysql:5.7.10');
     });
 
-    it('generate prod.yml with MySQL 5.7.10 and ElasticSearch 1.7.3', function () {
+    it('generates prod.yml with MySQL 5.7.10 and ElasticSearch 1.7.3', function () {
       assert.file([
         'src/main/docker/prod.yml'
       ]);
@@ -166,11 +180,25 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       .on('end', done);
     });
 
-    it('generate sonar.yml with SonarQube 4.5.6', function () {
+    it('generates sonar.yml with SonarQube 4.5.6', function () {
       assert.file([
         'src/main/docker/sonar.yml'
       ]);
       assert.fileContent('src/main/docker/sonar.yml','sonarqube:4.5.6');
+    });
+
+    it('doesn\'t generate elk.yml', function () {
+      assert.noFile([
+        'src/main/docker/elk.yml',
+        'src/main/docker/logstash/logstash.conf'
+      ]);
+    });
+
+    it('doesn\'t generate elk.yml', function () {
+      assert.noFile([
+        'src/main/docker/elk.yml',
+        'src/main/docker/logstash/logstash.conf'
+      ]);
     });
 
     it('not generate dev.yml', function () {
@@ -179,7 +207,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       ]);
     });
 
-    it('generate prod.yml with PostgreSQL 9.3.10', function () {
+    it('generates prod.yml with PostgreSQL 9.3.10', function () {
       assert.file([
         'src/main/docker/prod.yml'
       ]);
@@ -207,21 +235,28 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       .on('end', done);
     });
 
-    it('generate sonar.yml with SonarQube 4.5.6', function () {
+    it('generates sonar.yml with SonarQube 4.5.6', function () {
       assert.file([
         'src/main/docker/sonar.yml'
       ]);
       assert.fileContent('src/main/docker/sonar.yml','sonarqube:4.5.6');
     });
 
-    it('generate dev.yml with PostgreSQL 9.4.5', function () {
+    it('doesn\'t generate elk.yml', function () {
+      assert.noFile([
+        'src/main/docker/elk.yml',
+        'src/main/docker/logstash/logstash.conf'
+      ]);
+    });
+
+    it('generates dev.yml with PostgreSQL 9.4.5', function () {
       assert.file([
         'src/main/docker/dev.yml'
       ]);
       assert.fileContent('src/main/docker/dev.yml','postgres:9.4.5');
     });
 
-    it('generate prod.yml with PostgreSQL 9.4.5', function () {
+    it('generates prod.yml with PostgreSQL 9.4.5', function () {
       assert.file([
         'src/main/docker/prod.yml'
       ]);
@@ -250,21 +285,28 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       .on('end', done);
     });
 
-    it('generate sonar.yml with SonarQube 4.5.6', function () {
+    it('generates sonar.yml with SonarQube 4.5.6', function () {
       assert.file([
         'src/main/docker/sonar.yml'
       ]);
       assert.fileContent('src/main/docker/sonar.yml','sonarqube:4.5.6');
     });
 
-    it('generate dev.yml with PostgreSQL 9.4.5', function () {
+    it('doesn\'t generate elk.yml', function () {
+      assert.noFile([
+        'src/main/docker/elk.yml',
+        'src/main/docker/logstash/logstash.conf'
+      ]);
+    });
+
+    it('generates dev.yml with PostgreSQL 9.4.5', function () {
       assert.file([
         'src/main/docker/dev.yml'
       ]);
       assert.fileContent('src/main/docker/dev.yml','postgres:9.4.5');
     });
 
-    it('generate prod.yml with PostgreSQL 9.4.5 and ElasticSearch 1.7.4', function () {
+    it('generates prod.yml with PostgreSQL 9.4.5 and ElasticSearch 1.7.4', function () {
       assert.file([
         'src/main/docker/prod.yml'
       ]);
@@ -293,21 +335,28 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       .on('end', done);
     });
 
-    it('generate sonar.yml with SonarQube 4.5.6', function () {
+    it('generates sonar.yml with SonarQube 4.5.6', function () {
       assert.file([
         'src/main/docker/sonar.yml'
       ]);
       assert.fileContent('src/main/docker/sonar.yml','sonarqube:4.5.6');
     });
 
-    it('generate dev.yml with MongoDB 3.0.7', function () {
+    it('doesn\'t generate elk.yml', function () {
+      assert.noFile([
+        'src/main/docker/elk.yml',
+        'src/main/docker/logstash/logstash.conf'
+      ]);
+    });
+
+    it('generates dev.yml with MongoDB 3.0.7', function () {
       assert.file([
         'src/main/docker/dev.yml'
       ]);
       assert.fileContent('src/main/docker/dev.yml','mongo:3.0.7');
     });
 
-    it('generate prod.yml with MongoDB 3.0.7', function () {
+    it('generates prod.yml with MongoDB 3.0.7', function () {
       assert.file([
         'src/main/docker/prod.yml'
       ]);
@@ -335,14 +384,21 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       .on('end', done);
     });
 
-    it('generate sonar.yml with SonarQube 4.5.6', function () {
+    it('generates sonar.yml with SonarQube 4.5.6', function () {
       assert.file([
         'src/main/docker/sonar.yml',
       ]);
       assert.fileContent('src/main/docker/sonar.yml','sonarqube:4.5.6');
     });
 
-    it('generate scripts sh need by Cassandra image', function () {
+    it('doesn\'t generate elk.yml', function () {
+      assert.noFile([
+        'src/main/docker/elk.yml',
+        'src/main/docker/logstash/logstash.conf'
+      ]);
+    });
+
+    it('generates scripts sh need by Cassandra image', function () {
       assert.file([
         'src/main/docker/cassandra/scripts/cassandra.sh',
         'src/main/docker/cassandra/scripts/entities.sh',
@@ -351,7 +407,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       ]);
     });
 
-    it('generate dev.yml, Cassandra-Dev.Dockerfile with Cassandra 2.2.3', function () {
+    it('generates dev.yml, Cassandra-Dev.Dockerfile with Cassandra 2.2.3', function () {
       assert.file([
         'src/main/docker/dev.yml',
         'src/main/docker/cassandra/Cassandra-Dev.Dockerfile'
@@ -359,7 +415,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       assert.fileContent('src/main/docker/cassandra/Cassandra-Dev.Dockerfile','FROM cassandra:2.2.3');
     });
 
-    it('generate prod.yml, Cassandra-Prod.Dockerfile with Cassandra 2.2.3', function () {
+    it('generates prod.yml, Cassandra-Prod.Dockerfile with Cassandra 2.2.3', function () {
       assert.file([
         'src/main/docker/prod.yml',
         'src/main/docker/cassandra/Cassandra-Prod.Dockerfile',
@@ -367,7 +423,7 @@ describe('JHipster generator Docker: docker-compose with configuration:', functi
       assert.fileContent('src/main/docker/cassandra/Cassandra-Prod.Dockerfile','FROM cassandra:2.2.3');
     });
 
-    it('generate opscenter', function () {
+    it('generates opscenter', function () {
       assert.file([
         'src/main/docker/opscenter/Dockerfile'
       ]);
