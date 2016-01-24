@@ -32,10 +32,11 @@ This is a [JHipster](http://jhipster.github.io/) module, that is meant to be use
         * [1.2.2 - Starting Cassandra the first time](#122---starting-cassandra-the-first-time)
         * [1.2.3 - Starting Cassandra the next times](#123---starting-cassandra-the-next-times)
       * [1.3 - Working with Sonar](#13---working-with-sonar)
-      * [1.4 - Common commands](#14---common-commands)
-        * [1.4.1 - List the containers](#141---list-the-containers)
-        * [1.4.2 - Stop the containers](#142---stop-the-containers)
-        * [1.4.3 - Delete a container](#143---delete-a-container)
+      * [1.4 - Start ELK (Elasticsearch - Logstash - Kibana) stack](#14---start-elk-elasticsearch---logstash---kibana-stack)
+      * [1.5 - Common commands](#15---common-commands)
+        * [1.5.1 - List the containers](#151---list-the-containers)
+        * [1.5.2 - Stop the containers](#152---stop-the-containers)
+        * [1.5.3 - Delete a container](#153---delete-a-container)
     * [2 - Automated build at the Docker Hub](#2---automated-build-at-the-docker-hub)
       * [2.1 - Description](#21---description)
       * [2.2 - Generate the files](#22---generate-the-files)
@@ -277,7 +278,8 @@ You can access to sonar: [http://localhost:9000](http://localhost:9000)
 
 ### 1.4 - Start ELK (Elasticsearch - Logstash - Kibana) stack
 
-Configure your log by adding these lines in your application-dev.yml or application-prod.yml.
+Configure your log by adding these lines in your `application-dev.yml` or `application-prod.yml`.
+
 If you decide to not configure it, the log will be at /tmp/spring.log
 
 ```yaml
@@ -286,6 +288,7 @@ logging:
 ```
 
 Then, you can configure the name of your logfile at `src/main/docker/logstash/logstash.conf`
+
 :warning: You can change only the name file. Don't change the path.
 
 ```Groovy
@@ -311,9 +314,9 @@ docker-compose -f src/main/docker/elk.yml up -d
 You can access to Kibana: [http://localhost:5601](http://localhost:5601)
 
 
-### 1.4 - Common commands
+### 1.5 - Common commands
 
-#### 1.4.1 - List the containers
+#### 1.5.1 - List the containers
 
 You can use `docker ps -a` to list all the containers
 
@@ -322,7 +325,7 @@ You can use `docker ps -a` to list all the containers
     fc35e1090021        mysql               "/entrypoint.sh mysql"   4 seconds ago       Up 4 seconds        0.0.0.0:3306->3306/tcp   sampleapplication-mysql
 
 
-#### 1.4.2 - Stop the containers
+#### 1.5.2 - Stop the containers
 
 **In development profile**:
 
@@ -344,7 +347,7 @@ docker stop "container id"
 
 When you stop a container, the data are not deleted, unless you delete the container.
 
-#### 1.4.3 - Delete a container
+#### 1.5.3 - Delete a container
 
 :warning: **Warning!** All data will be deleted (unless you used volumes):
 
