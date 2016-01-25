@@ -500,6 +500,10 @@ module.exports = yeoman.Base.extend({
         this.log('Start Sonar instance');
         this.log('- launch: ' + chalk.cyan('docker-compose -f src/main/docker/sonar.yml up -d\n'));
 
+        if (this.dockerELK) {
+          this.log('Start ELK stack');
+          this.log('- launch: ' + chalk.cyan('docker-compose -f src/main/docker/elk.yml up -d\n'));
+        }
         break;
       }
       case 'automated': {
