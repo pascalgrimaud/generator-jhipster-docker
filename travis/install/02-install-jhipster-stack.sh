@@ -20,4 +20,5 @@ npm install . -g
 cd $TRAVIS_BUILD_DIR/
 npm install
 npm link
+npm link generator-jhipster
 npm test
