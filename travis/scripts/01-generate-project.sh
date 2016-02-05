@@ -17,8 +17,8 @@ yo jhipster --force --no-insight
 yo jhipster-docker default --force --no-insight
 ls -al $HOME/$JHIPSTER
 ls -al $HOME/$JHIPSTER/node_modules/
-ls -al $HOME/$JHIPSTER/node_modules/generator-jhipster/
-ls -al $HOME/$JHIPSTER/node_modules/generator-jhipster/entity/
+ls -al $HOME/$JHIPSTER/node_modules/generator-jhipster/generators/
+ls -al $HOME/$JHIPSTER/node_modules/generator-jhipster/generators/entity/
 #-------------------------------------------------------------------------------
 # Display the docker-compose files
 #-------------------------------------------------------------------------------
