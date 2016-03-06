@@ -3,7 +3,6 @@ var path = require('path');
 var util = require('util');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
-var jhipster = require('generator-jhipster');
 var exec = require('child_process').exec;
 var githubUrl = require('remote-origin-url');
 var packagejs = require(__dirname + '/../../package.json');
@@ -24,7 +23,7 @@ module.exports = yeoman.Base.extend({
             jhipsterFunc: jhipsterFunc
           }
         },
-        this.options.testmode ? {local: require.resolve('generator-jhipster/modules')} : null
+        this.options.testmode ? {local: require.resolve('generator-jhipster/generators/modules')} : null
       );
       if (args === 'default' || args === 'compose' || args === 'dockercompose') {
         this.dockerDefault = 'dockercompose';
