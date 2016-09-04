@@ -1,0 +1,28 @@
+FROM java:8
+
+ENV JHIPSTER_SLEEP 0
+
+# add source
+ADD . /code/
+# package the application and delete all lib
+RUN echo '{ "allow_root": true }' > /root/.bowerrc && \
+    cd /code/ && \
+    <%_ if (buildTool == 'maven') { _%>
+    ./mvnw clean package -Pprod -DskipTests && \
+    mv /code/target/*.war /app.war && \
+    <%_ } else if (buildTool == 'gradle') { _%>
+    ./gradlew -Pprod build -x test && \
+    mv /home/jhipster/github/build/libs/*.war /home/jhipster/app.war && \
+    <%_ } _%>
+    rm -Rf /code && \
+    rm -Rf /root/.m2/wrapper && \
+    rm -Rf /root/.m2/repository && \
+    rm -Rf /root/.gradle && \
+    rm -Rf /home/jhipster/.npm/
+
+RUN sh -c 'touch /app.war'
+VOLUME /tmp
+EXPOSE <%= serverPort %><% if (hibernateCache == 'hazelcast') { %> 5701/udp<% } %>
+CMD echo "The application will start in ${JHIPSTER_SLEEP}s..." && \
+    sleep ${JHIPSTER_SLEEP} && \
+    java -Djava.security.egd=file:/dev/./urandom -jar /app.war

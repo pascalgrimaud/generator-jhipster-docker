@@ -15,43 +15,9 @@
 
 This is a [JHipster](http://jhipster.github.io/) module, that is meant to be used in a JHipster application. This module is used to :
 
-- Generate docker-compose services
 - Generate files for Automated build at [Docker Hub](https://hub.docker.com/)
-- Containerize your application and push image to [Docker Hub](https://hub.docker.com/)
-
-
-# Table of contents
-
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-  * [Usage](#usage)
-    * [1 - Generate docker-compose services](#1---generate-docker-compose-services)
-      * [1.1 - Description](#11---description)
-      * [1.2 - Working with databases](#12---working-with-databases)
-        * [1.2.1 - Starting MySQL, PostgreSQL or MongoDB](#121---starting-mysql-postgresql-or-mongodb)
-        * [1.2.2 - Starting Cassandra the first time](#122---starting-cassandra-the-first-time)
-        * [1.2.3 - Starting Cassandra the next times](#123---starting-cassandra-the-next-times)
-      * [1.3 - Working with Sonar](#13---working-with-sonar)
-      * [1.4 - Start ELK (Elasticsearch - Logstash - Kibana) stack](#14---start-elk-elasticsearch---logstash---kibana-stack)
-      * [1.5 - Common commands](#15---common-commands)
-        * [1.5.1 - List the containers](#151---list-the-containers)
-        * [1.5.2 - Stop the containers](#152---stop-the-containers)
-        * [1.5.3 - Delete a container](#153---delete-a-container)
-    * [2 - Automated build at the Docker Hub](#2---automated-build-at-the-docker-hub)
-      * [2.1 - Description](#21---description)
-      * [2.2 - Generate the files](#22---generate-the-files)
-      * [2.3 - Set your Docker Hub project](#23---set-your-docker-hub-project)
-    * [3 - Containerize your application and push image to Docker Hub](#3---containerize-your-application-and-push-image-to-docker-hub)
-      * [3.1 - Description](#31---description)
-      * [3.2 - Containerize your application](#32---containerize-your-application)
-      * [3.3 - Examples](#33---examples)
-        * [3.3.1 - Generate a JHipster application](#331---generate-a-jhipster-application)
-        * [3.3.2 - Containerize your JHipster application](#332---containerize-your-jhipster-application)
-        * [3.3.3 - Use src/main/docker/app.yml](#333---use-srcmaindockerappyml)
-        * [3.3.4 - Add spring properties](#334---add-spring-properties)
-        * [3.3.5 - Start in dev profile](#335---start-in-dev-profile)
-  * [License](#license)
-
+- Generate additional docker-compose services
+- Change the default Dockerfile
 
 
 # Prerequisites
