@@ -32,6 +32,7 @@ module.exports = yeoman.Base.extend({
         },
 
         displayLogo: function () {
+            if (this.options.testmode) { return; }
             console.log(' \n' +
             chalk.cyan.bold('        _ _   _ _           _              ____             _             \n') +
             chalk.cyan.bold('       | | | | (_)_ __  ___| |_ ___ _ __  |  _ \\  ___   ___| | _____ _ __ \n') +
@@ -80,6 +81,7 @@ module.exports = yeoman.Base.extend({
         },
 
         checkGithubUrl: function () {
+            if (this.options.testmode) { return; }
             this.defaultGithubUrl = githubUrl.sync();
             if (!this.defaultGithubUrl) {
                 console.log(chalk.yellow.bold('WARNING!') + ' This project doesn\'t have a remote-origin GitHub.\n'
@@ -217,6 +219,7 @@ module.exports = yeoman.Base.extend({
     },
 
     end: function () {
+        if (this.options.testmode) { return; }
         console.log('\n' + chalk.bold.green('##### USAGE #####\n'));
         switch (this.dockerType) {
             case 'automated': {
