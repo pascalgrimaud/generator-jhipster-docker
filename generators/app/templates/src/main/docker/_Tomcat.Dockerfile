@@ -4,7 +4,7 @@ ENV JHIPSTER_SLEEP 0
 ENV TOMCAT_PASSWORD JH!pst3r
 ENV CATALINA_HOME /usr/local/tomcat/
 
-# add source
+# add directly the war
 ADD *.war.original /usr/local/tomcat/webapps/<%= dockerBaseUrl %>.war
 RUN sh -c 'touch /usr/local/tomcat/webapps/<%= dockerBaseUrl %>.war' && \
     # configure admin password

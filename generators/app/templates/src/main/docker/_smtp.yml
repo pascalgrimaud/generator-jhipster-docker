@@ -1,7 +1,6 @@
 version: '2'
 services:
-    jhgradle-mysql:
-        container_name: djfarrelly/maildev
+    jhgradle-smtp:
         image: djfarrelly/maildev
         ports:
             - 1080:80

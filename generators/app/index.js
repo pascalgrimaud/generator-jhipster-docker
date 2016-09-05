@@ -82,7 +82,6 @@ module.exports = yeoman.Base.extend({
         checkGithubUrl: function () {
             this.defaultGithubUrl = githubUrl.sync();
             if (!this.defaultGithubUrl) {
-                this.defaultGithubUrl = 'https://github.com/username/' + jhipsterVar.baseName + '.git';
                 console.log(chalk.yellow.bold('WARNING!') + ' This project doesn\'t have a remote-origin GitHub.\n'
                 + '         The option Automated build won\'t work correctly.\n');
             } else {
@@ -98,7 +97,7 @@ module.exports = yeoman.Base.extend({
             name: 'dockerType',
             message: 'Please choose what you want to do:',
             choices: [
-                {name: 'Generate files for Automated build at ' + chalk.bold('https://hub.docker.com/'), value: 'automated'},
+                {name: 'Generate Dockerfile for Automated build at ' + chalk.bold('https://hub.docker.com/'), value: 'automated'},
                 {name: 'Generate additional docker-compose services', value: 'dockercompose'},
                 {name: 'Change the default Dockerfile', value: 'dockerbuild'}
             ],
@@ -122,7 +121,6 @@ module.exports = yeoman.Base.extend({
             message: 'Choose the base image',
             choices: [
                 {name: 'tomcat:8.0.36-jre8-alpine', value: 'tomcat'},
-                // {name: 'jboss/wildfly:10.1.0.Final', value: 'wildfly'},
             ],
             default: 'tomcat'
         },{
@@ -145,7 +143,7 @@ module.exports = yeoman.Base.extend({
                 return 'Your username is mandatory, cannot contain special characters or a blank space';
             },
             name: 'dockerID',
-            message: this.dockerType === 'automated' ? 'Docker Hub: what is your Docker ID?' : 'What should we use for the base Docker repository name?',
+            message: 'Docker Hub: what is your Docker ID?',
             store: true,
         }];
 
@@ -156,35 +154,19 @@ module.exports = yeoman.Base.extend({
             this.prompt(prompts, function (props) {
                 this.props = props;
                 // To access props later use this.props.someOption;
-
                 this.dockerType = props.dockerType;
-                this.dockerVersionDB = props.dockerVersionDB;
-                this.dockerVersionSE = props.dockerVersionSE;
-                this.dockerELK = props.dockerELK;
-                this.dockerVersionSonar = props.dockerVersionSonar;
-                this.dockerRepoGithub = props.dockerRepoGithub;
-
                 this.dockerBaseUrl = props.dockerBaseUrl;
-
                 this.dockerID = props.dockerID;
-                this.dockerTag = props.dockerTag;
-                this.dockerbuildToHub = props.dockerbuildToHub;
 
-                if (this.dockerType === "automated") {
-                    this.dockerBaseImage = 'java:openjdk-8u66-jre';
-                    this.dockerTypeImage = 'java';
-                } else if (this.dockerType === 'dockerbuild') {
+                // if (this.dockerType === "automated") {
+                //     this.dockerBaseImage = 'java:openjdk-8u66-jre';
+                //     this.dockerTypeImage = 'java';
+                // } else
+                if (this.dockerType === 'dockercompose') {
+                    this.chosenDockerCompose = props.chosenDockerCompose;
+                }
+                if (this.dockerType === 'dockerbuild') {
                     this.dockerBaseImage = props.dockerBaseImage;
-                    switch (this.dockerBaseImage) {
-                        case 'tomcat:8.0.36-jre8-alpine': {
-                            this.dockerTypeImage = 'tomcat';
-                            break;
-                        }
-                        case 'jboss/wildfly:10.1.0.Final': {
-                            this.dockerTypeImage = 'wildfly';
-                            break;
-                        }
-                    }
                 }
 
                 done();
@@ -206,14 +188,21 @@ module.exports = yeoman.Base.extend({
 
         var dockerDir = 'src/main/docker/';
 
-        // Create docker-compose files
-        if (this.dockerType === "dockercompose") {
-            // put additional docker-compose file here
-        }
-
         // Create Dockerfile for automated build at docker-hub
         if (this.dockerType === "automated") {
             this.template('_Dockerfile', 'Dockerfile', this, {});
+        }
+
+        // Create docker-compose files
+        if (this.dockerType === "dockercompose") {
+            this.chosenDockerCompose.forEach(function (chosenDockerCompose) {
+                switch (chosenDockerCompose) {
+                    case 'maildev':
+                        this.template(dockerDir + '_smtp.yml', dockerDir + 'smtp.yml', this, {});
+                        break;
+                    default:
+                }
+            }.bind(this));
         }
 
         // Create Dockerfile for pushing to docker-hub
@@ -228,49 +217,59 @@ module.exports = yeoman.Base.extend({
     },
 
     end: function () {
-        console.log('\n' + chalk.bold.green('##### USAGE #####'));
+        console.log('\n' + chalk.bold.green('##### USAGE #####\n'));
         switch (this.dockerType) {
-            case 'dockercompose': {
-                console.log('Nothing...');
-                break;
-            }
             case 'automated': {
-                console.log('To param your project as Automated build:');
-                console.log('- go to https://hub.docker.com/r/' + this.dockerID + '/');
+                console.log('To param your project as Automated build:\n');
+
+                console.log('Go to your github project');
+                console.log('- Go to settings > Webhooks & services');
+                console.log('- Verify the services: Docker => edit');
+                console.log('- Click [x] active');
+                console.log('- Click on update service');
+                console.log('- Then, made a commit+push');
+                console.log('- Back to Services, Docker must be: ' + chalk.bold.green('✓') + ' Docker\n');
+
+                console.log('Go to https://hub.docker.com/r/' + this.dockerID + '/');
                 console.log('- menu Create: Create Automated Build');
-                if (this.dockerRepoGithub === undefined) {
+                if (this.defaultGithubUrl === undefined) {
                     console.log('    - select the repository of your project');
                 } else {
-                    console.log('    - select the repository ' + chalk.cyan.bold(this.dockerRepoGithub));
+                    console.log('    - select the repository ' + chalk.cyan.bold(this.defaultGithubUrl));
                 }
                 console.log('    - put a description, then click on create');
                 console.log('- go to Build Settings');
                 console.log('    - choose your branch or let master by default');
                 // console.log('    - put this Dockerfile location: ' + chalk.cyan.bold('src/main/docker/hub/'));
                 console.log('    - click on Save Changes');
-                console.log('- return to this project: git commit and push these changes!\n');
-                console.log('- go to Build details: it should be a new line with ' + chalk.cyan.bold('Building'));
+                console.log('- return to this project: git commit and push these changes!');
+                console.log('- go to Build details: it should be a new line with ' + chalk.cyan.bold('Building\n'));
                 break;
             }
+            case 'dockercompose': {
+                this.chosenDockerCompose.forEach(function (chosenDockerCompose) {
+                    switch (chosenDockerCompose) {
+                        case 'maildev':
+                            console.log('Start local smtp server:');
+                            console.log('- docker-compose -f src/main/docker/smtp.yml up');
+                            break;
+                        default:
+                    }
+                }.bind(this));
+                console.log('');
+            }
             case 'dockerbuild': {
-                if (this.abort) break;
-                if (this.dockerbuildToHub) {
-                    console.log('Your image should now be live at:\n- ' + chalk.cyan.bold('https://hub.docker.com/r/' + this.dockerImage + '/tags/\n'));
-                    console.log('- go to Repo info and copy/paste in Full description the ' + chalk.cyan.bold('src/main/docker/app.yml\n'));
+                console.log('You can build your image:');
+                if (this.buildTool === 'maven') {
+                    console.log(' - ./mvnw clean package -Pprod docker:build\n');
+                } else if (this.buildTool === 'gradle') {
+                    console.log(' - ./gradlew clean bootRepackage -Pprod buildDocker\n');
                 }
-                console.log('You can test your local image ' + chalk.cyan.bold(this.dockerImageTag));
-                if (this.prodDatabaseType === 'cassandra') {
-                    console.log('- docker-compose -f docker-compose-prod.yml up -d');
-                    console.log('- wait at least 30sec to let docker up');
-                    console.log('- docker exec -it ' + this.baseName.toLowerCase() + '-cassandra init');
-                }
-                console.log('- docker-compose -f src/main/docker/app.yml up');
-                if (this.dockerBaseImage === 'java:openjdk-8u66-jre') {
-                    console.log('- Access URL: http://localhost:8080/\n');
-                } else if (this.dockerBaseImage === 'tomcat:8.0.30-jre8') {
+                console.log('Once the container is launched:')
+                if (this.dockerBaseImage === 'tomcat') {
                     console.log('- Admin Tomcat URL (with tomcat/JH!pst3r): http://localhost:8080/');
                     console.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
-                } else if (this.dockerBaseImage === 'jboss/wildfly:9.0.1.Final') {
+                } else if (this.dockerBaseImage === 'wildfly') {
                     console.log('- Admin WildFly URL (with admin/JH!pst3r): http://localhost:9990/');
                     console.log('- Access URL: http://localhost:8080/' + this.dockerBaseUrl + '/\n');
                 }
