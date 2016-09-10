@@ -6,14 +6,16 @@ language: node_js
 node_js:
     - "4.5.0"
 before_install:
-    - npm install -g yo
     - npm install -g npm
+    - npm install -g yo
 install:
     - npm install
     - npm link
     - npm test
 script:
     - git clone https://github.com/pascalgrimaud/jhipster-sample-app.git
-    - cd jhipster-sample-app && yo jhipster-docker default --force
-    - cd jhipster-sample-app && docker build -t jhipster-sample-app .
+    - pwd
+    - cd jhipster-sample-app
+    - yo jhipster-docker default --force
+    - docker build -t jhipster-sample-app .
     - docker images
