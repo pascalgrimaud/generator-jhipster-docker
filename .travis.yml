@@ -14,7 +14,6 @@ install:
     - npm test
 script:
     - git clone https://github.com/pascalgrimaud/jhipster-sample-app.git
-    - pwd
     - cd jhipster-sample-app
     - yo jhipster-docker default --force
     - docker build -t jhipster-sample-app .
