@@ -11,6 +11,7 @@
   </a>
 </div>
 
+
 # Introduction
 
 This is a [JHipster](http://jhipster.github.io/) module, that is meant to be used in a JHipster application. This module is used to :
@@ -18,6 +19,26 @@ This is a [JHipster](http://jhipster.github.io/) module, that is meant to be use
 - Generate Dockerfile for Automated build at [Docker Hub](https://hub.docker.com/)
 - Generate additional docker-compose services
 - Change the default Dockerfile
+
+
+# Table of contents
+
+* [Prerequisites](#prerequisites)
+* [Installation](#installation)
+* [Usage](#usage)
+  * [1 - Automated build at the <a href="https://hub.docker.com">Docker Hub</a>](#1---automated-build-at-the-docker-hub)
+    * [1.1 - Description](#11---description)
+    * [1.2 - Generate the files](#12---generate-the-files)
+    * [1.3 - Set your Docker Hub project](#13---set-your-docker-hub-project)
+      * [At GitHub](#at-github)
+      * [At Docker Hub](#at-docker-hub)
+  * [2 - Generate additional docker-compose services](#2---generate-additional-docker-compose-services)
+    * [2.1 - MailDev](#21---maildev)
+  * [3 - Change the default Dockerfile](#3---change-the-default-dockerfile)
+    * [3.1 - Description](#31---description)
+    * [3.2 - Examples](#32---examples)
+      * [Default option](#default-option)
+* [License](#license)
 
 
 # Prerequisites
@@ -93,8 +114,7 @@ When using the option *Generate Dockerfile for Automated build*, [Docker Hub](ht
 - Verify the services: Docker => edit
 - Click [x] active
 - Click on update service
-- Then, made a commit+push
-- The service Docker must be :white_check_mark: Docker
+- Then, the next time you make a commit+push, the service Docker must be :white_check_mark: Docker
 
 
 #### At Docker Hub
@@ -203,11 +223,11 @@ You can read this documentation for more details:
 - Select the option : `Change the default Dockerfile`
 - Select: `tomcat:8.0.36-jre8-alpine`
 - Type: `jhipster`
-- Type ̀`a` to resolve all conflicts
+- Type `a` to resolve all conflicts
 - Build the new docker image: `./mvnw clean package -Pdev docker:build`
 - Start the docker image: `docker run --rm -p 8080:8080 jhipster`
-- Access to tomcat (tomcat/JH!pst3r): [http://localhost:8080](http://localhost:8080)
-- Access to the application: [http://localhost:8080/jhipster](http://localhost:8080/jhipster)
+- Go to tomcat (tomcat/JH!pst3r): [http://localhost:8080](http://localhost:8080)
+- Go to the application: [http://localhost:8080/jhipster](http://localhost:8080/jhipster)
 
 You can define or override other spring boot, using environment variables
 
