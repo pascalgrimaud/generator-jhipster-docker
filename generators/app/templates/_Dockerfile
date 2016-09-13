@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:8
 
 ENV JHIPSTER_SLEEP 0
 
