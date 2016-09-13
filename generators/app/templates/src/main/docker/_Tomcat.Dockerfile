@@ -1,4 +1,4 @@
-FROM tomcat:8.0.36-jre8-alpine
+FROM tomcat:8-jre8-alpine
 
 ENV JHIPSTER_SLEEP 0
 ENV TOMCAT_PASSWORD JH!pst3r
