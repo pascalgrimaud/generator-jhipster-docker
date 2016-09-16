@@ -1,6 +1,6 @@
 version: '2'
 services:
-    jhgradle-smtp:
+    smtp:
         image: djfarrelly/maildev
         ports:
             - 1080:80
