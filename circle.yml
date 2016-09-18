@@ -14,5 +14,5 @@ test:
     override:
         - git clone https://github.com/pascalgrimaud/jhipster-sample-app.git
         - cd jhipster-sample-app && yo jhipster-docker default --force
-        - docker build -t jhipster-sample-app .
+        - cd jhipster-sample-app && docker build -t jhipster-sample-app .
         - docker images
