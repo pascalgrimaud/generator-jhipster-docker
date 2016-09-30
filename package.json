@@ -1,7 +1,7 @@
 {
     "name": "generator-jhipster-docker",
     "version": "2.1.0",
-    "description": "JHipster module, Docker support in your JHipster application",
+    "description": "JHipster module, additional Docker support in your JHipster application",
     "keywords": [
         "yeoman-generator",
         "jhipster-module",
