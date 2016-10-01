@@ -234,7 +234,7 @@ You can define or override other spring boot, using environment variables
 
 # License
 
-Apache-2.0 © [Pascal Grimaud](https://twitter.com/pascalgrimaud)
+Apache-2.0 © [Pascal Grimaud](https://twitter.com/pascalgrimaud) and the respective JHipster contributors
 
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-docker.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-docker
