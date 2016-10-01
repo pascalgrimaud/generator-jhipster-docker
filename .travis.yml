@@ -5,13 +5,17 @@ services:
 language: node_js
 node_js:
     - "4.5.0"
+cache:
+    directories:
+        - node_modules
 before_install:
     - npm install -g npm
+    - npm install -g gulp-cli
     - npm install -g yo
 install:
     - npm install
     - npm link
-    - npm test
+    - gulp test
 script:
     - git clone https://github.com/pascalgrimaud/jhipster-sample-app.git
     - cd jhipster-sample-app
