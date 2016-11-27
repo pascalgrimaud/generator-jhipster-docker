@@ -6,20 +6,17 @@ ENV JHIPSTER_SLEEP 0
 ADD . /code/
 # package the application and delete all lib
 RUN echo '{ "allow_root": true }' > /root/.bowerrc && \
+    rm -Rf /code/node_modules && \
     cd /code/ && \
-    <%_ if (buildTool === 'maven') { _%>
+  <%_ if (buildTool === 'maven') { _%>
     ./mvnw clean package -Pprod -DskipTests && \
     mv /code/target/*.war /app.war && \
-    <%_ } else if (buildTool === 'gradle') { _%>
+  <%_ } else if (buildTool === 'gradle') { _%>
     ./gradlew -Pprod build -x test && \
-    mv /home/jhipster/github/build/libs/*.war /home/jhipster/app.war && \
-    <%_ } _%>
+    mv /home/jhipster/github/build/libs/*.war /app.war && \
+  <%_ } _%>
     rm -Rf /code /root/.npm/ /tmp && \
-    <%_ if (buildTool === 'maven') { _%>
-    rm -Rf /root/.m2/
-    <%_ } else if (buildTool === 'gradle') { _%>
-    rm -Rf /root/.gradle
-    <%_ } _%>
+    rm -Rf /root/.node-gyp /root/.cache /root/.config /root/.m2/ /root/.gradle
 
 RUN sh -c 'touch /app.war'
 VOLUME /tmp
