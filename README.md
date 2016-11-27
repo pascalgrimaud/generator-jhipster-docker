@@ -1,5 +1,8 @@
 # generator-jhipster-docker
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+[![NPM version][npm-image]][npm-url] [![Dependency Status][daviddm-image]][daviddm-url]
+
+[![Travis Status][travis-image]][travis-url] [![Circle Status][circle-image]][circle-url]
+
 > JHipster module, additional Docker support in your JHipster application
 
 <div align="center">
@@ -240,5 +243,7 @@ Apache-2.0 © [Pascal Grimaud](https://twitter.com/pascalgrimaud) and the respec
 [npm-url]: https://npmjs.org/package/generator-jhipster-docker
 [travis-image]: https://travis-ci.org/pascalgrimaud/generator-jhipster-docker.svg?branch=master
 [travis-url]: https://travis-ci.org/pascalgrimaud/generator-jhipster-docker
+[circle-image]: https://circleci.com/gh/pascalgrimaud/generator-jhipster-docker.svg?style=shield
+[circle-url]: https://circleci.com/gh/pascalgrimaud/generator-jhipster-docker
 [daviddm-image]: https://david-dm.org/pascalgrimaud/generator-jhipster-docker.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/pascalgrimaud/generator-jhipster-docker
