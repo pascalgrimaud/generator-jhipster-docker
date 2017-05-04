@@ -226,8 +226,8 @@ module.exports = yeoman.Base.extend({
                 console.log('To param your project as Automated build:\n');
 
                 console.log('Go to your github project');
-                console.log('- Go to settings > Webhooks & services');
-                console.log('- Verify the services: Docker => edit');
+                console.log('- Go to settings > Intégrations & services');
+                console.log('- Add service and select Docker');
                 console.log('- Click [x] active');
                 console.log('- Click on update service');
                 console.log('- Then, made a commit+push');
