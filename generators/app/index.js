@@ -33,7 +33,7 @@ module.exports = JhipsterGenerator.extend({
             this.log(`${chalk.cyan.bold('                    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~')}`);
             this.log(`${chalk.cyan.bold('                         \\______ o          __/')}`);
             this.log(`${chalk.cyan.bold('                           \\    \\        __/')}`);
-            this.log(`${chalk.cyan.bold('                            \\____\\______/')}`);
+            this.log(`${chalk.cyan.bold('                            \\____\\______/')}\n`);
             this.log(`${chalk.white.bold('                        http://jhipster.github.io')}`);
             this.log(`\nWelcome to the ${chalk.bold.yellow('JHipster Docker')} generator! ${chalk.yellow(`v${packagejs.version}\n`)}`);
         },
@@ -197,6 +197,12 @@ module.exports = JhipsterGenerator.extend({
         if (this.dockerType === 'dockerbuild') {
             if (this.dockerBaseImage === 'tomcat') {
                 this.template(`${dockerDir}_Tomcat.Dockerfile`, `${dockerDir}Dockerfile`);
+                if (this.buildTool === 'maven') {
+                    this.replaceContent(
+                        'pom.xml',
+                        '<include>${project.build.finalName}.war</include>',
+                        '<include>${project.build.finalName}.war*</include>');
+                }
             } else if (this.dockerBaseImage === 'wildfly') {
                 this.template(`${dockerDir}_Wildfly.Dockerfile`, `${dockerDir}Dockerfile`);
             }
