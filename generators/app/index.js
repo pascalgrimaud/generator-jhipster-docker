@@ -103,7 +103,7 @@ module.exports = JhipsterGenerator.extend({
             name: 'dockerBaseImage',
             message: 'Choose the base image',
             choices: [
-                { name: 'tomcat:8.0.36-jre8-alpine', value: 'tomcat' },
+                { name: 'tomcat:8-jre8-alpine', value: 'tomcat' },
             ],
             default: 'tomcat'
         }, {
@@ -137,17 +137,12 @@ module.exports = JhipsterGenerator.extend({
                 this.dockerBaseUrl = props.dockerBaseUrl;
                 this.dockerID = props.dockerID;
 
-                // if (this.dockerType === "automated") {
-                //     this.dockerBaseImage = 'java:openjdk-8u66-jre';
-                //     this.dockerTypeImage = 'java';
-                // } else
                 if (this.dockerType === 'dockercompose') {
                     this.chosenDockerCompose = props.chosenDockerCompose;
                 }
                 if (this.dockerType === 'dockerbuild') {
                     this.dockerBaseImage = props.dockerBaseImage;
                 }
-
                 done();
             });
         }
