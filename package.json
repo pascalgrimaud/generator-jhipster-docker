@@ -9,7 +9,6 @@
         "docker-compose"
     ],
     "homepage": "https://github.com/pascalgrimaud/generator-jhipster-docker",
-    "bugs": "https://github.com/pascalgrimaud/generator-jhipster-docker/issues",
     "author": {
         "name": "Pascal Grimaud",
         "email": "",
@@ -24,28 +23,34 @@
         "chalk": "1.1.3",
         "generator-jhipster": ">=3.6.1",
         "remote-origin-url": "^0.5.0",
-        "yeoman-generator": "0.22.2"
+        "yeoman-generator": "1.1.1"
     },
     "devDependencies": {
-        "fs-extra": "0.30.0",
-        "gulp": "^3.9.0",
-        "gulp-bump": "1.0.0",
-        "gulp-eslint": "1.0.0",
-        "gulp-exclude-gitignore": "1.0.0",
-        "gulp-git": "1.6.1",
-        "gulp-istanbul": "0.10.3",
-        "gulp-mocha": "2.2.0",
-        "gulp-nsp": "2.3.0",
-        "gulp-plumber": "1.0.1",
-        "gulp-rename": "^1.2.0",
-        "gulp-sequence": "0.4.4",
-        "gulp-shell": "^0.5.1",
-        "mocha": "3.0.2",
-        "yeoman-assert": "2.2.1",
-        "yeoman-test": "1.4.0"
+        "eslint": "3.17.1",
+        "eslint-config-airbnb-base": "11.1.1",
+        "eslint-plugin-import": "2.2.0",
+        "fs-extra": "2.1.2",
+        "gulp": "3.9.1",
+        "gulp-bump": "2.7.0",
+        "gulp-eslint": "3.0.1",
+        "gulp-exclude-gitignore": "1.1.1",
+        "gulp-git": "2.1.0",
+        "gulp-istanbul": "1.1.1",
+        "gulp-mocha": "3.0.1",
+        "gulp-nsp": "2.4.2",
+        "gulp-plumber": "1.1.0",
+        "gulp-rename": "1.2.2",
+        "gulp-sequence": "0.4.6",
+        "gulp-shell": "0.6.3",
+        "mocha": "3.2.0",
+        "yeoman-assert": "3.0.0",
+        "yeoman-test": "1.6.0"
     },
     "scripts": {
         "test": "mocha test/*"
     },
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/pascalgrimaud/generator-jhipster-docker/issues"
+    }
 }
