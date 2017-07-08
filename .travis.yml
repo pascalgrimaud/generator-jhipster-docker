@@ -8,6 +8,7 @@ node_js:
 before_install:
     - npm install -g npm
     - npm install -g yarn
+    - yarn global add yo
 install:
     - yarn install
     - yarn link
