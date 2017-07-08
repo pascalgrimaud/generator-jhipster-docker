@@ -65,13 +65,13 @@ To use *Automated build*, you have to create an account at:
 To install this module:
 
 ```bash
-npm install -g generator-jhipster-docker
+yarn global add generator-jhipster-docker
 ```
 
 To update this module:
 
 ```bash
-npm update -g generator-jhipster-docker
+yarn global upgrade generator-jhipster-docker
 ```
 
 # Usage
@@ -85,13 +85,13 @@ yo jhipster-docker
 You can use this command to generate the Dockerfile for Automated build with default options:
 
 ```bash
-yo jhipster-docker default
+yo jhipster-docker --default
 ```
 
 To force the generator:
 
 ```bash
-yo jhipster-docker default --force
+yo jhipster-docker --default --force
 ```
 
 
@@ -170,9 +170,9 @@ You can access to it: [http://localhost:1080](http://localhost:1080)
 
 On a generated project with JHipster, the file src/main/docker/Dockerfile is
 used to build a Docker image for running the JHipster application.
-This default image used [java:openjdk-8-jre-alpine](https://hub.docker.com/_/java/) as base image.
+This default image used [openjdk:8-jre-alpine](https://hub.docker.com/_/openjdk/) as base image.
 
-This option proposed to use [tomcat:8.0.36-jre8-alpine](https://hub.docker.com/_/tomcat/) instead.
+This option proposed to use [tomcat:8-jre8-alpine](https://hub.docker.com/_/tomcat/) instead.
 
 With maven: `./mvnw clean package -Pprod docker:build`
 
@@ -191,27 +191,33 @@ You can read this documentation for more details:
 ```yaml
 {
   "generator-jhipster": {
-    "jhipsterVersion": "3.6.1",
+    "promptValues": {
+      "packageName": "com.mycompany.myapp",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "4.6.0",
     "baseName": "jhipster",
     "packageName": "com.mycompany.myapp",
     "packageFolder": "com/mycompany/myapp",
     "serverPort": "8080",
-    "authenticationType": "session",
+    "authenticationType": "jwt",
     "hibernateCache": "ehcache",
-    "clusteredHttpSession": "no",
-    "websocket": "no",
+    "clusteredHttpSession": false,
+    "websocket": false,
     "databaseType": "sql",
     "devDatabaseType": "h2Disk",
     "prodDatabaseType": "mysql",
-    "searchEngine": "no",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
     "buildTool": "maven",
     "enableSocialSignIn": false,
-    "rememberMeKey": "7a8b2edfaf2353b83e9fe934a9a60e1a7992f399",
+    "jwtSecretKey": "2d9985d26a4d6669b6990d5ec81ca42e310cbe3b",
+    "clientFramework": "angularX",
     "useSass": false,
+    "clientPackageManager": "yarn",
     "applicationType": "monolith",
-    "testFrameworks": [
-      "gatling"
-    ],
+    "testFrameworks": [],
     "jhiPrefix": "jhi",
     "enableTranslation": true,
     "nativeLanguage": "en",
@@ -224,11 +230,11 @@ You can read this documentation for more details:
 
 - Launch : `yo jhipster-docker`
 - Select the option : `Change the default Dockerfile`
-- Select: `tomcat:8.0.36-jre8-alpine`
+- Select: `tomcat:8-jre8-alpine`
 - Type: `jhipster`
 - Type `a` to resolve all conflicts
-- Build the new docker image: `./mvnw clean package -Pdev docker:build`
-- Start the docker image: `docker run --rm -p 8080:8080 jhipster`
+- Build the new docker image for **PRODUCTION**: `./mvnw clean package -Pprod docker:build`
+- Start the docker image: `docker run --rm -e SPRING_PROFILES_ACTIVE=dev,swagger -p 8080:8080 jhipster`
 - Go to tomcat (tomcat/JH!pst3r): [http://localhost:8080](http://localhost:8080)
 - Go to the application: [http://localhost:8080/jhipster](http://localhost:8080/jhipster)
 
