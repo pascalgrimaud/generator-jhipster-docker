@@ -15,8 +15,8 @@ install:
     - gulp eslint
     - gulp test
 script:
-    - git clone https://github.com/pascalgrimaud/jhipster-sample-app.git
-    - cd jhipster-sample-app
+    - git clone https://github.com/jhipster/jhipster-sample-app-ng2.git
+    - cd jhipster-sample-app-ng2
     - yarn link generator-jhipster-docker
     - yo jhipster-docker --default --force
     - docker build -t jhipster-sample-app .
