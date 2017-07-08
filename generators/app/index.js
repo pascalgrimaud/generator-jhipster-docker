@@ -193,6 +193,7 @@ module.exports = JhipsterGenerator.extend({
             if (this.dockerBaseImage === 'tomcat') {
                 this.template(`${dockerDir}_Tomcat.Dockerfile`, `${dockerDir}Dockerfile`);
                 if (this.buildTool === 'maven') {
+                    /* eslint-disable no-template-curly-in-string */
                     this.replaceContent(
                         'pom.xml',
                         '<include>${project.build.finalName}.war</include>',
