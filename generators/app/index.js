@@ -11,6 +11,18 @@ const JhipsterGenerator = generator.extend({});
 util.inherits(JhipsterGenerator, BaseGenerator);
 
 module.exports = JhipsterGenerator.extend({
+    constructor: function (...args) { // eslint-disable-line object-shorthand
+        generator.apply(this, args);
+
+        this.option('default', {
+            type: String,
+            required: false,
+            description: 'default option'
+        });
+
+        this.dockerDefault = this.options.default;
+    },
+
     initializing: {
         readConfig() {
             this.jhipsterAppConfig = this.getJhipsterAppConfig();
@@ -126,7 +138,7 @@ module.exports = JhipsterGenerator.extend({
             store: true,
         }];
 
-        if (this.dockerDefault === 'automated') {
+        if (this.dockerDefault) {
             this.dockerType = 'automated';
             done();
         } else {
