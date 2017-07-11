@@ -5,10 +5,6 @@ const fse = require('fs-extra');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
-const deps = [
-    [helpers.createDummyGenerator(), 'jhipster:modules']
-];
-
 describe('JHipster generator Docker', () => {
     describe('Automated build', () => {
         beforeEach((done) => {
@@ -23,7 +19,6 @@ describe('JHipster generator Docker', () => {
                 .withPrompts({
                     dockerType: 'automated'
                 })
-                .withGenerators(deps)
                 .on('end', done);
         });
 
@@ -49,7 +44,6 @@ describe('JHipster generator Docker', () => {
                     dockerType: 'dockercompose',
                     chosenDockerCompose: ['maildev']
                 })
-                .withGenerators(deps)
                 .on('end', done);
         });
 
