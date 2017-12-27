@@ -89,10 +89,10 @@ module.exports = class extends BaseGenerator {
             name: 'Local SMTP Server (https://github.com/djfarrelly/MailDev/)',
             value: 'maildev:true'
         });
-        // choices.push({
-        //     name: 'NGinx',
-        //     value: 'nginx'
-        // });
+        choices.push({
+            name: 'NGiNX as proxy server',
+            value: 'nginx:true'
+        });
 
         const PROMPTS = {
             type: 'checkbox',
@@ -110,6 +110,7 @@ module.exports = class extends BaseGenerator {
                 this.dockerOptions = prompt.dockerOptions;
                 this.automated = this.getOptionFromArray(this.dockerOptions, 'automated');
                 this.maildev = this.getOptionFromArray(this.dockerOptions, 'maildev');
+                this.nginx = this.getOptionFromArray(this.dockerOptions, 'nginx');
                 done();
             });
         }
@@ -141,6 +142,11 @@ module.exports = class extends BaseGenerator {
         if (this.maildev) {
             this.template(`${dockerDir}_smtp.yml`, `${dockerDir}smtp.yml`);
         }
+
+        if (this.nginx) {
+            this.template(`${dockerDir}_nginx.yml`, `${dockerDir}nginx.yml`);
+            this.template(`${dockerDir}/nginx/_site.conf`, `${dockerDir}/nginx/site.conf`);
+        }
     }
 
     end() {
@@ -170,7 +176,20 @@ module.exports = class extends BaseGenerator {
 
         if (this.maildev) {
             this.log(`${chalk.bold('Start local SMTP server:')}`);
-            this.log('- docker-compose -f src/main/docker/smtp.yml up -d');
+            this.log(`- ${chalk.cyan('docker-compose -f src/main/docker/smtp.yml up -d')}`);
+            this.log('');
+        }
+
+        if (this.nginx) {
+            this.log(`${chalk.bold('Use NGiNX as proxy server:')}`);
+            this.log('- Start your local backend server or use an existing one');
+            this.log(`- Edit ${chalk.cyan('src/main/docker/nginx/site.conf')}, depending on the 1st step`);
+            this.log(`- Start NGiNX: ${chalk.cyan('docker-compose -f src/main/docker/nginx.yml up -d')}`);
+            this.log('');
+            this.log('Note:');
+            this.log(`The use of ${chalk.cyan('network_mode: \'host\'')} in ${chalk.cyan('nginx.yml')} may not work for Windows or MacOS.`);
+            this.log(`Simply comment it and replace ${chalk.cyan('localhost')} in ${chalk.cyan('src/main/docker/nginx/site.conf')} file.`);
+            this.log('Your container (from inside) must access to the application.');
             this.log('');
         }
 

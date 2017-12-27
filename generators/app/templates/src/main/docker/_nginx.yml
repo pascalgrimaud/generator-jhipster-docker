@@ -1,0 +1,31 @@
+################################################################################
+# For development mode, this docker-compose file uses:
+# - network_mode: 'host'
+#
+# This is needed because in site.conf
+# there is the configuration: localhost:8080/api
+#
+# With this, this container can access to your local API if your application
+# is started under localhost:8080
+# 
+# If you have a backend server which is running at
+# - http://api.jhipster.tech:8081/api
+#
+# You can comment:
+# - network_mode: 'host'
+#
+################################################################################
+version: '2'
+services:
+    nginx:
+        image: nginx:1.13-alpine
+        volumes:
+<%_ if (buildTool === 'maven') { _%>
+        - ./../../../target/www:/usr/share/nginx/html
+<%_ } else if (buildTool === 'gradle') { _%>
+        - ./../../../build/www:/usr/share/nginx/html
+<%_ } _%>
+        - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+        ports:
+        - "8000:80"
+        network_mode: 'host'

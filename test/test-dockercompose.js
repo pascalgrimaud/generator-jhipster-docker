@@ -19,7 +19,8 @@ describe('JHipster generator Docker', () => {
                 .withPrompts({
                     dockerOptions: [
                         'automated:true',
-                        'maildev:true'
+                        'maildev:true',
+                        'nginx:true'
                     ]
                 })
                 .on('end', done);
@@ -35,6 +36,14 @@ describe('JHipster generator Docker', () => {
             assert.file([
                 'src/main/docker/smtp.yml'
             ]);
+        });
+        it('generates NGiNX configuration', () => {
+            assert.file([
+                'src/main/docker/nginx.yml',
+                'src/main/docker/nginx/site.conf'
+            ]);
+            assert.fileContent('src/main/docker/nginx.yml', 'target/');
+            assert.noFileContent('src/main/docker/nginx.yml', 'build/');
         });
     });
 
@@ -51,7 +60,8 @@ describe('JHipster generator Docker', () => {
                 .withPrompts({
                     dockerOptions: [
                         'automated:true',
-                        'maildev:true'
+                        'maildev:true',
+                        'nginx:true'
                     ]
                 })
                 .on('end', done);
@@ -67,6 +77,14 @@ describe('JHipster generator Docker', () => {
             assert.file([
                 'src/main/docker/smtp.yml'
             ]);
+        });
+        it('generates NGiNX configuration', () => {
+            assert.file([
+                'src/main/docker/nginx.yml',
+                'src/main/docker/nginx/site.conf'
+            ]);
+            assert.noFileContent('src/main/docker/nginx.yml', 'target/');
+            assert.fileContent('src/main/docker/nginx.yml', 'build/');
         });
     });
 
