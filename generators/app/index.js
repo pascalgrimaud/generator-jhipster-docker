@@ -147,7 +147,7 @@ module.exports = class extends BaseGenerator {
         this.log(`\n${chalk.bold.green('##### USAGE #####\n')}`);
 
         if (this.automated) {
-            this.log('To param your project as Automated build:\n');
+            this.log(`${chalk.bold('To set your project as Automated build:\n')}`);
 
             this.log('Go to your GitHub project');
             this.log('- Go to Settings > Integrations & services');
@@ -166,11 +166,10 @@ module.exports = class extends BaseGenerator {
             this.log('  - Click on Save Changes');
             this.log('- Return to this project: git commit and push these changes!');
             this.log(`- Go to Build details: it should be a new line with ${chalk.cyan.bold('Building\n')}`);
-            this.log('');
         }
 
         if (this.maildev) {
-            this.log('Start local smtp server:');
+            this.log(`${chalk.bold('Start local SMTP server:')}`);
             this.log('- docker-compose -f src/main/docker/smtp.yml up');
             this.log('');
         }
