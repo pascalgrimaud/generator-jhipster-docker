@@ -37,7 +37,6 @@ This is a [JHipster](http://www.jhipster.tech/) module, that is meant to be used
       - [At GitHub](#at-github)
       - [At Docker Hub](#at-docker-hub)
   - [2 - Local SMTP Server](#2---local-smtp-server)
-    - [2.1 - MailDev](#21---maildev)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -167,8 +166,6 @@ When using the option *Dockerfile for Automated build*, [Docker Hub](https://hub
 
 
 ## 2 - Local SMTP Server
-
-### 2.1 - MailDev
 
 The project [djfarrelly/maildev](https://github.com/djfarrelly/MailDev) is a simple way to test your project’s generated emails during development with an easy to use web interface.
 
