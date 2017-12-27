@@ -169,7 +169,7 @@ When using the option *Dockerfile for Automated build*, [Docker Hub](https://hub
 
 The project [djfarrelly/maildev](https://github.com/djfarrelly/MailDev) is a simple way to test your project’s generated emails during development with an easy to use web interface.
 
-You can launch: `docker-compose -f src/main/docker/smtp.yml up`
+You can launch: `docker-compose -f src/main/docker/smtp.yml up -d`
 
 You can access to it: [http://localhost:1080](http://localhost:1080)
 

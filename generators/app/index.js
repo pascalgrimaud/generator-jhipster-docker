@@ -170,7 +170,7 @@ module.exports = class extends BaseGenerator {
 
         if (this.maildev) {
             this.log(`${chalk.bold('Start local SMTP server:')}`);
-            this.log('- docker-compose -f src/main/docker/smtp.yml up');
+            this.log('- docker-compose -f src/main/docker/smtp.yml up -d');
             this.log('');
         }
 
