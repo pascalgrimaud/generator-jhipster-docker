@@ -154,8 +154,7 @@ module.exports = class extends BaseGenerator {
             this.log('- Add service and select Docker');
             this.log('- Click [x] Active');
             this.log('- Click on update service');
-            this.log(`- Back to Integration & services, Docker must be: ${chalk.bold.green('✓')} Docker\n`);
-
+            this.log(`- Back to Integration & services, Docker must be: ${chalk.bold.green('✓')} Docker`);
             this.log('Go to https://hub.docker.com/r/YOUR_DOCKER_ID');
             this.log('- Menu Create');
             this.log('  - Select Create Automated Build');
