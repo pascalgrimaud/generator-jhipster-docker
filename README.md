@@ -15,10 +15,10 @@
 
 # Introduction
 
-This is a [JHipster](http://www.jhipster.tech/) module, that is meant to be used in a JHipster application. This module is used to :
+This is a [JHipster](http://www.jhipster.tech/) module, that is meant to be used in a JHipster application. This module is used to generate a:
 
-- Generate a Dockerfile for Automated build at [Docker Hub](https://hub.docker.com/)
-- Generate a Docker Compose file for using a Local SMTP Server [MailDev](https://github.com/djfarrelly/MailDev/)
+- Dockerfile for Automated build at [Docker Hub](https://hub.docker.com/)
+- Docker Compose file for using a Local SMTP Server with [MailDev](https://github.com/djfarrelly/MailDev/)
 
 
 # Table of contents
