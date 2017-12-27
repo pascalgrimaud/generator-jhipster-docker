@@ -97,7 +97,7 @@ module.exports = class extends BaseGenerator {
         const PROMPTS = {
             type: 'checkbox',
             name: 'dockerOptions',
-            message: 'Which options would you like?',
+            message: 'Which additionnal options would you like?',
             choices,
             default: defaultChoice
         };

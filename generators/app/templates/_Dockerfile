@@ -5,10 +5,10 @@ RUN echo '{ "allow_root": true }' > /root/.bowerrc && \
     cd /code/ && \
   <%_ if (buildTool === 'maven') { _%>
     ./mvnw clean package -Pprod -DskipTests && \
-    mv /code/target/*.war /app.war && \
+    mv /code/target/*.war /app.war
   <%_ } else if (buildTool === 'gradle') { _%>
     ./gradlew -Pprod build -x test && \
-    mv /home/jhipster/github/build/libs/*.war /app.war && \
+    mv /home/jhipster/github/build/libs/*.war /app.war
   <%_ } _%>
 
 FROM openjdk:8-jre-alpine
