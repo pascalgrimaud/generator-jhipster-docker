@@ -178,6 +178,8 @@ module.exports = class extends BaseGenerator {
             this.log(`${chalk.bold('Start local SMTP server:')}`);
             this.log(`- ${chalk.cyan('docker-compose -f src/main/docker/smtp.yml up -d')}`);
             this.log('');
+            this.log(`You can access to it: ${chalk.cyan('http://localhost:1080')}`);
+            this.log('');
         }
 
         if (this.nginx) {
@@ -190,6 +192,8 @@ module.exports = class extends BaseGenerator {
             this.log(`The use of ${chalk.cyan('network_mode: \'host\'')} in ${chalk.cyan('nginx.yml')} may not work for Windows or MacOS.`);
             this.log(`Simply comment it and replace ${chalk.cyan('localhost')} in ${chalk.cyan('src/main/docker/nginx/site.conf')} file.`);
             this.log('Your container (from inside) must access to the application.');
+            this.log('');
+            this.log(`You can access to it: ${chalk.cyan('http://localhost')} or ${chalk.cyan('http://localhost:8000')}`);
             this.log('');
         }
 

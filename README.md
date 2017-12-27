@@ -197,6 +197,8 @@ The use of `network_mode: 'host'` in `nginx.yml` may not work for Windows or Mac
 Simply comment it and replace `localhost` in `src/main/docker/nginx/site.conf` file.
 Your container (from inside) must access to the application.
 
+You can access to it: [http://localhost](http://localhost) or [http://localhost:8000](http://localhost/8000)
+
 
 # License
 
