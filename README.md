@@ -37,6 +37,7 @@ This is a [JHipster](http://www.jhipster.tech/) module, that is meant to be used
       - [At GitHub](#at-github)
       - [At Docker Hub](#at-docker-hub)
   - [2 - Local SMTP Server](#2---local-smtp-server)
+  - [3 - NGiNX as proxy server](#3---nginx-as-proxy-server)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -169,9 +170,32 @@ When using the option *Dockerfile for Automated build*, [Docker Hub](https://hub
 
 The project [djfarrelly/maildev](https://github.com/djfarrelly/MailDev) is a simple way to test your project’s generated emails during development with an easy to use web interface.
 
-You can launch: `docker-compose -f src/main/docker/smtp.yml up -d`
+You can launch:
+
+```bash
+docker-compose -f src/main/docker/smtp.yml up -d
+```
 
 You can access to it: [http://localhost:1080](http://localhost:1080)
+
+
+## 3 - NGiNX as proxy server
+
+See the official [documentation](http://www.jhipster.tech/separating-front-end-and-api/)
+
+Follow these steps:
+- Start your local backend server or use an existing one
+- Edit `src/main/docker/nginx/site.conf`, depending on the 1st step
+- Start NGiNX:
+
+```bash
+docker-compose -f src/main/docker/nginx.yml up -d
+```
+
+**Note**:
+The use of `network_mode: 'host'` in `nginx.yml` may not work for Windows or MacOS.
+Simply comment it and replace `localhost` in `src/main/docker/nginx/site.conf` file.
+Your container (from inside) must access to the application.
 
 
 # License
