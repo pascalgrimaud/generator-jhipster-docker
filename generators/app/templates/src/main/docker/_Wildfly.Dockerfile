@@ -13,7 +13,7 @@ RUN chown jboss:jboss /opt/jboss/wildfly/standalone/deployments/<%= dockerBaseUr
 
 USER jboss
 VOLUME /tmp
-EXPOSE 8080 9990<% if (hibernateCache == 'hazelcast') { %> 5701/udp<% } %>
+EXPOSE 8080 9990<% if (cacheProvider === 'hazelcast') { %> 5701/udp<% } %>
 CMD echo "The application will start in ${JHIPSTER_SLEEP}s..." && \
     sleep ${JHIPSTER_SLEEP} && \
     /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0

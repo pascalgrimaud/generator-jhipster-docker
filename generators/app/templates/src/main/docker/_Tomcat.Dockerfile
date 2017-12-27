@@ -19,7 +19,7 @@ RUN sh -c 'touch /usr/local/tomcat/webapps/<%= dockerBaseUrl %>.war' && \
     echo '</tomcat-users>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
 
 VOLUME /tmp
-EXPOSE 8080<% if (hibernateCache == 'hazelcast') { %> 5701/udp<% } %>
+EXPOSE 8080<% if (cacheProvider === 'hazelcast') { %> 5701/udp<% } %>
 CMD echo "The application will start in ${JHIPSTER_SLEEP}s..." && \
     sleep ${JHIPSTER_SLEEP} && \
     /usr/local/tomcat/bin/catalina.sh run

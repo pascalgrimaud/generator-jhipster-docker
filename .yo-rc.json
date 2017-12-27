@@ -1,0 +1,10 @@
+{
+  "generator-jhipster-module": {
+    "promptValues": {
+      "githubName": "pascalgrimaud",
+      "authorName": "Pascal Grimaud",
+      "authorEmail": "",
+      "authorUrl": "https://twitter.com/pascalgrimaud"
+    }
+  }
+}

@@ -4,20 +4,20 @@ services:
     - docker
 language: node_js
 node_js:
-    - "6.11.0"
+    - "8.9.3"
 before_install:
     - npm install -g npm
-    - npm install -g yarn
+    # Repo for Yarn
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+    - export PATH=$HOME/.yarn/bin:$PATH
     - yarn global add yo
 install:
     - yarn install
-    - yarn link
-    - gulp eslint
-    - gulp test
+    - yarn global add file:"$TRAVIS_BUILD_DIR"
+    - yarn test
 script:
-    - git clone https://github.com/jhipster/jhipster-sample-app-ng2.git
-    - cd jhipster-sample-app-ng2
-    - yarn link generator-jhipster-docker
-    - yo jhipster-docker --default --force
+    - git clone https://github.com/jhipster/jhipster-sample-app.git
+    - cd jhipster-sample-app
+    - yo jhipster-docker default --force
     - docker build -t jhipster-sample-app .
     - docker images
