@@ -157,14 +157,16 @@ module.exports = class extends BaseGenerator {
             this.log(`- Back to Integration & services, Docker must be: ${chalk.bold.green('✓')} Docker\n`);
 
             this.log('Go to https://hub.docker.com/r/YOUR_DOCKER_ID');
-            this.log('- menu Create: Create Automated Build');
-            this.log('  - select the repository of your project');
-            this.log('  - put a description, then click on create');
-            this.log('- go to Build Settings');
-            this.log('  - choose your branch or let master by default');
-            this.log('  - click on Save Changes');
-            this.log('- return to this project: git commit and push these changes!');
-            this.log(`- go to Build details: it should be a new line with ${chalk.cyan.bold('Building\n')}`);
+            this.log('- Menu Create');
+            this.log('  - Select Create Automated Build');
+            this.log('  - Select the repository of your project');
+            this.log('  - Put a description, then click on create');
+            this.log('- Go to Build Settings');
+            this.log('  - Choose your branch or let master by default');
+            this.log('  - Put this Dockerfile location: /');
+            this.log('  - Click on Save Changes');
+            this.log('- Return to this project: git commit and push these changes!');
+            this.log(`- Go to Build details: it should be a new line with ${chalk.cyan.bold('Building\n')}`);
             this.log('');
         }
 
