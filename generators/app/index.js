@@ -1,6 +1,5 @@
 const chalk = require('chalk');
 const packagejs = require('../../package.json');
-// const semver = require('semver');
 const BaseGenerator = require('generator-jhipster/generators/generator-base');
 const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
 const exec = require('child_process').exec;
@@ -128,10 +127,8 @@ module.exports = class extends BaseGenerator {
 
         this.buildTool = this.jhipsterAppConfig.buildTool;
         this.serverPort = this.jhipsterAppConfig.serverPort ? this.jhipsterAppConfig.serverPort : '8080';
-        this.cacheProvider = this.jhipsterAppConfig.cacheProvider;
-        if (this.cacheProvider === undefined) {
-            this.cacheProvider = this.jhipsterAppConfig.hibernateCache;
-        }
+        this.cacheProvider = this.jhipsterAppConfig.cacheProvider ?
+            this.jhipsterAppConfig.cacheProvider : this.jhipsterAppConfig.hibernateCache;
 
         const dockerDir = jhipsterConstants.DOCKER_DIR;
 
@@ -196,33 +193,5 @@ module.exports = class extends BaseGenerator {
             this.log(`You can access to it: ${chalk.cyan('http://localhost')} or ${chalk.cyan('http://localhost:8000')}`);
             this.log('');
         }
-
-        // if (this.tomcat) {
-        //     this.log('');
-        //     this.log('To generate an image, using Tomcat as based image:')
-        //     if (this.buildTool === 'maven') {
-        //         this.log(' - ./mvnw clean package -Pprod dockerfile:build\n');
-        //     } else if (this.buildTool === 'gradle') {
-        //         this.log(' - ./gradlew clean bootRepackage -Pprod buildDocker\n');
-        //     }
-        //     this.log('Once the container is launched:');
-        //     this.log('- Admin Tomcat URL (with tomcat/JH!pst3r): http://localhost:8080/');
-        //     this.log(`- Access URL: http://localhost:8080/${this.dockerBaseUrl}\n`);
-        //     this.log('');
-        // }
-
-        // if (this.wildfly) {
-        //     this.log('');
-        //     this.log('To generate an image, using Wildfly as based image:')
-        //     if (this.buildTool === 'maven') {
-        //         this.log(' - ./mvnw clean package -Pprod dockerfile:build\n');
-        //     } else if (this.buildTool === 'gradle') {
-        //         this.log(' - ./gradlew clean bootRepackage -Pprod buildDocker\n');
-        //     }
-        //     this.log('Once the container is launched:');
-        //     this.log('- Admin WildFly URL (with admin/JH!pst3r): http://localhost:9990/');
-        //     this.log(`- Access URL: http://localhost:8080/${this.dockerBaseUrl}\n`);
-        //     this.log('');
-        // }
     }
 };
