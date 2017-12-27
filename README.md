@@ -23,17 +23,24 @@ This is a [JHipster](http://www.jhipster.tech/) module, that is meant to be used
 
 # Table of contents
 
-* [Prerequisites](#prerequisites)
-* [Installation](#installation)
-* [Usage](#usage)
-  * [1 - Automated build at the <a href="https://hub.docker.com">Docker Hub</a>](#1---automated-build-at-the-docker-hub)
-    * [1.1 - Description](#11---description)
-    * [1.2 - Generate the files](#12---generate-the-files)
-    * [1.3 - Set your Docker Hub project](#13---set-your-docker-hub-project)
-      * [At GitHub](#at-github)
-      * [At Docker Hub](#at-docker-hub)
-  * [2 - Generate additional docker-compose services](#2---generate-additional-docker-compose-services)
-* [License](#license)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+  - [With Yarn](#with-yarn)
+  - [With NPM](#with-npm)
+- [Usage](#usage)
+  - [1 - Automated build at the Docker Hub](#1---automated-build-at-the-docker-hub)
+    - [1.1 - Description](#11---description)
+    - [1.2 - Generate the files](#12---generate-the-files)
+    - [1.3 - Set your Docker Hub project](#13---set-your-docker-hub-project)
+      - [At GitHub](#at-github)
+      - [At Docker Hub](#at-docker-hub)
+  - [2 - Local SMTP Server](#2---local-smtp-server)
+    - [2.1 - MailDev](#21---maildev)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 # Prerequisites
@@ -54,6 +61,8 @@ To use *Automated build*, you have to create an account at:
 
 # Installation
 
+## With Yarn
+
 To install this module:
 
 ```bash
@@ -64,6 +73,20 @@ To update this module:
 
 ```bash
 yarn global upgrade generator-jhipster-docker
+```
+
+## With NPM
+
+To install this module:
+
+```bash
+npm install -g generator-jhipster-docker
+```
+
+To update this module:
+
+```bash
+npm update -g generator-jhipster-docker
 ```
 
 # Usage
