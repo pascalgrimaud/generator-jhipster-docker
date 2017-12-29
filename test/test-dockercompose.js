@@ -37,7 +37,7 @@ describe('JHipster generator Docker', () => {
                 'src/main/docker/smtp.yml'
             ]);
         });
-        it('generates NGiNX configuration', () => {
+        it('generates NGinx configuration', () => {
             assert.file([
                 'src/main/docker/nginx.yml',
                 'src/main/docker/nginx/nginx.conf',
@@ -79,7 +79,7 @@ describe('JHipster generator Docker', () => {
                 'src/main/docker/smtp.yml'
             ]);
         });
-        it('generates NGiNX configuration', () => {
+        it('generates NGinx configuration', () => {
             assert.file([
                 'src/main/docker/nginx.yml',
                 'src/main/docker/nginx/nginx.conf',

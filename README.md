@@ -37,7 +37,7 @@ This is a [JHipster](http://www.jhipster.tech/) module, that is meant to be used
       - [At GitHub](#at-github)
       - [At Docker Hub](#at-docker-hub)
   - [2 - Local SMTP Server](#2---local-smtp-server)
-  - [3 - NGiNX as proxy server](#3---nginx-as-proxy-server)
+  - [3 - NGinx as proxy server](#3---nginx-as-proxy-server)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -179,14 +179,14 @@ docker-compose -f src/main/docker/smtp.yml up -d
 You can access to it: [http://localhost:1080](http://localhost:1080)
 
 
-## 3 - NGiNX as proxy server
+## 3 - NGinx as proxy server
 
 See the official [documentation](http://www.jhipster.tech/separating-front-end-and-api/)
 
 Follow these steps:
-- Start your local backend server or use an existing one
-- Edit `src/main/docker/nginx/site.conf`, depending on the 1st step
-- Start NGiNX:
+- Start your local backend server or use an existing one. You can start more than 1 backend.
+- Edit `src/main/docker/nginx/nginx.conf`, depending on the 1st step
+- Start NGinx:
 
 ```bash
 docker-compose -f src/main/docker/nginx.yml up -d
@@ -194,7 +194,7 @@ docker-compose -f src/main/docker/nginx.yml up -d
 
 **Note**:
 The use of `network_mode: 'host'` in `nginx.yml` may not work for Windows or MacOS.
-Simply comment it and replace `localhost` in `src/main/docker/nginx/site.conf` file.
+Simply comment it and replace `localhost` in `src/main/docker/nginx/nginx.conf` file.
 Your container (from inside) must access to the application.
 
 You can access to it: [http://localhost](http://localhost) or [http://localhost:8000](http://localhost/8000)
