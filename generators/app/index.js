@@ -142,6 +142,7 @@ module.exports = class extends BaseGenerator {
 
         if (this.nginx) {
             this.template(`${dockerDir}_nginx.yml`, `${dockerDir}nginx.yml`);
+            this.template(`${dockerDir}/nginx/_nginx.conf`, `${dockerDir}/nginx/nginx.conf`);
             this.template(`${dockerDir}/nginx/_site.conf`, `${dockerDir}/nginx/site.conf`);
         }
     }
@@ -180,7 +181,7 @@ module.exports = class extends BaseGenerator {
         }
 
         if (this.nginx) {
-            this.log(`${chalk.bold('Use NGiNX as proxy server:')}`);
+            this.log(`${chalk.bold('Use NGinx as proxy server:')}`);
             this.log('- Start your local backend server or use an existing one');
             this.log(`- Edit ${chalk.cyan('src/main/docker/nginx/site.conf')}, depending on the 1st step`);
             this.log(`- Start NGiNX: ${chalk.cyan('docker-compose -f src/main/docker/nginx.yml up -d')}`);

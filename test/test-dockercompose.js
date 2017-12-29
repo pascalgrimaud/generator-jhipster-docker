@@ -40,6 +40,7 @@ describe('JHipster generator Docker', () => {
         it('generates NGiNX configuration', () => {
             assert.file([
                 'src/main/docker/nginx.yml',
+                'src/main/docker/nginx/nginx.conf',
                 'src/main/docker/nginx/site.conf'
             ]);
             assert.fileContent('src/main/docker/nginx.yml', 'target/');
@@ -81,6 +82,7 @@ describe('JHipster generator Docker', () => {
         it('generates NGiNX configuration', () => {
             assert.file([
                 'src/main/docker/nginx.yml',
+                'src/main/docker/nginx/nginx.conf',
                 'src/main/docker/nginx/site.conf'
             ]);
             assert.noFileContent('src/main/docker/nginx.yml', 'target/');
