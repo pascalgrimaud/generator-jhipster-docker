@@ -184,7 +184,7 @@ You can access to it: [http://localhost:1080](http://localhost:1080)
 See the official [documentation](http://www.jhipster.tech/separating-front-end-and-api/)
 
 Follow these steps:
-- Start your local backend server or use an existing one. You can start more than 1 backend.
+- Start your local backend server or use an existing one. You can start more than 1 backend server.
 - Edit `src/main/docker/nginx/nginx.conf`, depending on the 1st step
 - Start NGinx:
 
