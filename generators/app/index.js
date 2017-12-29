@@ -89,7 +89,7 @@ module.exports = class extends BaseGenerator {
             value: 'maildev:true'
         });
         choices.push({
-            name: 'NGiNX as proxy server',
+            name: 'NGinx as proxy server',
             value: 'nginx:true'
         });
 
@@ -182,13 +182,13 @@ module.exports = class extends BaseGenerator {
 
         if (this.nginx) {
             this.log(`${chalk.bold('Use NGinx as proxy server:')}`);
-            this.log('- Start your local backend server or use an existing one');
-            this.log(`- Edit ${chalk.cyan('src/main/docker/nginx/site.conf')}, depending on the 1st step`);
-            this.log(`- Start NGiNX: ${chalk.cyan('docker-compose -f src/main/docker/nginx.yml up -d')}`);
+            this.log('- Start your local backend server or use an existing one. You can start more than 1 backend server.');
+            this.log(`- Edit ${chalk.cyan('src/main/docker/nginx/nginx.conf')}, depending on the 1st step`);
+            this.log(`- Start NGinx: ${chalk.cyan('docker-compose -f src/main/docker/nginx.yml up -d')}`);
             this.log('');
             this.log('Note:');
             this.log(`The use of ${chalk.cyan('network_mode: \'host\'')} in ${chalk.cyan('nginx.yml')} may not work for Windows or MacOS.`);
-            this.log(`Simply comment it and replace ${chalk.cyan('localhost')} in ${chalk.cyan('src/main/docker/nginx/site.conf')} file.`);
+            this.log(`Simply comment it and replace ${chalk.cyan('localhost')} in ${chalk.cyan('src/main/docker/nginx/nginx.conf')} file.`);
             this.log('Your container (from inside) must access to the application.');
             this.log('');
             this.log(`You can access to it: ${chalk.cyan('http://localhost')} or ${chalk.cyan('http://localhost:8000')}`);
