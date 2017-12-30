@@ -19,6 +19,7 @@ This is a [JHipster](http://www.jhipster.tech/) module, that is meant to be used
 
 - Dockerfile for Automated build at [Docker Hub](https://hub.docker.com/)
 - Docker Compose file for using a Local SMTP Server with [MailDev](https://github.com/djfarrelly/MailDev/)
+- Docker Compose file for using NGinx as proxy server
 
 
 # Table of contents
