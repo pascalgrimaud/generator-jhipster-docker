@@ -1,14 +1,14 @@
 FROM openjdk:8
 ADD . /code/
 RUN echo '{ "allow_root": true }' > /root/.bowerrc && \
-    rm -Rf /code/target /code/node_modules && \
+    rm -Rf /code/target /code/build /code/node_modules && \
     cd /code/ && \
   <%_ if (buildTool === 'maven') { _%>
     ./mvnw clean package -Pprod -DskipTests && \
     mv /code/target/*.war /app.war
   <%_ } else if (buildTool === 'gradle') { _%>
-    ./gradlew -Pprod build -x test && \
-    mv /home/jhipster/github/build/libs/*.war /app.war
+    ./gradlew -Pprod bootWar -x test && \
+    mv /code/build/libs/*.war /app.war
   <%_ } _%>
 
 FROM openjdk:8-jre-alpine
