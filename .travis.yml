@@ -4,7 +4,11 @@ services:
     - docker
 language: node_js
 node_js:
-    - "8.9.3"
+    - "8.9.4"
+env:
+    matrix:
+        - APP=jhipster-sample-app
+        - APP=jhipster-sample-app-gradle
 before_install:
     - npm install -g npm
     # Repo for Yarn
@@ -16,8 +20,8 @@ install:
     - yarn global add file:"$TRAVIS_BUILD_DIR"
     - yarn test
 script:
-    - git clone https://github.com/jhipster/jhipster-sample-app.git
-    - cd jhipster-sample-app
+    - git clone https://github.com/jhipster/"$APP".git
+    - cd "$APP"
     - yo jhipster-docker default --force
-    - docker build -t jhipster-sample-app .
+    - docker build -t jhipster-application .
     - docker images
