@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM jhipster/jhipster:latest
 ADD . /code/
 RUN echo '{ "allow_root": true }' > /root/.bowerrc && \
     rm -Rf /code/target /code/build /code/node_modules && \
