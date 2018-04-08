@@ -1,6 +1,6 @@
 {
   "name": "generator-jhipster-docker",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "Additional Docker support: Docker Hub, Local SMTP Server, NGinx",
   "keywords": [
     "yeoman-generator",
