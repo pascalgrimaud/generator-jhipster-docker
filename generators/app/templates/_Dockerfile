@@ -1,7 +1,7 @@
 FROM jhipster/jhipster:latest
+USER root
 ADD . /code/
-RUN \
-    rm -Rf /code/target /code/build /code/node_modules && \
+RUN rm -Rf /code/target /code/build /code/node_modules && \
     cd /code/ && \
   <%_ if (buildTool === 'maven') { _%>
     ./mvnw clean package -Pprod -DskipTests && \
