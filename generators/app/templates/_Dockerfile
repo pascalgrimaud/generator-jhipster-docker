@@ -1,6 +1,6 @@
 FROM jhipster/jhipster:latest
 ADD . /code/
-RUN echo '{ "allow_root": true }' > /root/.bowerrc && \
+RUN \
     rm -Rf /code/target /code/build /code/node_modules && \
     cd /code/ && \
   <%_ if (buildTool === 'maven') { _%>
