@@ -1,19 +1,25 @@
 const chalk = require('chalk');
-const packagejs = require('../../package.json');
-const BaseGenerator = require('generator-jhipster/generators/generator-base');
-const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
 const exec = require('child_process').exec;
 const githubUrl = require('remote-origin-url');
+const BaseGenerator = require('generator-jhipster/generators/generator-base');
+const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
+const packagejs = require('../../package.json');
 
 module.exports = class extends BaseGenerator {
+    constructor(args, opts) {
+        super(args, opts);
+
+        this.option('default', {
+            type: String,
+            required: false,
+            description: 'default option'
+        });
+
+        this.dockerDefault = this.options.default;
+    }
+
     get initializing() {
         return {
-            init(args) {
-                if (args === 'default') {
-                    this.dockerDefault = true;
-                }
-            },
-
             readConfig() {
                 this.jhipsterAppConfig = this.getJhipsterAppConfig();
                 if (!this.jhipsterAppConfig) {
@@ -127,8 +133,8 @@ module.exports = class extends BaseGenerator {
 
         this.buildTool = this.jhipsterAppConfig.buildTool;
         this.serverPort = this.jhipsterAppConfig.serverPort ? this.jhipsterAppConfig.serverPort : '8080';
-        this.cacheProvider = this.jhipsterAppConfig.cacheProvider ?
-            this.jhipsterAppConfig.cacheProvider : this.jhipsterAppConfig.hibernateCache;
+        this.cacheProvider = this.jhipsterAppConfig.cacheProvider
+            ? this.jhipsterAppConfig.cacheProvider : this.jhipsterAppConfig.hibernateCache;
 
         const dockerDir = jhipsterConstants.DOCKER_DIR;
 

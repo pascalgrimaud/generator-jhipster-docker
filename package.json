@@ -24,25 +24,25 @@
     "url": "git+https://github.com/pascalgrimaud/generator-jhipster-docker.git"
   },
   "dependencies": {
-    "chalk": "2.3.0",
-    "generator-jhipster": ">=4.6.0",
+    "chalk": "2.4.1",
+    "generator-jhipster": ">=5.1.0",
     "mkdirp": "0.5.1",
     "remote-origin-url": "1.0.0",
-    "yeoman-generator": "2.0.2"
+    "yeoman-generator": "3.0.0"
   },
   "devDependencies": {
-    "eslint": "4.7.2",
-    "eslint-config-airbnb-base": "12.0.0",
-    "eslint-plugin-import": "2.7.0",
-    "fs-extra": "4.0.2",
-    "mocha": "3.5.3",
-    "yeoman-assert": "3.1.0",
-    "yeoman-test": "1.7.0"
+    "eslint": "5.1.0",
+    "eslint-config-airbnb-base": "13.0.0",
+    "eslint-plugin-import": "2.13.0",
+    "fs-extra": "6.0.1",
+    "mocha": "5.2.0",
+    "yeoman-assert": "3.1.1",
+    "yeoman-test": "1.8.0"
   },
   "scripts": {
     "pretest": "eslint .",
     "lint": "eslint .",
-    "lint-fix": "eslint . --fix",
+    "lint:fix": "eslint . --fix",
     "release": "git push && git push --tags && npm publish",
     "release:patch": "npm version patch -a -m \"Update to %s\" && npm run release",
     "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",

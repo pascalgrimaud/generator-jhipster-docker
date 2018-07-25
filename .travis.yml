@@ -22,6 +22,6 @@ install:
 script:
     - git clone https://github.com/jhipster/"$APP".git
     - cd "$APP"
-    - yo jhipster-docker default --force
+    - yo jhipster-docker --default --force
     - docker build -t jhipster-application .
     - docker images
